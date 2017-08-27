@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2017.2 (64-bit)
+# SW Build 1909853 on Thu Jun 15 18:39:10 MDT 2017
+# IP Build 1909766 on Thu Jun 15 19:58:00 MDT 2017
+# Start of session at: Sat Aug 26 17:26:22 2017
+# Process ID: 3243
+# Current directory: /home/dakre/comp_aided_logic_design/and2gate/and2gate.runs/synth_1
+# Command line: vivado -log and2gate.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source and2gate.tcl
+# Log file: /home/dakre/comp_aided_logic_design/and2gate/and2gate.runs/synth_1/and2gate.vds
+# Journal file: /home/dakre/comp_aided_logic_design/and2gate/and2gate.runs/synth_1/vivado.jou
+#-----------------------------------------------------------
+source and2gate.tcl -notrace
