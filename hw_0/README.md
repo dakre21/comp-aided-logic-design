@@ -4,8 +4,10 @@
 3) Change top source to structural module and testbench and rerun simulation
 4) Compare results and inspect that they are the same
 
-Test bench outputs:
-Structural design
+## Test bench outputs:
+
+### Structural design
+
 r0 = 0
 r0 = 0
 r0 = 0
@@ -23,7 +25,8 @@ r0 = 1
 r0 = 1
 r0 = 1
 
-Procedural design
+### Procedural design
+
 r0 = 0
 r0 = 0
 r0 = 0
