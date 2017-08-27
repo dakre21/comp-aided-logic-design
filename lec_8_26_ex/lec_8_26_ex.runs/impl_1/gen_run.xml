@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="impl_1" LaunchPart="xc7a100tcsg324-1" LaunchTime="1503797922">
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
+  <File Type="BG-DRC" Name="rounder.drc"/>
+  <File Type="BG-BGN" Name="rounder.bgn"/>
+  <File Type="BITSTR-SYSDEF" Name="rounder.sysdef"/>
+  <File Type="BITSTR-MMI" Name="rounder.mmi"/>
+  <File Type="BITSTR-BMM" Name="rounder_bd.bmm"/>
+  <File Type="BITSTR-NKY" Name="rounder.nky"/>
+  <File Type="BITSTR-RBT" Name="rounder.rbt"/>
+  <File Type="BITSTR-MSK" Name="rounder.msk"/>
+  <File Type="BG-BIN" Name="rounder.bin"/>
+  <File Type="BG-BIT" Name="rounder.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="rounder_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="rounder_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="rounder_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="rounder_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="rounder_postroute_physopt.dcp"/>
+  <File Type="ROUTE-CLK" Name="rounder_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-SIMILARITY" Name="rounder_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-TIMING-RPX" Name="rounder_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-TIMING-PB" Name="rounder_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="rounder_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="rounder_route_status.pb"/>
+  <File Type="ROUTE-STATUS" Name="rounder_route_status.rpt"/>
+  <File Type="PLACE-CTRL" Name="rounder_control_sets_placed.rpt"/>
+  <File Type="PLACE-IO" Name="rounder_io_placed.rpt"/>
+  <File Type="PWROPT-TIMING" Name="rounder_timing_summary_pwropted.rpt"/>
+  <File Type="PLACE-DCP" Name="rounder_placed.dcp"/>
+  <File Type="PLACE-UTIL-PB" Name="rounder_utilization_placed.pb"/>
+  <File Type="PHYSOPT-TIMING" Name="rounder_timing_summary_physopted.rpt"/>
+  <File Type="PWROPT-DRC" Name="rounder_drc_pwropted.rpt"/>
+  <File Type="PWROPT-DCP" Name="rounder_pwropt.dcp"/>
+  <File Type="PLACE-UTIL" Name="rounder_utilization_placed.rpt"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="rounder_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="OPT-TIMING" Name="rounder_timing_summary_opted.rpt"/>
+  <File Type="OPT-HWDEF" Name="rounder.hwdef"/>
+  <File Type="PLACE-CLK" Name="rounder_clock_utilization_placed.rpt"/>
+  <File Type="RDI-RDI" Name="rounder.vdi"/>
+  <File Type="PLACE-TIMING" Name="rounder_timing_summary_placed.rpt"/>
+  <File Type="INIT-TIMING" Name="rounder_timing_summary_init.rpt"/>
+  <File Type="OPT-DRC" Name="rounder_drc_opted.rpt"/>
+  <File Type="OPT-DCP" Name="rounder_opt.dcp"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="rounder_methodology_drc_opted.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="rounder_incremental_reuse_pre_placed.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="rounder_incremental_reuse_placed.rpt"/>
+  <File Type="PA-TCL" Name="rounder.tcl"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="rounder_postplace_pwropt.dcp"/>
+  <File Type="PHYSOPT-DCP" Name="rounder_physopt.dcp"/>
+  <File Type="PHYSOPT-DRC" Name="rounder_drc_physopted.rpt"/>
+  <File Type="ROUTE-ERROR-DCP" Name="rounder_routed_error.dcp"/>
+  <File Type="ROUTE-DCP" Name="rounder_routed.dcp"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="rounder_routed_bb.dcp"/>
+  <File Type="ROUTE-DRC" Name="rounder_drc_routed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="rounder_methodology_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="rounder_drc_routed.pb"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="rounder_methodology_drc_routed.pb"/>
+  <File Type="ROUTE-DRC-RPX" Name="rounder_drc_routed.rpx"/>
+  <File Type="ROUTE-PWR" Name="rounder_power_routed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="rounder_methodology_drc_routed.rpx"/>
+  <File Type="ROUTE-PWR-SUM" Name="rounder_power_summary_routed.pb"/>
+  <File Type="ROUTE-PWR-RPX" Name="rounder_power_routed.rpx"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/new/rounder.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="rounder"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2017"/>
+    <Step Id="init_design"/>
+    <Step Id="opt_design"/>
+    <Step Id="power_opt_design"/>
+    <Step Id="place_design"/>
+    <Step Id="post_place_power_opt_design"/>
+    <Step Id="phys_opt_design"/>
+    <Step Id="route_design"/>
+    <Step Id="post_route_phys_opt_design"/>
+    <Step Id="write_bitstream"/>
+  </Strategy>
+</GenRun>
