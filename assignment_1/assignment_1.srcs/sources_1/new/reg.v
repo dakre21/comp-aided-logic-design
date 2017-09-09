@@ -23,7 +23,7 @@
 module REG(d, q, Clk, Rst);
     // Parameter DATAWIDTH that describes the number of bits for the input a
     // and the output q
-    parameter DATAWIDTH = 4;
+    parameter DATAWIDTH = 2;
     
     // Input and output declarations for the register module
     input [DATAWIDTH:0] d;
@@ -40,7 +40,7 @@ module REG(d, q, Clk, Rst);
         // If the reset signal is set then reset the register
         // otherwise set the register to the input data
         if (Rst == 1)
-            for( i = 0; i < DATAWIDTH; i = i +1) 
+            for(i = 0; i < DATAWIDTH; i = i + 1) 
                 q[i] <= 1'b0;
         else
             q <= d;
