@@ -29,9 +29,9 @@ module MUL(a, b, prod);
     output reg [DATAWIDTH:0] prod;
     
     // Start the procedural code using an always block that is sensative
-    // to the clock inputs "a" and "b"
+    // to the inputs "a" and "b"
     always @(a, b) begin
-        prod = a * b;
+        prod <= a * b;
     end
     
 endmodule

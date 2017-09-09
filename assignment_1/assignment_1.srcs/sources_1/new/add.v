@@ -29,9 +29,9 @@ module ADD(a, b, sum);
     output reg [DATAWIDTH:0] sum;
     
     // Start the procedural code using an always block that is sensative
-    // to the clock inputs "a" and "b"
+    // to the inputs "a" and "b"
     always @(a, b) begin
-        sum = a + b;
+        sum <= a + b;
     end
     
 endmodule

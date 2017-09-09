@@ -9,7 +9,7 @@
 // Project Name: Assignment 1
 // Target Devices: Artix 7
 // Tool Versions: 
-// Description: COMPARATOR procedural module (note ignoring overflow right now)
+// Description: COMPARATOR procedural module 
 // 
 // Dependencies: 
 // 
@@ -29,7 +29,7 @@ module COMP(a, b, gt, lt, eq);
     output reg gt, lt, eq;
     
     // Start the procedural code using an always block that is sensative
-    // to the clock inputs "a" and "b"
+    // to the inputs "a" and "b"
     always @(a, b) begin
     
         // If a < b lt is set to 1

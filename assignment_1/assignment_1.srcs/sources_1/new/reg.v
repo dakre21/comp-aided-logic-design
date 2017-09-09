@@ -40,7 +40,8 @@ module REG(d, q, Clk, Rst);
         // If the reset signal is set then reset the register
         // otherwise set the register to the input data
         if (Rst == 1)
-            for( i = 0; i < DATAWIDTH; i = i +1) q[i] <= 1'b0;
+            for( i = 0; i < DATAWIDTH; i = i +1) 
+                q[i] <= 1'b0;
         else
             q <= d;
             

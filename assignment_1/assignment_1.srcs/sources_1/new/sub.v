@@ -29,9 +29,9 @@ module SUB(a, b, diff);
     output reg [DATAWIDTH:0] diff;
     
     // Start the procedural code using an always block that is sensative
-    // to the clock inputs "a" and "b"
+    // to the inputs "a" and "b"
     always @(a, b) begin
-        diff = a - b;
+        diff <= a - b;
     end
     
 endmodule
