@@ -25,8 +25,8 @@ module SHR(a, sh_amt, d);
     parameter DATAWIDTH = 2;
     
     // Input and output declarations for the register module
-    input [DATAWIDTH:0] a, sh_amt;
-    output reg [DATAWIDTH:0] d;
+    input [DATAWIDTH-1:0] a, sh_amt;
+    output reg [DATAWIDTH-1:0] d;
     
     // Start the procedural code using an always block that is sensative
     // to the inputs "a" or "sh_amt"

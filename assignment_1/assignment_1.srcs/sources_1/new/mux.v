@@ -19,15 +19,15 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module MUX(a, b, d, sel);
+module MUX2x1(a, b, d, sel);
     // Parameter DATAWIDTH that describes the number of bits for the input a
     // and the output q
     parameter DATAWIDTH = 2;
     
     // Input and output declarations for the register module
-    input [DATAWIDTH:0] a, b;
+    input [DATAWIDTH-1:0] a, b;
     input sel;
-    output reg [DATAWIDTH:0] d;
+    output reg [DATAWIDTH-1:0] d;
     
     // Start the procedural code using an always block that is sensative
     // to the inputs "a" and "b" or the "sel" bit

@@ -23,8 +23,8 @@
 module reg_tb();
    
     // Input and output declarations for the register module
-    reg [2:0] d;
-    wire [2:0] q;
+    reg [1:0] d;
+    wire [1:0] q;
     reg Clk, Rst;
     
     // Start clock

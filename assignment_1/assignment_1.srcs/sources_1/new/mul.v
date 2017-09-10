@@ -25,8 +25,8 @@ module MUL(a, b, prod);
     parameter DATAWIDTH = 2;
     
     // Input and output declarations for the register module
-    input [DATAWIDTH:0] a, b;
-    output reg [DATAWIDTH:0] prod;
+    input [DATAWIDTH-1:0] a, b;
+    output reg [DATAWIDTH-1:0] prod;
     
     // Start the procedural code using an always block that is sensative
     // to the inputs "a" and "b"

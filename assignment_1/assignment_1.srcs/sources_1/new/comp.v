@@ -25,7 +25,7 @@ module COMP(a, b, gt, lt, eq);
     parameter DATAWIDTH = 2;
     
     // Input and output declarations for the register module
-    input [DATAWIDTH:0] a, b;
+    input [DATAWIDTH-1:0] a, b;
     output reg gt, lt, eq;
     
     // Start the procedural code using an always block that is sensative

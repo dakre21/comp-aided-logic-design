@@ -26,8 +26,8 @@ module REG(d, q, Clk, Rst);
     parameter DATAWIDTH = 2;
     
     // Input and output declarations for the register module
-    input [DATAWIDTH:0] d;
-    output reg [DATAWIDTH:0] q;
+    input [DATAWIDTH-1:0] d;
+    output reg [DATAWIDTH-1:0] q;
     input Clk, Rst;
     
     // Forward declaration of integer value to be used on reset
@@ -40,7 +40,7 @@ module REG(d, q, Clk, Rst);
         // If the reset signal is set then reset the register
         // otherwise set the register to the input data
         if (Rst == 1)
-            for(i = 0; i < DATAWIDTH; i = i + 1) 
+            for(i = 0; i < DATAWIDTH-1; i = i + 1) 
                 q[i] <= 1'b0;
         else
             q <= d;
