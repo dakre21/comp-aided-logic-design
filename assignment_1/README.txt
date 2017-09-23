@@ -5,7 +5,7 @@ Xilinx Tool:
 Vivado 2017.2
 
 Target FPGA & Speed Grade:
-Artix-7 (part xc7a100tcsg324-1)
+Artix-7 (part xc7a100tcsg324-1) & 155 speed grade
 1ns / 1ns timescale
 
 Method used to capture critical path:
