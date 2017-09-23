@@ -19,10 +19,13 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+
 module circuit1(a, b, c, z, x);
 
     // Declare inputs and outputs
     input [7:0] a, b, c;
+    
+    reg Clk, Rst;
     
     output reg [7:0] z;
     output reg [15:0] x;
@@ -31,16 +34,19 @@ module circuit1(a, b, c, z, x);
     wire [15:0] f, g;
     wire [15:0] xwire;
     
-    /*
-    Use datapath library to do the following operations
-    d = a + b
-    e = a + c
-    g = d > e
-    z = g ? d : e
-    f = a * c
-    xwire = f - d
-    x = xwire
-    */
+    // Wire declaration for lt/eq, gt = g which is above
+    wire lt, eq;
     
+    // Start clock for circuit
+    always 
+        #10 Clk <= ~Clk;   
+    
+    ADD #(8) add_1(a, b, d); // d = a + b
+    ADD #(8) add_2(a, c, e); // e = a + c
+    COMP #(8) comp_1(d, e, g, lt, eq); // g = d > e
+    REG #(8) reg_1((g ? d : e), z, Clk, Rst); // z = g ? d : e
+    MUL #(16) mul_1(a, c, f); // f = a * c
+    SUB #(16) sub_1(f, d, xwire); // xwire = f - d
+    REG #(16) reg_2(xwire, x, Clk, Rst); // x = xwire
 
 endmodule
