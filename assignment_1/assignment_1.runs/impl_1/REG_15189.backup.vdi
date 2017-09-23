@@ -1,0 +1,21 @@
+#-----------------------------------------------------------
+# Vivado v2017.2 (64-bit)
+# SW Build 1909853 on Thu Jun 15 18:39:10 MDT 2017
+# IP Build 1909766 on Thu Jun 15 19:58:00 MDT 2017
+# Start of session at: Sun Sep 10 20:41:36 2017
+# Process ID: 15189
+# Current directory: /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.runs/impl_1
+# Command line: vivado -log REG.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source REG.tcl -notrace
+# Log file: /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.runs/impl_1/REG.vdi
+# Journal file: /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.runs/impl_1/vivado.jou
+#-----------------------------------------------------------
+source REG.tcl -notrace
+
+*** Halting run - EA reset detected ***
+
+
+
+    while executing
+"start_step init_design"
+    (file "REG.tcl" line 46)
+INFO: [Common 17-206] Exiting Vivado at Sun Sep 10 20:42:03 2017...

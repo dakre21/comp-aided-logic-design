@@ -24,6 +24,7 @@ module DEC(a, d);
     // and the output q
     parameter DATAWIDTH = 2;
     
+    
     // Input and output declarations for the register module
     input [DATAWIDTH-1:0] a;
     output reg [DATAWIDTH-1:0] d;
