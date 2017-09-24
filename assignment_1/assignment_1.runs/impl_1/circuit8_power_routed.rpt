@@ -1,15 +1,15 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2017.2 (lin64) Build 1909853 Thu Jun 15 18:39:10 MDT 2017
-| Date             : Sun Sep 24 12:38:38 2017
+| Date             : Sun Sep 24 14:37:38 2017
 | Host             : dakre-VirtualBox running 64-bit Ubuntu 16.04.3 LTS
-| Command          : report_power -file circuit6_power_routed.rpt -pb circuit6_power_summary_routed.pb -rpx circuit6_power_routed.rpx
-| Design           : circuit6
-| Device           : xc7a100tfgg484-1
+| Command          : report_power -file circuit8_power_routed.rpt -pb circuit8_power_summary_routed.pb -rpx circuit8_power_routed.rpx
+| Design           : circuit8
+| Device           : xc7a200tiffg1156-1L
 | Design State     : routed
-| Grade            : commercial
+| Grade            : industrial
 | Process          : typical
-| Characterization : Production
+| Characterization : Advance
 ----------------------------------------------------------------------------------------------------------------------------------------------
 
 Power Report
@@ -29,18 +29,18 @@ Table of Contents
 1. Summary
 ----------
 
-+--------------------------+----------------------------------+
-| Total On-Chip Power (W)  | 40.290 (Junction temp exceeded!) |
-| Dynamic (W)              | 39.499                           |
-| Device Static (W)        | 0.791                            |
-| Effective TJA (C/W)      | 2.7                              |
-| Max Ambient (C)          | 0.0                              |
-| Junction Temperature (C) | 125.0                            |
-| Confidence Level         | Low                              |
-| Setting File             | ---                              |
-| Simulation Activity File | ---                              |
-| Design Nets Matched      | NA                               |
-+--------------------------+----------------------------------+
++--------------------------+---------+
+| Total On-Chip Power (W)  | 144.542 |
+| Dynamic (W)              | 143.426 |
+| Device Static (W)        | 1.116   |
+| Effective TJA (C/W)      | 1.5     |
+| Max Ambient (C)          | 0.0     |
+| Junction Temperature (C) | 125.0   |
+| Confidence Level         | Low     |
+| Setting File             | ---     |
+| Simulation Activity File | ---     |
+| Design Nets Matched      | NA      |
++--------------------------+---------+
 
 
 1.1 On-Chip Components
@@ -49,16 +49,16 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Slice Logic    |    11.913 |     1474 |       --- |             --- |
-|   LUT as Logic |     9.686 |     1016 |     63400 |            1.60 |
-|   CARRY4       |     2.086 |      280 |     15850 |            1.77 |
-|   Register     |     0.135 |      128 |    126800 |            0.10 |
-|   BUFG         |     0.006 |        1 |        32 |            3.13 |
-|   Others       |     0.000 |       18 |       --- |             --- |
-| Signals        |    11.811 |     1402 |       --- |             --- |
-| I/O            |    15.776 |      160 |       285 |           56.14 |
-| Static Power   |     0.791 |          |           |                 |
-| Total          |    40.290 |          |           |                 |
+| Slice Logic    |    52.810 |     5931 |       --- |             --- |
+|   LUT as Logic |    44.620 |     4507 |    134600 |            3.35 |
+|   CARRY4       |     8.104 |     1136 |     33650 |            3.38 |
+|   Register     |     0.081 |      128 |    269200 |            0.05 |
+|   BUFG         |     0.005 |        1 |        32 |            3.13 |
+|   Others       |     0.000 |        9 |       --- |             --- |
+| Signals        |    51.990 |     5863 |       --- |             --- |
+| I/O            |    38.626 |      256 |       500 |           51.20 |
+| Static Power   |     1.116 |          |           |                 |
+| Total          |   144.543 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -68,19 +68,19 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |    24.862 |      24.300 |      0.563 |
-| Vccaux    |       1.800 |     1.337 |       1.244 |      0.093 |
+| Vccint    |       0.950 |   111.834 |     111.084 |      0.750 |
+| Vccaux    |       1.800 |     3.288 |       3.102 |      0.185 |
 | Vcco33    |       3.300 |     0.000 |       0.000 |      0.000 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
-| Vcco18    |       1.800 |     7.204 |       7.200 |      0.004 |
+| Vcco18    |       1.800 |    17.956 |      17.951 |      0.005 |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |
 | Vcco135   |       1.350 |     0.000 |       0.000 |      0.000 |
 | Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |
 | Vccaux_io |       1.800 |     0.000 |       0.000 |      0.000 |
-| Vccbram   |       1.000 |     0.018 |       0.000 |      0.018 |
+| Vccbram   |       0.950 |     0.030 |       0.000 |      0.030 |
 | MGTAVcc   |       1.000 |     0.000 |       0.000 |      0.000 |
 | MGTAVtt   |       1.200 |     0.000 |       0.000 |      0.000 |
-| Vccadc    |       1.800 |     0.020 |       0.000 |      0.020 |
+| Vccadc    |       1.800 |     0.018 |       0.000 |      0.018 |
 +-----------+-------------+-----------+-------------+------------+
 
 
@@ -94,7 +94,7 @@ Table of Contents
 | Clock nodes activity        | Low        | User specified less than 75% of clocks                 | Provide missing clock activity with a constraint file, simulation results or by editing the "By Clock Domain" view |
 | I/O nodes activity          | Low        | More than 75% of inputs are missing user specification | Provide missing input activity with simulation results or by editing the "By Resource Type -> I/Os" view           |
 | Internal nodes activity     | Medium     | User specified less than 25% of internal nodes         | Provide missing internal nodes activity with simulation results or by editing the "By Resource Type" views         |
-| Device models               | High       | Device models are Production                           |                                                                                                                    |
+| Device models               | Medium     | Device models are not Production                       | Device models may change and in turn slightly affect accuracy                                                      |
 |                             |            |                                                        |                                                                                                                    |
 | Overall confidence level    | Low        |                                                        |                                                                                                                    |
 +-----------------------------+------------+--------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
@@ -108,10 +108,10 @@ Table of Contents
 
 +-----------------------+--------------------------+
 | Ambient Temp (C)      | 25.0                     |
-| ThetaJA (C/W)         | 2.7                      |
+| ThetaJA (C/W)         | 1.5                      |
 | Airflow (LFM)         | 250                      |
 | Heat Sink             | medium (Medium Profile)  |
-| ThetaSA (C/W)         | 4.6                      |
+| ThetaSA (C/W)         | 2.4                      |
 | Board Selection       | medium (10"x10")         |
 | # of Board Layers     | 12to15 (12 to 15 Layers) |
 | Board Temperature (C) | 25.0                     |
@@ -135,16 +135,13 @@ Table of Contents
 +----------+-----------+
 | Name     | Power (W) |
 +----------+-----------+
-| circuit6 |    39.499 |
-|   div_1  |    19.691 |
-|   reg_1  |     0.739 |
-|   reg_2  |     0.166 |
-|   reg_3  |     0.471 |
-|   reg_4  |     0.191 |
-|   reg_5  |     0.203 |
-|   reg_6  |     0.476 |
-|   reg_7  |     0.183 |
-|   reg_8  |     0.259 |
+| circuit8 |   143.426 |
+|   REG_1  |     1.476 |
+|   REG_2  |     1.793 |
+|   comp_1 |     0.231 |
+|   dec_1  |     0.303 |
+|   inc_1  |     0.120 |
+|   mod_1  |    95.486 |
 +----------+-----------+
 
 

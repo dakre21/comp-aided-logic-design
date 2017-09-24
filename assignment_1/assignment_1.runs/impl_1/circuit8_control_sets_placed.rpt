@@ -1,11 +1,11 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2017.2 (lin64) Build 1909853 Thu Jun 15 18:39:10 MDT 2017
-| Date         : Sun Sep 24 12:37:43 2017
+| Date         : Sun Sep 24 14:34:26 2017
 | Host         : dakre-VirtualBox running 64-bit Ubuntu 16.04.3 LTS
-| Command      : report_control_sets -verbose -file circuit6_control_sets_placed.rpt
-| Design       : circuit6
-| Device       : xc7a100t
+| Command      : report_control_sets -verbose -file circuit8_control_sets_placed.rpt
+| Design       : circuit8
+| Device       : xc7a200ti
 -------------------------------------------------------------------------------------
 
 Control Set Information
@@ -33,7 +33,7 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |             128 |           44 |
+| No           | No                    | No                     |             128 |           52 |
 | No           | No                    | Yes                    |               0 |            0 |
 | No           | Yes                   | No                     |               0 |            0 |
 | Yes          | No                    | No                     |               0 |            0 |
@@ -48,7 +48,7 @@ Table of Contents
 +--------------+---------------+------------------+------------------+----------------+
 | Clock Signal | Enable Signal | Set/Reset Signal | Slice Load Count | Bel Load Count |
 +--------------+---------------+------------------+------------------+----------------+
-|  Clk_BUFG    |               |                  |               44 |            128 |
+|  Clk_BUFG    |               |                  |               52 |            128 |
 +--------------+---------------+------------------+------------------+----------------+
 
 

@@ -26,15 +26,20 @@ module circuit8(a, b, c, zero, z);
     
     output [63:0] z;
     
-    wire [63:0] e, f, g, zwire;
-    wire [1:0] gEQz;
+    reg Clk, Rst;
     
-    /*
-    e = a - 1
-    f = c + 1
-    g = a % c
-    gEQz = g == zero
-    zwire = gEQz ? e : f
-    z = zwire
-    */
+    wire [63:0] e, f, g, zwire;
+    wire [1:0] gEQz, gLTz, gGTz;
+    
+    // Start clock for circuit
+    always 
+        #10 Clk <= ~Clk; 
+        
+    DEC #(64) dec_1(a, e); // e = a - 1
+    INC #(64) inc_1(c, f); // f = c + 1
+    MOD #(64) mod_1(a, c, g); // g = a % c
+    COMP #(64) comp_1(g, zero, gGTz, gLTz, gEQz); // gEQz = g == zero 
+    REG #(64) REG_1((gEQz ? e : f), zwire, Clk, Rst); // zwire = gEQz ? e : f
+    REG #(64) REG_2(zwire, z, Clk, Rst); // z = zwire
+    
 endmodule
