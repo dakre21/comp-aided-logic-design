@@ -3,7 +3,7 @@
 <!--The data in this file is primarily intended for consumption by Xilinx tools.
 The structure and the elements are likely to change over the next few releases.
 This means code written to parse this file will need to be revisited each subsequent release.-->
-<application name="pa" timeStamp="Sun Sep 24 16:12:16 2017">
+<application name="pa" timeStamp="Sun Sep 24 16:24:11 2017">
 <section name="Project Information" visible="false">
 <property name="ProjectID" value="8a72924c22414a859558320a975c8be3" type="ProjectID"/>
 <property name="ProjectIteration" value="99" type="ProjectIteration"/>
@@ -24,14 +24,14 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="EditUndo" value="93" type="JavaHandler"/>
 <property name="NewFile" value="2" type="JavaHandler"/>
 <property name="NewProject" value="1" type="JavaHandler"/>
-<property name="ReportTimingSummary" value="147" type="JavaHandler"/>
+<property name="ReportTimingSummary" value="148" type="JavaHandler"/>
 <property name="RunImplementation" value="37" type="JavaHandler"/>
-<property name="RunSchematic" value="6" type="JavaHandler"/>
+<property name="RunSchematic" value="7" type="JavaHandler"/>
 <property name="RunSynthesis" value="26" type="JavaHandler"/>
 <property name="SaveFileProxyHandler" value="5" type="JavaHandler"/>
 <property name="SetTopNode" value="46" type="JavaHandler"/>
 <property name="ShowSource" value="3" type="JavaHandler"/>
-<property name="ShowView" value="11" type="JavaHandler"/>
+<property name="ShowView" value="12" type="JavaHandler"/>
 <property name="SimulationClose" value="7" type="JavaHandler"/>
 <property name="SimulationRestart" value="67" type="JavaHandler"/>
 <property name="SimulationRun" value="42" type="JavaHandler"/>
@@ -41,11 +41,11 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="ToggleAutoFitSelection" value="1" type="JavaHandler"/>
 <property name="ToolsSettings" value="13" type="JavaHandler"/>
 <property name="UpdateSourceFiles" value="10" type="JavaHandler"/>
-<property name="ViewTaskImplementation" value="8" type="JavaHandler"/>
+<property name="ViewTaskImplementation" value="9" type="JavaHandler"/>
 <property name="ViewTaskRTLAnalysis" value="1" type="JavaHandler"/>
 <property name="ViewTaskSynthesis" value="2" type="JavaHandler"/>
 <property name="ZoomFit" value="1" type="JavaHandler"/>
-<property name="ZoomIn" value="8" type="JavaHandler"/>
+<property name="ZoomIn" value="10" type="JavaHandler"/>
 <property name="ZoomOut" value="6" type="JavaHandler"/>
 </item>
 <item name="Gui Resources Info">
@@ -54,7 +54,7 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="BaseDialog_APPLY" value="2" type="GuiResourceData"/>
 <property name="BaseDialog_CANCEL" value="33" type="GuiResourceData"/>
 <property name="BaseDialog_NO" value="7" type="GuiResourceData"/>
-<property name="BaseDialog_OK" value="213" type="GuiResourceData"/>
+<property name="BaseDialog_OK" value="215" type="GuiResourceData"/>
 <property name="BaseDialog_YES" value="5" type="GuiResourceData"/>
 <property name="CmdMsgDialog_OK" value="7" type="GuiResourceData"/>
 <property name="CmdMsgDialog_OPEN_MESSAGES_VIEW" value="1" type="GuiResourceData"/>
@@ -66,7 +66,7 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="ExpRunTreePanel_EXP_RUN_TREE_TABLE" value="4" type="GuiResourceData"/>
 <property name="FileSetPanel_FILE_SET_PANEL_TREE" value="547" type="GuiResourceData"/>
 <property name="FileSetPanel_MESSAGES" value="1" type="GuiResourceData"/>
-<property name="FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE" value="386" type="GuiResourceData"/>
+<property name="FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE" value="388" type="GuiResourceData"/>
 <property name="GettingStartedView_CREATE_NEW_PROJECT" value="1" type="GuiResourceData"/>
 <property name="GraphicalView_ZOOM_FIT" value="10" type="GuiResourceData"/>
 <property name="GraphicalView_ZOOM_IN" value="10" type="GuiResourceData"/>
@@ -74,7 +74,7 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="HCodeEditor_CLOSE" value="2" type="GuiResourceData"/>
 <property name="HCodeEditor_SEARCH_TEXT_COMBO_BOX" value="2" type="GuiResourceData"/>
 <property name="HExceptionDialog_CONTINUE" value="3" type="GuiResourceData"/>
-<property name="HExceptionDialog_EXIT" value="2" type="GuiResourceData"/>
+<property name="HExceptionDialog_EXIT" value="3" type="GuiResourceData"/>
 <property name="InstanceMenu_FLOORPLANNING" value="1" type="GuiResourceData"/>
 <property name="MainMenuMgr_EXPORT" value="3" type="GuiResourceData"/>
 <property name="MainMenuMgr_FILE" value="6" type="GuiResourceData"/>
@@ -85,7 +85,7 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="MainMenuMgr_VIEW" value="2" type="GuiResourceData"/>
 <property name="MainToolbarMgr_RUN" value="6" type="GuiResourceData"/>
 <property name="MsgTreePanel_MESSAGE_VIEW_TREE" value="21" type="GuiResourceData"/>
-<property name="NavigableTimingReportTab_TIMING_REPORT_NAVIGATION_TREE" value="175" type="GuiResourceData"/>
+<property name="NavigableTimingReportTab_TIMING_REPORT_NAVIGATION_TREE" value="177" type="GuiResourceData"/>
 <property name="NetlistSchMenuAndMouse_EXPAND_COLLAPSE" value="3" type="GuiResourceData"/>
 <property name="NetlistSchMenuAndMouse_VIEW" value="2" type="GuiResourceData"/>
 <property name="NetlistSchematicView_SHOW_CELLS_IN_THIS_SCHEMATIC" value="2" type="GuiResourceData"/>
@@ -111,7 +111,7 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="PACommandNames_SRC_REPLACE_FILE" value="10" type="GuiResourceData"/>
 <property name="PACommandNames_SYNTH_SETTINGS" value="2" type="GuiResourceData"/>
 <property name="PACommandNames_ZOOM_FIT" value="1" type="GuiResourceData"/>
-<property name="PACommandNames_ZOOM_IN" value="8" type="GuiResourceData"/>
+<property name="PACommandNames_ZOOM_IN" value="10" type="GuiResourceData"/>
 <property name="PACommandNames_ZOOM_OUT" value="6" type="GuiResourceData"/>
 <property name="PAViews_CODE" value="142" type="GuiResourceData"/>
 <property name="PAViews_DEVICE" value="25" type="GuiResourceData"/>
@@ -134,6 +134,7 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="RDICommands_SETTINGS" value="4" type="GuiResourceData"/>
 <property name="RDIViews_WAVEFORM_VIEWER" value="8" type="GuiResourceData"/>
 <property name="RemoveSourcesDialog_ALSO_DELETE" value="1" type="GuiResourceData"/>
+<property name="RunGadget_SHOW_WARNING_AND_ERROR_MESSAGES_IN_MESSAGES" value="1" type="GuiResourceData"/>
 <property name="SaveSchematicDialog_SPECIFY_OUTPUT_PDF_FILE" value="1" type="GuiResourceData"/>
 <property name="SchMenuAndMouse_EXPAND_CONE" value="9" type="GuiResourceData"/>
 <property name="SchMenuAndMouse_SAVE_AS_PDF_FILE" value="1" type="GuiResourceData"/>
@@ -157,8 +158,13 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="TclConsoleView_TCL_CONSOLE_CODE_EDITOR" value="8" type="GuiResourceData"/>
 <property name="TimingDialogUtils_RESULTS_NAME" value="1" type="GuiResourceData"/>
 <property name="TimingItemFlatTablePanel_TABLE" value="1" type="GuiResourceData"/>
-<property name="TimingPathDelayComboBox_TIMING_PATH_DELAY" value="86" type="GuiResourceData"/>
+<property name="TimingPathDelayComboBox_TIMING_PATH_DELAY" value="87" type="GuiResourceData"/>
 <property name="WaveformNameTree_WAVEFORM_NAME_TREE" value="3" type="GuiResourceData"/>
+</item>
+<item name="Other">
+<property name="GuiMode" value="46" type="GuiMode"/>
+<property name="BatchMode" value="0" type="BatchMode"/>
+<property name="TclMode" value="18" type="TclMode"/>
 </item>
 </section>
 </application>
