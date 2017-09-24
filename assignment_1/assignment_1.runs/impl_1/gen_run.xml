@@ -1,68 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a100tcsg324-1" LaunchTime="1505112193">
+<GenRun Id="impl_1" LaunchPart="xc7a100tfgg484-1" LaunchTime="1506211229">
   <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
-  <File Type="BG-DRC" Name="SUB.drc"/>
-  <File Type="BG-BGN" Name="SUB.bgn"/>
-  <File Type="BITSTR-SYSDEF" Name="SUB.sysdef"/>
-  <File Type="BITSTR-MMI" Name="SUB.mmi"/>
-  <File Type="BITSTR-BMM" Name="SUB_bd.bmm"/>
-  <File Type="BITSTR-NKY" Name="SUB.nky"/>
-  <File Type="BITSTR-RBT" Name="SUB.rbt"/>
-  <File Type="BITSTR-MSK" Name="SUB.msk"/>
-  <File Type="BG-BIN" Name="SUB.bin"/>
-  <File Type="BG-BIT" Name="SUB.bit"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="SUB_timing_summary_postroute_physopted.rpx"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="SUB_timing_summary_postroute_physopted.pb"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="SUB_timing_summary_postroute_physopted.rpt"/>
-  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="SUB_postroute_physopt_bb.dcp"/>
-  <File Type="POSTROUTE-PHYSOPT-DCP" Name="SUB_postroute_physopt.dcp"/>
-  <File Type="ROUTE-CLK" Name="SUB_clock_utilization_routed.rpt"/>
-  <File Type="ROUTE-SIMILARITY" Name="SUB_incremental_reuse_routed.rpt"/>
-  <File Type="ROUTE-TIMING-RPX" Name="SUB_timing_summary_routed.rpx"/>
-  <File Type="ROUTE-TIMING-PB" Name="SUB_timing_summary_routed.pb"/>
-  <File Type="ROUTE-TIMINGSUMMARY" Name="SUB_timing_summary_routed.rpt"/>
-  <File Type="ROUTE-STATUS-PB" Name="SUB_route_status.pb"/>
-  <File Type="ROUTE-STATUS" Name="SUB_route_status.rpt"/>
-  <File Type="ROUTE-PWR-RPX" Name="SUB_power_routed.rpx"/>
-  <File Type="ROUTE-PWR-SUM" Name="SUB_power_summary_routed.pb"/>
-  <File Type="ROUTE-PWR" Name="SUB_power_routed.rpt"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="SUB_methodology_drc_routed.pb"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="SUB_methodology_drc_routed.rpx"/>
-  <File Type="ROUTE-METHODOLOGY-DRC" Name="SUB_methodology_drc_routed.rpt"/>
-  <File Type="ROUTE-DRC-RPX" Name="SUB_drc_routed.rpx"/>
-  <File Type="ROUTE-DRC-PB" Name="SUB_drc_routed.pb"/>
-  <File Type="ROUTE-DRC" Name="SUB_drc_routed.rpt"/>
-  <File Type="ROUTE-BLACKBOX-DCP" Name="SUB_routed_bb.dcp"/>
-  <File Type="ROUTE-DCP" Name="SUB_routed.dcp"/>
-  <File Type="ROUTE-ERROR-DCP" Name="SUB_routed_error.dcp"/>
-  <File Type="PHYSOPT-TIMING" Name="SUB_timing_summary_physopted.rpt"/>
-  <File Type="PHYSOPT-DRC" Name="SUB_drc_physopted.rpt"/>
-  <File Type="PHYSOPT-DCP" Name="SUB_physopt.dcp"/>
-  <File Type="POSTPLACE-PWROPT-TIMING" Name="SUB_timing_summary_postplace_pwropted.rpt"/>
-  <File Type="RDI-RDI" Name="SUB.vdi"/>
-  <File Type="PLACE-TIMING" Name="SUB_timing_summary_placed.rpt"/>
-  <File Type="PLACE-PRE-SIMILARITY" Name="SUB_incremental_reuse_pre_placed.rpt"/>
-  <File Type="PLACE-SIMILARITY" Name="SUB_incremental_reuse_placed.rpt"/>
-  <File Type="PLACE-CTRL" Name="SUB_control_sets_placed.rpt"/>
-  <File Type="PLACE-UTIL-PB" Name="SUB_utilization_placed.pb"/>
-  <File Type="PLACE-UTIL" Name="SUB_utilization_placed.rpt"/>
-  <File Type="PLACE-CLK" Name="SUB_clock_utilization_placed.rpt"/>
-  <File Type="PLACE-IO" Name="SUB_io_placed.rpt"/>
-  <File Type="PLACE-DCP" Name="SUB_placed.dcp"/>
-  <File Type="PWROPT-TIMING" Name="SUB_timing_summary_pwropted.rpt"/>
-  <File Type="PWROPT-DRC" Name="SUB_drc_pwropted.rpt"/>
-  <File Type="PWROPT-DCP" Name="SUB_pwropt.dcp"/>
-  <File Type="OPT-TIMING" Name="SUB_timing_summary_opted.rpt"/>
-  <File Type="OPT-HWDEF" Name="SUB.hwdef"/>
-  <File Type="OPT-METHODOLOGY-DRC" Name="SUB_methodology_drc_opted.rpt"/>
-  <File Type="OPT-DRC" Name="SUB_drc_opted.rpt"/>
-  <File Type="OPT-DCP" Name="SUB_opt.dcp"/>
-  <File Type="INIT-TIMING" Name="SUB_timing_summary_init.rpt"/>
-  <File Type="POSTPLACE-PWROPT-DCP" Name="SUB_postplace_pwropt.dcp"/>
-  <File Type="PA-TCL" Name="SUB.tcl"/>
+  <File Type="BG-DRC" Name="circuit1.drc"/>
+  <File Type="BG-BGN" Name="circuit1.bgn"/>
+  <File Type="BITSTR-SYSDEF" Name="circuit1.sysdef"/>
+  <File Type="BITSTR-MMI" Name="circuit1.mmi"/>
+  <File Type="BITSTR-BMM" Name="circuit1_bd.bmm"/>
+  <File Type="BITSTR-NKY" Name="circuit1.nky"/>
+  <File Type="BITSTR-RBT" Name="circuit1.rbt"/>
+  <File Type="BITSTR-MSK" Name="circuit1.msk"/>
+  <File Type="BG-BIN" Name="circuit1.bin"/>
+  <File Type="BG-BIT" Name="circuit1.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="circuit1_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="circuit1_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="circuit1_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="circuit1_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="circuit1_postroute_physopt.dcp"/>
+  <File Type="ROUTE-CLK" Name="circuit1_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-SIMILARITY" Name="circuit1_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-TIMING-RPX" Name="circuit1_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-TIMING-PB" Name="circuit1_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="circuit1_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="circuit1_route_status.pb"/>
+  <File Type="ROUTE-STATUS" Name="circuit1_route_status.rpt"/>
+  <File Type="ROUTE-PWR-RPX" Name="circuit1_power_routed.rpx"/>
+  <File Type="ROUTE-PWR-SUM" Name="circuit1_power_summary_routed.pb"/>
+  <File Type="ROUTE-PWR" Name="circuit1_power_routed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="circuit1_methodology_drc_routed.pb"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="circuit1_methodology_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="circuit1_methodology_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-RPX" Name="circuit1_drc_routed.rpx"/>
+  <File Type="ROUTE-DRC-PB" Name="circuit1_drc_routed.pb"/>
+  <File Type="ROUTE-DRC" Name="circuit1_drc_routed.rpt"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="circuit1_routed_bb.dcp"/>
+  <File Type="ROUTE-DCP" Name="circuit1_routed.dcp"/>
+  <File Type="ROUTE-ERROR-DCP" Name="circuit1_routed_error.dcp"/>
+  <File Type="PHYSOPT-TIMING" Name="circuit1_timing_summary_physopted.rpt"/>
+  <File Type="PHYSOPT-DRC" Name="circuit1_drc_physopted.rpt"/>
+  <File Type="PHYSOPT-DCP" Name="circuit1_physopt.dcp"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="circuit1_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="RDI-RDI" Name="circuit1.vdi"/>
+  <File Type="PLACE-TIMING" Name="circuit1_timing_summary_placed.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="circuit1_incremental_reuse_pre_placed.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="circuit1_incremental_reuse_placed.rpt"/>
+  <File Type="PLACE-CTRL" Name="circuit1_control_sets_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="circuit1_utilization_placed.pb"/>
+  <File Type="PLACE-UTIL" Name="circuit1_utilization_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="circuit1_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-IO" Name="circuit1_io_placed.rpt"/>
+  <File Type="PLACE-DCP" Name="circuit1_placed.dcp"/>
+  <File Type="PWROPT-TIMING" Name="circuit1_timing_summary_pwropted.rpt"/>
+  <File Type="PWROPT-DRC" Name="circuit1_drc_pwropted.rpt"/>
+  <File Type="PWROPT-DCP" Name="circuit1_pwropt.dcp"/>
+  <File Type="OPT-TIMING" Name="circuit1_timing_summary_opted.rpt"/>
+  <File Type="OPT-HWDEF" Name="circuit1.hwdef"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="circuit1_methodology_drc_opted.rpt"/>
+  <File Type="OPT-DRC" Name="circuit1_drc_opted.rpt"/>
+  <File Type="OPT-DCP" Name="circuit1_opt.dcp"/>
+  <File Type="INIT-TIMING" Name="circuit1_timing_summary_init.rpt"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="circuit1_postplace_pwropt.dcp"/>
+  <File Type="PA-TCL" Name="circuit1.tcl"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/new/add.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/comp.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/mul.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/reg.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PSRCDIR/sources_1/new/sub.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/474a_circuit1.v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
@@ -86,14 +121,6 @@
       </FileInfo>
     </File>
     <File Path="$PSRCDIR/sources_1/new/mux.v">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/new/mul.v">
       <FileInfo>
         <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
@@ -133,31 +160,63 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/new/reg.v">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/new/comp.v">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/new/add.v">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
     <File Path="$PSRCDIR/sources_1/new/reg_tb.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/474a_circuit3.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/574a_circuit7.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/474a_circuit2.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/574a_circuit8.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/474a_circuit5.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/474a_circuit4.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/574a_circuit6.v">
       <FileInfo>
         <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
@@ -167,7 +226,7 @@
     </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
-      <Option Name="TopModule" Val="SUB"/>
+      <Option Name="TopModule" Val="circuit1"/>
     </Config>
   </FileSet>
   <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">

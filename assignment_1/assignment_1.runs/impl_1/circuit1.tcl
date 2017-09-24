@@ -47,15 +47,15 @@ start_step init_design
 set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
-  create_project -in_memory -part xc7a100tcsg324-1
+  create_project -in_memory -part xc7a100tfgg484-1
   set_property design_mode GateLvl [current_fileset]
   set_param project.singleFileAddWarning.threshold 0
   set_property webtalk.parent_dir /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.cache/wt [current_project]
   set_property parent.project_path /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.xpr [current_project]
   set_property ip_output_repo /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
-  add_files -quiet /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.runs/synth_1/SUB.dcp
-  link_design -top SUB -part xc7a100tcsg324-1
+  add_files -quiet /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.runs/synth_1/circuit1.dcp
+  link_design -top circuit1 -part xc7a100tfgg484-1
   close_msg_db -file init_design.pb
 } RESULT]
 if {$rc} {
@@ -71,8 +71,8 @@ set ACTIVE_STEP opt_design
 set rc [catch {
   create_msg_db opt_design.pb
   opt_design 
-  write_checkpoint -force SUB_opt.dcp
-  catch { report_drc -file SUB_drc_opted.rpt }
+  write_checkpoint -force circuit1_opt.dcp
+  catch { report_drc -file circuit1_drc_opted.rpt }
   close_msg_db -file opt_design.pb
 } RESULT]
 if {$rc} {
@@ -89,10 +89,10 @@ set rc [catch {
   create_msg_db place_design.pb
   implement_debug_core 
   place_design 
-  write_checkpoint -force SUB_placed.dcp
-  catch { report_io -file SUB_io_placed.rpt }
-  catch { report_utilization -file SUB_utilization_placed.rpt -pb SUB_utilization_placed.pb }
-  catch { report_control_sets -verbose -file SUB_control_sets_placed.rpt }
+  write_checkpoint -force circuit1_placed.dcp
+  catch { report_io -file circuit1_io_placed.rpt }
+  catch { report_utilization -file circuit1_utilization_placed.rpt -pb circuit1_utilization_placed.pb }
+  catch { report_control_sets -verbose -file circuit1_control_sets_placed.rpt }
   close_msg_db -file place_design.pb
 } RESULT]
 if {$rc} {
@@ -108,17 +108,17 @@ set ACTIVE_STEP route_design
 set rc [catch {
   create_msg_db route_design.pb
   route_design 
-  write_checkpoint -force SUB_routed.dcp
-  catch { report_drc -file SUB_drc_routed.rpt -pb SUB_drc_routed.pb -rpx SUB_drc_routed.rpx }
-  catch { report_methodology -file SUB_methodology_drc_routed.rpt -rpx SUB_methodology_drc_routed.rpx }
-  catch { report_power -file SUB_power_routed.rpt -pb SUB_power_summary_routed.pb -rpx SUB_power_routed.rpx }
-  catch { report_route_status -file SUB_route_status.rpt -pb SUB_route_status.pb }
-  catch { report_clock_utilization -file SUB_clock_utilization_routed.rpt }
-  catch { report_timing_summary -warn_on_violation -max_paths 10 -file SUB_timing_summary_routed.rpt -rpx SUB_timing_summary_routed.rpx }
+  write_checkpoint -force circuit1_routed.dcp
+  catch { report_drc -file circuit1_drc_routed.rpt -pb circuit1_drc_routed.pb -rpx circuit1_drc_routed.rpx }
+  catch { report_methodology -file circuit1_methodology_drc_routed.rpt -rpx circuit1_methodology_drc_routed.rpx }
+  catch { report_power -file circuit1_power_routed.rpt -pb circuit1_power_summary_routed.pb -rpx circuit1_power_routed.rpx }
+  catch { report_route_status -file circuit1_route_status.rpt -pb circuit1_route_status.pb }
+  catch { report_clock_utilization -file circuit1_clock_utilization_routed.rpt }
+  catch { report_timing_summary -warn_on_violation -max_paths 10 -file circuit1_timing_summary_routed.rpt -rpx circuit1_timing_summary_routed.rpx }
   close_msg_db -file route_design.pb
 } RESULT]
 if {$rc} {
-  write_checkpoint -force SUB_routed_error.dcp
+  write_checkpoint -force circuit1_routed_error.dcp
   step_failed route_design
   return -code error $RESULT
 } else {

@@ -21,7 +21,15 @@ Artix-7 (part xc7a1001-fgg484) & 155 speed grade
 1ns / 1ns timescale
 
 Method used to find estimated critical path:
-- I analyzed each netlist circuit's datapath components and combinational logic dependencies to come up with an estimated critical path for each circuit. The datapath components critical path was found in part 2, so I leveraged those results for part 3.
+- I analyzed each netlist circuit's datapath components and combinational logic dependencies to come up with an estimated critical path for each circuit. The datapath components critical path was found in part 2, so I leveraged those results for part 3. Thus, the critical path was based on the timing delay of the longest path for the estimation times.
+  - Circuit 1's Longest Path: MUL16 -> SUB16 -> REG16
+  - Circuit 2's Longest Path: 
+  - Circuit 3's Longest Path:
+  - Circuit 4's Longest Path:
+  - Circuit 5's Longest Path:
+  - Circuit 6's Longest Path:
+  - Circuit 7's Longest Path:
+  - Circuit 8's Longest Path:
 
 Method used to capture critical path:
 - I created verilog modules for all of the behavioral netlist circuits utilizing the datapath modules created in part 1/2 and then I ran synthesis and implementation on my implemented circuits to obtain the critical path through the timing reports generated from the implementation.

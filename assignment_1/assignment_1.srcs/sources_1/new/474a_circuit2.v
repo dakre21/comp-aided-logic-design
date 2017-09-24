@@ -24,7 +24,9 @@ module circuit2(a, b, c, z, x);
     // Declare inputs and outputs
     input [31:0] a, b, c;
     
-    output reg [31:0] z, x;
+    output [31:0] z, x;
+    
+    reg Clk, Rst;
     
     wire [31:0] d, e, f, g, h;
     wire [1:0] dLTe, dEQe;

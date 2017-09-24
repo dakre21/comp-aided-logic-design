@@ -1,1 +1,9 @@
 NetlistName : EstimatedCriticalPath ActualCriticalPath
+circuit1 : 27.758 10.939
+circuit2 :
+circuit3 :
+circuit4 :
+circuit5 :
+circuit6 :
+circuit7 :
+circuit8 :

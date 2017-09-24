@@ -24,11 +24,10 @@ module circuit1(a, b, c, z, x);
 
     // Declare inputs and outputs
     input [7:0] a, b, c;
+    output [7:0] z;
+    output [15:0] x;
     
     reg Clk, Rst;
-    
-    output reg [7:0] z;
-    output reg [15:0] x;
     
     wire [7:0] d, e;
     wire [15:0] f, g;
