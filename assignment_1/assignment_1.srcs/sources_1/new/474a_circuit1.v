@@ -42,7 +42,7 @@ module circuit1(a, b, c, z, x);
     
     ADD #(8) add_1(a, b, d); // d = a + b
     ADD #(8) add_2(a, c, e); // e = a + c
-    COMP #(8) comp_1(d, e, g, lt, eq); // g = d > e
+    COMP #(16) comp_1(d, e, g, lt, eq); // g = d > e
     REG #(8) reg_1((g ? d : e), z, Clk, Rst); // z = g ? d : e
     MUL #(16) mul_1(a, c, f); // f = a * c
     SUB #(16) sub_1(f, d, xwire); // xwire = f - d

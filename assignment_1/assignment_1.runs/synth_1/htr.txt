@@ -6,4 +6,4 @@
 # Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 #
 
-vivado -log circuit4.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source circuit4.tcl
+vivado -log circuit5.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source circuit5.tcl
