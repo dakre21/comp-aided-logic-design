@@ -19,7 +19,7 @@ read_verilog -library xil_defaultlib {
   /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.srcs/sources_1/new/mul.v
   /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.srcs/sources_1/new/reg.v
   /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.srcs/sources_1/new/sub.v
-  /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.srcs/sources_1/new/474a_circuit1.v
+  /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.srcs/sources_1/new/circuit1.v
 }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
