@@ -25,9 +25,9 @@ Method used to find estimated critical path:
   - Circuit 1's Longest Path: MUL16 -> SUB16 -> REG16
   - Circuit 2's Longest Path: ADD32 -> COMP32 -> REG32 -> SHL32 -> REG32
   - Circuit 3's Longest Path: ADD32 -> Add32 -> SHR32 -> REG32
-  - Circuit 4's Longest Path: ADD32 x 14 -> REG32
+  - Circuit 4's Longest Path: ADD32 x14 -> REG32
   - Circuit 5's Longest Path: ADD64 -> COMP64 -> REG64 x2 -> SHL64 -> REG64
-  - Circuit 6's Longest Path:
+  - Circuit 6's Longest Path: (ADD32 -> REG32) x7 -> DIV32 -> REG32
   - Circuit 7's Longest Path:
   - Circuit 8's Longest Path:
 

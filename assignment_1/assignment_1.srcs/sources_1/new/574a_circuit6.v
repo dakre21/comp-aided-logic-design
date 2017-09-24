@@ -33,6 +33,10 @@ module circuit6(a, b, c, d, e, f, g, h, num, avg);
     wire [15:0] avgwire;
     wire [31:0] t1, t2, t3, t4, t5, t6, t7;
     
+    // Start clock for circuit
+    always 
+        #10 Clk <= ~Clk; 
+    
     ADD #(32) add_1(a, b, t1); // t1 = a + b
     REG #(32) reg_1(t1, r1, Clk, Rst); // r1 = t1
     ADD #(32) add_2(r1, c, t2); // t2 = r1 + c

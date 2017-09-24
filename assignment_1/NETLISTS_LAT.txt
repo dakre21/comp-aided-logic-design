@@ -4,6 +4,6 @@ circuit2 : 47.758 10.149
 circuit3 : 47.228 13.222
 circuit4 : 179.284 27.339
 circuit5 : 76.761 14.785
-circuit6 :
+circuit6 : 196.934 120.739
 circuit7 :
 circuit8 :
