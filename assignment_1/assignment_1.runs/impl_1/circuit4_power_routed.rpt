@@ -1,10 +1,10 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2017.2 (lin64) Build 1909853 Thu Jun 15 18:39:10 MDT 2017
-| Date             : Sat Sep 23 19:33:13 2017
+| Date             : Sun Sep 24 10:26:40 2017
 | Host             : dakre-VirtualBox running 64-bit Ubuntu 16.04.3 LTS
-| Command          : report_power -file circuit3_power_routed.rpt -pb circuit3_power_summary_routed.pb -rpx circuit3_power_routed.rpx
-| Design           : circuit3
+| Command          : report_power -file circuit4_power_routed.rpt -pb circuit4_power_summary_routed.pb -rpx circuit4_power_routed.rpx
+| Design           : circuit4
 | Device           : xc7a100tfgg484-1
 | Design State     : routed
 | Grade            : commercial
@@ -29,18 +29,18 @@ Table of Contents
 1. Summary
 ----------
 
-+--------------------------+-------+
-| Total On-Chip Power (W)  | 4.070 |
-| Dynamic (W)              | 3.970 |
-| Device Static (W)        | 0.100 |
-| Effective TJA (C/W)      | 2.7   |
-| Max Ambient (C)          | 74.1  |
-| Junction Temperature (C) | 35.9  |
-| Confidence Level         | Low   |
-| Setting File             | ---   |
-| Simulation Activity File | ---   |
-| Design Nets Matched      | NA    |
-+--------------------------+-------+
++--------------------------+--------+
+| Total On-Chip Power (W)  | 15.452 |
+| Dynamic (W)              | 15.285 |
+| Device Static (W)        | 0.167  |
+| Effective TJA (C/W)      | 2.7    |
+| Max Ambient (C)          | 43.7   |
+| Junction Temperature (C) | 66.3   |
+| Confidence Level         | Low    |
+| Setting File             | ---    |
+| Simulation Activity File | ---    |
+| Design Nets Matched      | NA     |
++--------------------------+--------+
 
 
 1.1 On-Chip Components
@@ -49,15 +49,15 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Slice Logic    |     0.973 |      211 |       --- |             --- |
-|   LUT as Logic |     0.772 |      152 |     63400 |            0.24 |
-|   CARRY4       |     0.201 |       35 |     15850 |            0.22 |
-|   Register     |    <0.001 |       16 |    126800 |            0.01 |
-|   Others       |     0.000 |        4 |       --- |             --- |
-| Signals        |     2.046 |      327 |       --- |             --- |
-| I/O            |     0.951 |      152 |       285 |           53.33 |
-| Static Power   |     0.100 |          |           |                 |
-| Total          |     4.070 |          |           |                 |
+| Slice Logic    |     0.998 |      200 |       --- |             --- |
+|   LUT as Logic |     0.693 |      113 |     63400 |            0.18 |
+|   CARRY4       |     0.291 |       60 |     15850 |            0.38 |
+|   Register     |     0.014 |       22 |    126800 |            0.02 |
+|   Others       |     0.000 |        5 |       --- |             --- |
+| Signals        |     2.325 |      384 |       --- |             --- |
+| I/O            |    11.962 |      152 |       285 |           53.33 |
+| Static Power   |     0.167 |          |           |                 |
+| Total          |    15.452 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -67,16 +67,16 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     3.585 |       3.563 |      0.023 |
-| Vccaux    |       1.800 |     0.052 |       0.033 |      0.019 |
+| Vccint    |       1.000 |     3.879 |       3.803 |      0.076 |
+| Vccaux    |       1.800 |     0.965 |       0.940 |      0.026 |
 | Vcco33    |       3.300 |     0.000 |       0.000 |      0.000 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
-| Vcco18    |       1.800 |     0.197 |       0.193 |      0.004 |
+| Vcco18    |       1.800 |     5.443 |       5.439 |      0.004 |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |
 | Vcco135   |       1.350 |     0.000 |       0.000 |      0.000 |
 | Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |
 | Vccaux_io |       1.800 |     0.000 |       0.000 |      0.000 |
-| Vccbram   |       1.000 |     0.000 |       0.000 |      0.000 |
+| Vccbram   |       1.000 |     0.002 |       0.000 |      0.002 |
 | MGTAVcc   |       1.000 |     0.000 |       0.000 |      0.000 |
 | MGTAVtt   |       1.200 |     0.000 |       0.000 |      0.000 |
 | Vccadc    |       1.800 |     0.020 |       0.000 |      0.020 |
@@ -134,9 +134,9 @@ Table of Contents
 +----------+-----------+
 | Name     | Power (W) |
 +----------+-----------+
-| circuit3 |     3.970 |
-|   add_7  |     1.980 |
-|   reg_1  |     0.193 |
+| circuit4 |    15.285 |
+|   add_13 |     2.315 |
+|   reg_1  |     0.433 |
 +----------+-----------+
 
 

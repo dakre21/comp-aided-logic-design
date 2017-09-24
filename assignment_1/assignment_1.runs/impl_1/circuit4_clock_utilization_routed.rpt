@@ -1,10 +1,10 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 --------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2017.2 (lin64) Build 1909853 Thu Jun 15 18:39:10 MDT 2017
-| Date         : Sat Sep 23 19:33:14 2017
+| Date         : Sun Sep 24 10:26:41 2017
 | Host         : dakre-VirtualBox running 64-bit Ubuntu 16.04.3 LTS
-| Command      : report_clock_utilization -file circuit3_clock_utilization_routed.rpt
-| Design       : circuit3
+| Command      : report_clock_utilization -file circuit4_clock_utilization_routed.rpt
+| Design       : circuit4
 | Device       : 7a100t-fgg484
 | Speed File   : -1  PRODUCTION 1.17 2017-05-11
 --------------------------------------------------------------------------------------
