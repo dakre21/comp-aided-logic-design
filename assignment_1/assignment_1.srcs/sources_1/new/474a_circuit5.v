@@ -48,7 +48,7 @@ module circuit5(a, b, c, z, x);
     REG #(64) reg_4(h, hreg, Clk, Rst); // hreg = h
     SHL #(64) shl_1(hreg, dLTe, xrin); // xrin = hreg << dLTe
     SHR #(64) shr_1(greg, dEQe, zrin); // zrin = greg >> dEQe
-    REG #(32) reg_5(xrin, x, Clk, Rst); // x = xrin
-    REG #(32) reg_6(zrin, z, Clk, Rst); // z = zrin
+    REG #(64) reg_5(xrin, x, Clk, Rst); // x = xrin
+    REG #(64) reg_6(zrin, z, Clk, Rst); // z = zrin
 
 endmodule

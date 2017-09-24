@@ -45,6 +45,6 @@ module circuit3(a, b, c, d, e, f, g, h, sa, avg);
     SHR #(32) shr_1(l2, sa, l2div2); // l2div2 = l2 >> sa
     SHR #(32) shr_2(l2div2, sa, l2div4); // l2div4 = l2div2 >> sa
     SHR #(32) shr_3(l2div4, sa, l2div8); // l2div8 = l2div4 >> sa
-    REG #(16) reg_1(l2div8, avg, Clk, Rst); // avg = l2div8
+    REG #(32) reg_1(l2div8, avg, Clk, Rst); // avg = l2div8
     
 endmodule
