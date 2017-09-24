@@ -29,22 +29,22 @@ module circuit2(a, b, c, z, x);
     reg Clk, Rst;
     
     wire [31:0] d, e, f, g, h;
-    wire [1:0] dLTe, dEQe;
+    wire [1:0] dLTe, dEQe, dGTe;
     wire [31:0] zwire, xwire;
     
-    /*
-    d = a + b
-    e = a + c
-    f = a - b
-    dEQe = d == e
-    dLTe = d < e
-    g = dLTe ? d : e
-    h = dEQe ? g : f
-    xwire = g << dLTe
-    zwire = h >> dEQe
-    x = xwire
-    z = zwire
-    */
+    // Start clock for circuit
+    always 
+        #10 Clk <= ~Clk; 
     
+    ADD #(32) add_1(a, b, d); // d = a + b
+    ADD #(32) add_2(a, c, e); // e = a + c
+    SUB #(32) sub_1(a, b, f); // f = a - b
+    COMP #(32) comp_1(d, e, dGTe, dLTe, dEQe); // dEQe = d == e or dLTe = d < e -- This comparator will set one of those wires to true based on result
+    REG #(32) reg_1((dLTe ? d : e), g, Clk, Rst); // g = dLTe ? d : e
+    REG #(32) reg_2((dEQe ? g : f), h, Clk, Rst); // h = dEQe ? g : f
+    SHL #(32) shl_1(g, dLTe, xwire); // xwire = g << dLTe
+    SHR #(32) shr_1(h, dEQe, zwire); // zwire = h >> dEQe
+    REG #(32) reg_3(xwire, x, Clk, Rst); // x = xwire
+    REG #(32) reg_4(zwire, z, Clk, Rst); // z = zwire    
 
 endmodule

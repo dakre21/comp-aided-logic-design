@@ -23,7 +23,7 @@ Artix-7 (part xc7a1001-fgg484) & 155 speed grade
 Method used to find estimated critical path:
 - I analyzed each netlist circuit's datapath components and combinational logic dependencies to come up with an estimated critical path for each circuit. The datapath components critical path was found in part 2, so I leveraged those results for part 3. Thus, the critical path was based on the timing delay of the longest path for the estimation times.
   - Circuit 1's Longest Path: MUL16 -> SUB16 -> REG16
-  - Circuit 2's Longest Path: 
+  - Circuit 2's Longest Path: ADD32 -> COMP32 -> REG32 -> SHL32 -> REG32
   - Circuit 3's Longest Path:
   - Circuit 4's Longest Path:
   - Circuit 5's Longest Path:
