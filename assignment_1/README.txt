@@ -1,14 +1,16 @@
 Group:
 David Akre (netid: dakre)
 
-Xilinx Tool:
-Vivado 2017.2
 
 ***************************************
 Part 1/2:
 
+Xilinx Tool:
+Vivado 2017.2
+
 Target FPGA & Speed Grade:
 Artix-7 (part xc7a100tcsg324-1) & 155 speed grade
+
 1ns / 1ns timescale
 
 Method used to capture critical path:
@@ -16,8 +18,19 @@ Method used to capture critical path:
 
 ***************************************
 Part 3/4:
-Target FPGA & Speed Grade:
+
+Xilinx Tool (circuits 1 - 6):
+Vivado 2017.2
+
+Xilinx Tool (circuits 7 - 8):
+Vivado 2015.4 
+
+Target FPGA & Speed Grade for circuits 1 - 6:
 Artix-7 (part xc7a1001-fgg484) & 155 speed grade
+
+Target FPGA & Speed Grade for circuits 7 - 8:
+Artix-7 (part xc7a200tiffg1156-1L) & 328 speed grade
+
 1ns / 1ns timescale
 
 Method used to find estimated critical path:
@@ -28,10 +41,10 @@ Method used to find estimated critical path:
   - Circuit 4's Longest Path: ADD32 x14 -> REG32
   - Circuit 5's Longest Path: ADD64 -> COMP64 -> REG64 x2 -> SHL64 -> REG64
   - Circuit 6's Longest Path: (ADD32 -> REG32) x7 -> DIV32 -> REG32
-  - Circuit 7's Longest Path:
-  - Circuit 8's Longest Path:
+  - Circuit 7's Longest Path: MOD64 -> COMP64 -> REG64 x2 
+  - Circuit 8's Longest Path: MOD64 -> COMP64 -> REG64 x2
 
 Method used to capture critical path:
 - I created verilog modules for all of the behavioral netlist circuits utilizing the datapath modules created in part 1/2 and then I ran synthesis and implementation on my implemented circuits to obtain the critical path through the timing reports generated from the implementation.
 
-NOTE: I chose a different fpga board to run synthesis and implementation against in Parts 3/4 vs Parts 1/2 because of the IO resource constraint I had when building up the netlist circuits on the first board target.
+NOTE: I chose a different fpga board to run synthesis and implementation against in Parts 3/4 vs Parts 1/2 because of the IO resource constraint I had when building up the netlist circuits on the first board target. Additionally, for circuits 7 and 8 had to be synthesized and implemented on my work computer using vivado 2015.4, my home computer RAM was insufficient to synthesis and run implementation for those two circuits.
