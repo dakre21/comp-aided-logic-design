@@ -1,10 +1,10 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2017.2 (lin64) Build 1909853 Thu Jun 15 18:39:10 MDT 2017
-| Date             : Sat Sep 23 19:08:35 2017
+| Date             : Sat Sep 23 19:33:13 2017
 | Host             : dakre-VirtualBox running 64-bit Ubuntu 16.04.3 LTS
-| Command          : report_power -file circuit2_power_routed.rpt -pb circuit2_power_summary_routed.pb -rpx circuit2_power_routed.rpx
-| Design           : circuit2
+| Command          : report_power -file circuit3_power_routed.rpt -pb circuit3_power_summary_routed.pb -rpx circuit3_power_routed.rpx
+| Design           : circuit3
 | Device           : xc7a100tfgg484-1
 | Design State     : routed
 | Grade            : commercial
@@ -29,18 +29,18 @@ Table of Contents
 1. Summary
 ----------
 
-+--------------------------+----------------------------------+
-| Total On-Chip Power (W)  | 63.650 (Junction temp exceeded!) |
-| Dynamic (W)              | 62.859                           |
-| Device Static (W)        | 0.791                            |
-| Effective TJA (C/W)      | 2.7                              |
-| Max Ambient (C)          | 0.0                              |
-| Junction Temperature (C) | 125.0                            |
-| Confidence Level         | Low                              |
-| Setting File             | ---                              |
-| Simulation Activity File | ---                              |
-| Design Nets Matched      | NA                               |
-+--------------------------+----------------------------------+
++--------------------------+-------+
+| Total On-Chip Power (W)  | 4.070 |
+| Dynamic (W)              | 3.970 |
+| Device Static (W)        | 0.100 |
+| Effective TJA (C/W)      | 2.7   |
+| Max Ambient (C)          | 74.1  |
+| Junction Temperature (C) | 35.9  |
+| Confidence Level         | Low   |
+| Setting File             | ---   |
+| Simulation Activity File | ---   |
+| Design Nets Matched      | NA    |
++--------------------------+-------+
 
 
 1.1 On-Chip Components
@@ -49,16 +49,15 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Slice Logic    |     2.311 |      463 |       --- |             --- |
-|   LUT as Logic |     2.031 |      210 |     63400 |            0.33 |
-|   CARRY4       |     0.149 |       32 |     15850 |            0.20 |
-|   Register     |     0.126 |      128 |    126800 |            0.10 |
-|   BUFG         |     0.006 |        1 |        32 |            3.13 |
-|   Others       |     0.000 |       13 |       --- |             --- |
-| Signals        |     5.062 |      351 |       --- |             --- |
-| I/O            |    55.486 |      160 |       285 |           56.14 |
-| Static Power   |     0.791 |          |           |                 |
-| Total          |    63.650 |          |           |                 |
+| Slice Logic    |     0.973 |      211 |       --- |             --- |
+|   LUT as Logic |     0.772 |      152 |     63400 |            0.24 |
+|   CARRY4       |     0.201 |       35 |     15850 |            0.22 |
+|   Register     |    <0.001 |       16 |    126800 |            0.01 |
+|   Others       |     0.000 |        4 |       --- |             --- |
+| Signals        |     2.046 |      327 |       --- |             --- |
+| I/O            |     0.951 |      152 |       285 |           53.33 |
+| Static Power   |     0.100 |          |           |                 |
+| Total          |     4.070 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -68,16 +67,16 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     8.320 |       7.757 |      0.563 |
-| Vccaux    |       1.800 |     4.604 |       4.511 |      0.093 |
+| Vccint    |       1.000 |     3.585 |       3.563 |      0.023 |
+| Vccaux    |       1.800 |     0.052 |       0.033 |      0.019 |
 | Vcco33    |       3.300 |     0.000 |       0.000 |      0.000 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
-| Vcco18    |       1.800 |    26.105 |      26.101 |      0.004 |
+| Vcco18    |       1.800 |     0.197 |       0.193 |      0.004 |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |
 | Vcco135   |       1.350 |     0.000 |       0.000 |      0.000 |
 | Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |
 | Vccaux_io |       1.800 |     0.000 |       0.000 |      0.000 |
-| Vccbram   |       1.000 |     0.018 |       0.000 |      0.018 |
+| Vccbram   |       1.000 |     0.000 |       0.000 |      0.000 |
 | MGTAVcc   |       1.000 |     0.000 |       0.000 |      0.000 |
 | MGTAVtt   |       1.200 |     0.000 |       0.000 |      0.000 |
 | Vccadc    |       1.800 |     0.020 |       0.000 |      0.020 |
@@ -135,17 +134,9 @@ Table of Contents
 +----------+-----------+
 | Name     | Power (W) |
 +----------+-----------+
-| circuit2 |    62.859 |
-|   add_1  |     0.524 |
-|   add_2  |     0.819 |
-|   comp_1 |     0.244 |
-|   reg_1  |     0.747 |
-|   reg_2  |     0.275 |
-|   reg_3  |     1.955 |
-|   reg_4  |     1.328 |
-|   shl_1  |     0.286 |
-|   shr_1  |     0.336 |
-|   sub_1  |     0.144 |
+| circuit3 |     3.970 |
+|   add_7  |     1.980 |
+|   reg_1  |     0.193 |
 +----------+-----------+
 
 

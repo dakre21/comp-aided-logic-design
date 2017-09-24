@@ -1,10 +1,10 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2017.2 (lin64) Build 1909853 Thu Jun 15 18:39:10 MDT 2017
-| Date         : Sat Sep 23 19:07:33 2017
+| Date         : Sat Sep 23 19:32:17 2017
 | Host         : dakre-VirtualBox running 64-bit Ubuntu 16.04.3 LTS
-| Command      : report_control_sets -verbose -file circuit2_control_sets_placed.rpt
-| Design       : circuit2
+| Command      : report_control_sets -verbose -file circuit3_control_sets_placed.rpt
+| Design       : circuit3
 | Device       : xc7a100t
 -------------------------------------------------------------------------------------
 
@@ -33,7 +33,7 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |             128 |           30 |
+| No           | No                    | No                     |              16 |            8 |
 | No           | No                    | Yes                    |               0 |            0 |
 | No           | Yes                   | No                     |               0 |            0 |
 | Yes          | No                    | No                     |               0 |            0 |
@@ -48,7 +48,7 @@ Table of Contents
 +--------------+---------------+------------------+------------------+----------------+
 | Clock Signal | Enable Signal | Set/Reset Signal | Slice Load Count | Bel Load Count |
 +--------------+---------------+------------------+------------------+----------------+
-|  Clk_BUFG    |               |                  |               30 |            128 |
+|  Clk         |               |                  |                8 |             16 |
 +--------------+---------------+------------------+------------------+----------------+
 
 

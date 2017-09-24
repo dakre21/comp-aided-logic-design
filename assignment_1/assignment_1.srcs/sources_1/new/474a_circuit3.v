@@ -25,22 +25,26 @@ module circuit3(a, b, c, d, e, f, g, h, sa, avg);
     input [15:0] a, b, c, d, e, f, g, h;
     input [7:0] sa;
     
-    output reg [15:0] avg;
+    reg Clk, Rst;
+    
+    output [15:0] avg;
     
     wire [31:0] l00, l01, l02, l03, l10, l11, l2, l2div2, l2div4, l2div8;
     
-    /*
-    l00 = a + b
-    l01 = c + d
-    l02 = e + f
-    l03 = g + h
-    l10 = l00 + l01
-    l11 = l02 + l03
-    l2 = l10 + l11
-    l2div2 = l2 >> sa
-    l2div4 = l2div2 >> sa
-    l2div8 = l2div4 >> sa
-    avg = l2div8
-    */
+    // Start clock for circuit
+    always 
+        #10 Clk <= ~Clk; 
+    
+    ADD #(32) add_1(a, b, l00); // l00 = a + b
+    ADD #(32) add_2(c, d, l01); // l01 = c + d
+    ADD #(32) add_3(e, f, l02); // l02 = e + f
+    ADD #(32) add_4(g, h, l03); // l03 = g + h
+    ADD #(32) add_5(l00, l01, l10); // l10 = l00 + l01
+    ADD #(32) add_6(l02, l03, l11); // l11 = l02 + l03
+    ADD #(32) add_7(l10, l11, l2); // l2 = l10 + l11
+    SHR #(32) shr_1(l2, sa, l2div2); // l2div2 = l2 >> sa
+    SHR #(32) shr_2(l2div2, sa, l2div4); // l2div4 = l2div2 >> sa
+    SHR #(32) shr_3(l2div4, sa, l2div8); // l2div8 = l2div4 >> sa
+    REG #(16) reg_1(l2div8, avg, Clk, Rst); // avg = l2div8
     
 endmodule

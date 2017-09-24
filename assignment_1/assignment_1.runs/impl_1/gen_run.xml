@@ -1,75 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a100tfgg484-1" LaunchTime="1506215195">
+<GenRun Id="impl_1" LaunchPart="xc7a100tfgg484-1" LaunchTime="1506216678">
   <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
-  <File Type="BG-DRC" Name="circuit2.drc"/>
-  <File Type="BG-BGN" Name="circuit2.bgn"/>
-  <File Type="BITSTR-SYSDEF" Name="circuit2.sysdef"/>
-  <File Type="BITSTR-MMI" Name="circuit2.mmi"/>
-  <File Type="BITSTR-BMM" Name="circuit2_bd.bmm"/>
-  <File Type="BITSTR-NKY" Name="circuit2.nky"/>
-  <File Type="BITSTR-RBT" Name="circuit2.rbt"/>
-  <File Type="BITSTR-MSK" Name="circuit2.msk"/>
-  <File Type="BG-BIN" Name="circuit2.bin"/>
-  <File Type="BG-BIT" Name="circuit2.bit"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="circuit2_timing_summary_postroute_physopted.rpx"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="circuit2_timing_summary_postroute_physopted.pb"/>
-  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="circuit2_timing_summary_postroute_physopted.rpt"/>
-  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="circuit2_postroute_physopt_bb.dcp"/>
-  <File Type="POSTROUTE-PHYSOPT-DCP" Name="circuit2_postroute_physopt.dcp"/>
-  <File Type="ROUTE-CLK" Name="circuit2_clock_utilization_routed.rpt"/>
-  <File Type="ROUTE-SIMILARITY" Name="circuit2_incremental_reuse_routed.rpt"/>
-  <File Type="ROUTE-TIMING-RPX" Name="circuit2_timing_summary_routed.rpx"/>
-  <File Type="ROUTE-TIMING-PB" Name="circuit2_timing_summary_routed.pb"/>
-  <File Type="ROUTE-TIMINGSUMMARY" Name="circuit2_timing_summary_routed.rpt"/>
-  <File Type="ROUTE-STATUS-PB" Name="circuit2_route_status.pb"/>
-  <File Type="ROUTE-STATUS" Name="circuit2_route_status.rpt"/>
-  <File Type="ROUTE-PWR-RPX" Name="circuit2_power_routed.rpx"/>
-  <File Type="ROUTE-PWR-SUM" Name="circuit2_power_summary_routed.pb"/>
-  <File Type="ROUTE-PWR" Name="circuit2_power_routed.rpt"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="circuit2_methodology_drc_routed.pb"/>
-  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="circuit2_methodology_drc_routed.rpx"/>
-  <File Type="ROUTE-METHODOLOGY-DRC" Name="circuit2_methodology_drc_routed.rpt"/>
-  <File Type="ROUTE-DRC-RPX" Name="circuit2_drc_routed.rpx"/>
-  <File Type="ROUTE-DRC-PB" Name="circuit2_drc_routed.pb"/>
-  <File Type="ROUTE-DRC" Name="circuit2_drc_routed.rpt"/>
-  <File Type="ROUTE-BLACKBOX-DCP" Name="circuit2_routed_bb.dcp"/>
-  <File Type="ROUTE-DCP" Name="circuit2_routed.dcp"/>
-  <File Type="ROUTE-ERROR-DCP" Name="circuit2_routed_error.dcp"/>
-  <File Type="PHYSOPT-TIMING" Name="circuit2_timing_summary_physopted.rpt"/>
-  <File Type="PHYSOPT-DRC" Name="circuit2_drc_physopted.rpt"/>
-  <File Type="PHYSOPT-DCP" Name="circuit2_physopt.dcp"/>
-  <File Type="POSTPLACE-PWROPT-TIMING" Name="circuit2_timing_summary_postplace_pwropted.rpt"/>
-  <File Type="RDI-RDI" Name="circuit2.vdi"/>
-  <File Type="PLACE-TIMING" Name="circuit2_timing_summary_placed.rpt"/>
-  <File Type="PLACE-PRE-SIMILARITY" Name="circuit2_incremental_reuse_pre_placed.rpt"/>
-  <File Type="PLACE-SIMILARITY" Name="circuit2_incremental_reuse_placed.rpt"/>
-  <File Type="PLACE-CTRL" Name="circuit2_control_sets_placed.rpt"/>
-  <File Type="PLACE-UTIL-PB" Name="circuit2_utilization_placed.pb"/>
-  <File Type="PLACE-UTIL" Name="circuit2_utilization_placed.rpt"/>
-  <File Type="PLACE-CLK" Name="circuit2_clock_utilization_placed.rpt"/>
-  <File Type="PLACE-IO" Name="circuit2_io_placed.rpt"/>
-  <File Type="PLACE-DCP" Name="circuit2_placed.dcp"/>
-  <File Type="PWROPT-TIMING" Name="circuit2_timing_summary_pwropted.rpt"/>
-  <File Type="PWROPT-DRC" Name="circuit2_drc_pwropted.rpt"/>
-  <File Type="PWROPT-DCP" Name="circuit2_pwropt.dcp"/>
-  <File Type="OPT-TIMING" Name="circuit2_timing_summary_opted.rpt"/>
-  <File Type="OPT-HWDEF" Name="circuit2.hwdef"/>
-  <File Type="OPT-METHODOLOGY-DRC" Name="circuit2_methodology_drc_opted.rpt"/>
-  <File Type="OPT-DRC" Name="circuit2_drc_opted.rpt"/>
-  <File Type="OPT-DCP" Name="circuit2_opt.dcp"/>
-  <File Type="INIT-TIMING" Name="circuit2_timing_summary_init.rpt"/>
-  <File Type="POSTPLACE-PWROPT-DCP" Name="circuit2_postplace_pwropt.dcp"/>
-  <File Type="PA-TCL" Name="circuit2.tcl"/>
+  <File Type="BG-DRC" Name="circuit3.drc"/>
+  <File Type="BG-BGN" Name="circuit3.bgn"/>
+  <File Type="BITSTR-SYSDEF" Name="circuit3.sysdef"/>
+  <File Type="BITSTR-MMI" Name="circuit3.mmi"/>
+  <File Type="BITSTR-BMM" Name="circuit3_bd.bmm"/>
+  <File Type="BITSTR-NKY" Name="circuit3.nky"/>
+  <File Type="BITSTR-RBT" Name="circuit3.rbt"/>
+  <File Type="BITSTR-MSK" Name="circuit3.msk"/>
+  <File Type="BG-BIN" Name="circuit3.bin"/>
+  <File Type="BG-BIT" Name="circuit3.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="circuit3_timing_summary_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="circuit3_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="circuit3_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="circuit3_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="circuit3_postroute_physopt.dcp"/>
+  <File Type="ROUTE-CLK" Name="circuit3_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-SIMILARITY" Name="circuit3_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-TIMING-RPX" Name="circuit3_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-TIMING-PB" Name="circuit3_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="circuit3_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="circuit3_route_status.pb"/>
+  <File Type="ROUTE-STATUS" Name="circuit3_route_status.rpt"/>
+  <File Type="ROUTE-PWR-RPX" Name="circuit3_power_routed.rpx"/>
+  <File Type="ROUTE-PWR-SUM" Name="circuit3_power_summary_routed.pb"/>
+  <File Type="ROUTE-PWR" Name="circuit3_power_routed.rpt"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="circuit3_methodology_drc_routed.pb"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="circuit3_methodology_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="circuit3_methodology_drc_routed.rpt"/>
+  <File Type="ROUTE-DRC-RPX" Name="circuit3_drc_routed.rpx"/>
+  <File Type="ROUTE-DRC-PB" Name="circuit3_drc_routed.pb"/>
+  <File Type="ROUTE-DRC" Name="circuit3_drc_routed.rpt"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="circuit3_routed_bb.dcp"/>
+  <File Type="ROUTE-DCP" Name="circuit3_routed.dcp"/>
+  <File Type="ROUTE-ERROR-DCP" Name="circuit3_routed_error.dcp"/>
+  <File Type="PHYSOPT-TIMING" Name="circuit3_timing_summary_physopted.rpt"/>
+  <File Type="PHYSOPT-DRC" Name="circuit3_drc_physopted.rpt"/>
+  <File Type="PHYSOPT-DCP" Name="circuit3_physopt.dcp"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="circuit3_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="RDI-RDI" Name="circuit3.vdi"/>
+  <File Type="PLACE-TIMING" Name="circuit3_timing_summary_placed.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="circuit3_incremental_reuse_pre_placed.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="circuit3_incremental_reuse_placed.rpt"/>
+  <File Type="PLACE-CTRL" Name="circuit3_control_sets_placed.rpt"/>
+  <File Type="PLACE-UTIL-PB" Name="circuit3_utilization_placed.pb"/>
+  <File Type="PLACE-UTIL" Name="circuit3_utilization_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="circuit3_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-IO" Name="circuit3_io_placed.rpt"/>
+  <File Type="PLACE-DCP" Name="circuit3_placed.dcp"/>
+  <File Type="PWROPT-TIMING" Name="circuit3_timing_summary_pwropted.rpt"/>
+  <File Type="PWROPT-DRC" Name="circuit3_drc_pwropted.rpt"/>
+  <File Type="PWROPT-DCP" Name="circuit3_pwropt.dcp"/>
+  <File Type="OPT-TIMING" Name="circuit3_timing_summary_opted.rpt"/>
+  <File Type="OPT-HWDEF" Name="circuit3.hwdef"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="circuit3_methodology_drc_opted.rpt"/>
+  <File Type="OPT-DRC" Name="circuit3_drc_opted.rpt"/>
+  <File Type="OPT-DCP" Name="circuit3_opt.dcp"/>
+  <File Type="INIT-TIMING" Name="circuit3_timing_summary_init.rpt"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="circuit3_postplace_pwropt.dcp"/>
+  <File Type="PA-TCL" Name="circuit3.tcl"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/new/add.v">
-      <FileInfo>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/new/comp.v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
@@ -83,13 +76,6 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/new/shl.v">
-      <FileInfo>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
     <File Path="$PSRCDIR/sources_1/new/shr.v">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
@@ -97,8 +83,32 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PSRCDIR/sources_1/new/474a_circuit3.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/comp.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/shl.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PSRCDIR/sources_1/new/sub.v">
       <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -106,6 +116,7 @@
     </File>
     <File Path="$PSRCDIR/sources_1/new/474a_circuit2.v">
       <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -175,14 +186,6 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/new/474a_circuit3.v">
-      <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
     <File Path="$PSRCDIR/sources_1/new/574a_circuit7.v">
       <FileInfo>
         <Attr Name="AutoDisabled" Val="1"/>
@@ -225,7 +228,7 @@
     </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
-      <Option Name="TopModule" Val="circuit2"/>
+      <Option Name="TopModule" Val="circuit3"/>
     </Config>
   </FileSet>
   <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
