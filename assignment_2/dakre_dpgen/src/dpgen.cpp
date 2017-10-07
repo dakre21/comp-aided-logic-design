@@ -13,7 +13,7 @@
 
 #include <dpgen.h>
 
-// Forward declaration of files
+// Forward declarations
 FILE* file_in;
 FILE* file_out;
 
@@ -39,6 +39,7 @@ bool verify_dpgen_inputs(int argc, char* argv[]) {
 
     if(vsrc.substr(vsrc.find_last_of(".") + 1) != "v") {
         fprintf(stderr, "Output file (i.e. <verilogFile>) contains an invalid extension, please use '.v' as the appropriate extension\n");
+        fclose(file_in);
         return false;
     }
 
@@ -47,6 +48,7 @@ bool verify_dpgen_inputs(int argc, char* argv[]) {
     // Check if the file exists
     if (file_out == NULL) {
         fprintf(stderr, "Failed to create output file (i.e. <verilogFile>)\n");
+        fclose(file_in);
         return false;
     }
 
@@ -63,18 +65,19 @@ int main(int argc, char* argv[]) {
     }
 
     // Create HLSEngine
-    engine = new HLSEngine(file_in, file_out);
+    engine = new HLSEngine();
 
-    // Read input file- behavioral netlist into buffer
-    engine->readFileData();
-
-    // Parse buffer and create verilog file- synthesizable verilog code
-    engine->parseBufferCreateVerilogSrc();
+    // Create verilog src
+    engine->createVerilogSrc(file_in, file_out);
 
     // Find critical path of netlist
-    float critical_path = engine->findCriticalPath();
+    float critical_path = engine->findCriticalPath(file_in, file_out);
 
     printf("Critical Path : %.3f\n", critical_path);
+
+    // Close files
+    fclose(file_in);
+    fclose(file_out);
 
     exit(0);
 }

@@ -12,8 +12,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <iostream>
-#include <string>
 #include <cstddef>
 
 using namespace std;
@@ -22,25 +22,19 @@ class HLSEngine {
 
 public:
     // CTOR
-    HLSEngine(FILE* file_in, FILE* file_out);
+    HLSEngine();
 
     // DTOR
     ~HLSEngine();
 
-    // Read file data public function
-    void readFileData();
-
-    // Parse input buffer and create verilog file
-    void parseBufferCreateVerilogSrc();
-
+    // Create verilog src
+    bool createVerilogSrc(FILE* file_in, FILE* file_out);
+   
     // Determine critical path of input netlist
-    float findCriticalPath();
+    float findCriticalPath(FILE* file_in, FILE* file_out);
 
 private:
-    // Class members
-    void* buff_;
-    size_t buff_len_;
-    FILE* file_in_;
-    FILE* file_out_;
+    // Parse input buffer and create verilog file
+    bool parseBufferCreateVerilogSrc(char* buff, size_t buff_len);
 
 };
