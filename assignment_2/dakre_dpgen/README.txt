@@ -7,6 +7,6 @@ ECE: 574a Computer Aided Logic Design
 Description:
 
 Contribution:
-Completely assignment by myself
+Completed by myself
 
 
