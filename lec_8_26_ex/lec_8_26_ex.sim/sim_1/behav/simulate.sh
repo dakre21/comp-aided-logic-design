@@ -9,4 +9,4 @@ then
 exit $RETVAL
 fi
 }
-ExecStep $xv_path/bin/xsim rounder_tb_behav -key {Behavioral:sim_1:Functional:rounder_tb} -tclbatch rounder_tb.tcl -log simulate.log
+ExecStep $xv_path/bin/xsim hw1_tb_behav -key {Behavioral:sim_1:Functional:hw1_tb} -tclbatch hw1_tb.tcl -log simulate.log

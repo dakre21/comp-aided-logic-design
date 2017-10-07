@@ -6,4 +6,4 @@
 # Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 #
 
-vivado -log rounder.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source rounder.tcl
+vivado -log hw_1.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source hw_1.tcl

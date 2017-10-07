@@ -36,4 +36,4 @@ EAStep()
      fi
 }
 
-EAStep vivado -log rounder.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source rounder.tcl
+EAStep vivado -log hw_1.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source hw_1.tcl
