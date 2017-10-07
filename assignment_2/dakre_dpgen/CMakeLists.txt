@@ -5,13 +5,8 @@ project (dpgen)
 set (dpgen_VERSION_MAJOR 1)
 set (dpgen_VERSION_MINOR 0)
 
-# Configure header files
-#configure_file (
-#    "src/dpgen.h"
-#    "build/dpgen.h"
-#)
-
-include_directories(src)
+# Add subdirectories
+add_subdirectory(src)
 
 # Create the exe
-add_executable(dpgen src/dpgen.cpp)
+add_executable(dpgen $<TARGET_OBJECTS:SRC>)

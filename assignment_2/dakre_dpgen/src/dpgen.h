@@ -5,4 +5,8 @@
  *
  */
 
+#pragma once
 
+#include <HLSEngine.h>
+
+HLSEngine* engine;
