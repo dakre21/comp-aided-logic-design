@@ -35,6 +35,9 @@ public:
 
 private:
     // Parse input buffer and create verilog file
-    bool parseBufferCreateVerilogSrc(char* buff, size_t buff_len);
+    void parseBufferCreateVerilogSrc(char* buff, size_t buff_len);
+
+    // Parse netlist substring and map to datapath component
+    void mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len);
 
 };
