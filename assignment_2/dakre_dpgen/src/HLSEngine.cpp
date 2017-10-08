@@ -21,170 +21,171 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
     // TODO: Create relationship between data type & data width with vars used in data path components
     // TODO: Write data path component to verilog file (signed or unsigned based on data type)    
 
-    cout << sub_str << endl;
+    cout << sub_str;
 
     // Attempt to find data type & data width
-    pos = sub_str.find(string(NET_UINT16));
-    if (pos != bad_rc && dtype_found != true) {
-        dtype_found = true;
-        regex_replace(sub_str, regex(NET_UINT16), DATAWIDTH);
-    }
-
-    pos = sub_str.find(string(NET_UINT32));
+    pos = sub_str.find(NET_UINT16);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
     }
 
-    pos = sub_str.find(string(NET_UINT64));
+    pos = sub_str.find(NET_UINT32);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
     }
 
-    pos = sub_str.find(string(NET_UINT1));
+    pos = sub_str.find(NET_UINT64);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
     }
 
-    pos = sub_str.find(string(NET_UINT2));
+    pos = sub_str.find(NET_UINT1);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
     }
 
-    pos = sub_str.find(string(NET_UINT8));
+    pos = sub_str.find(NET_UINT2);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
     }
 
-    pos = sub_str.find(string(NET_INT16));
+    pos = sub_str.find(NET_UINT8);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
     }
 
-    pos = sub_str.find(string(NET_INT32));
+    pos = sub_str.find(NET_INT16);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
     }
 
-    pos = sub_str.find(string(NET_INT64));
-    if (pos != bad_rc && dtype_found != true) {
-        dtype_found = true;
-    }
-    pos = sub_str.find(string(NET_INT1));
+    pos = sub_str.find(NET_INT32);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
     }
 
-    pos = sub_str.find(string(NET_INT2));
+    pos = sub_str.find(NET_INT64);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
     }
 
-    pos = sub_str.find(string(NET_INT8));
+    pos = sub_str.find(NET_INT1);
+    if (pos != bad_rc && dtype_found != true) {
+        dtype_found = true;
+    }
+
+    pos = sub_str.find(NET_INT2);
+    if (pos != bad_rc && dtype_found != true) {
+        dtype_found = true;
+    }
+
+    pos = sub_str.find(NET_INT8);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
     }
 
     // Attempt to find either register or wire declaration
-    pos = sub_str.find(string(NET_REGISTER));
+    pos = sub_str.find(NET_REGISTER);
     if (pos != bad_rc && dtype_found == true) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_WIRE));
+    pos = sub_str.find(NET_WIRE);
     if (pos != bad_rc && dtype_found == true) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_INPUT));
+    pos = sub_str.find(NET_INPUT);
     if (pos != bad_rc && dtype_found == true) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_OUTPUT));
+    pos = sub_str.find(NET_OUTPUT);
     if (pos != bad_rc && dtype_found == true) {
         return true;
     }
 
+    // TODO: Set the components below
     // Attempt to find data path components 
-    pos = sub_str.find(string(NET_INC));
+    pos = sub_str.find(NET_INC);
     if (pos != bad_rc) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_DEC));
+    pos = sub_str.find(NET_DEC);
     if (pos != bad_rc) {
         return true;
     }
     
-    pos = sub_str.find(string(NET_SHL));
+    pos = sub_str.find(NET_SHL);
     if (pos != bad_rc) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_SHR));
+    pos = sub_str.find(NET_SHR);
     if (pos != bad_rc) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_ADD));
+    pos = sub_str.find(NET_ADD);
     if (pos != bad_rc) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_SUB));
+    pos = sub_str.find(NET_SUB);
     if (pos != bad_rc) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_MUL));
+    pos = sub_str.find(NET_MUL);
     if (pos != bad_rc) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_DIV));
+    pos = sub_str.find(NET_DIV);
     if (pos != bad_rc) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_MOD));
+    pos = sub_str.find(NET_MOD);
     if (pos != bad_rc) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_COMP_LT));
+    pos = sub_str.find(NET_COMP_LT);
     if (pos != bad_rc) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_COMP_GT));
+    pos = sub_str.find(NET_COMP_GT);
     if (pos != bad_rc) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_COMP_EQ));
+    pos = sub_str.find(NET_COMP_EQ);
     if (pos != bad_rc) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_MUX));
+    pos = sub_str.find(NET_MUX);
     if (pos != bad_rc) {
         return true;
     }
 
-    pos = sub_str.find(string(NET_REG));
+    pos = sub_str.find(NET_REG);
     if (pos != bad_rc) {
         return true;
     }
 
     // Check if the only contents on the line is either a comment or new line
-    pos = sub_str.find(string(MISC_COMMENT));
+    pos = sub_str.find(MISC_COMMENT);
     if (pos != bad_rc) {
-        tmp_pos = sub_str.find_first_not_of(string(MISC_WHITESPACE));
+        tmp_pos = sub_str.find_first_not_of(MISC_WHITESPACE);
         if (tmp_pos == pos) {
             return true;
         }
     } else {
-        pos = sub_str.find(string(MISC_NEW_LINE));
+        pos = sub_str.find(MISC_NEW_LINE);
         if (pos == 0) {
             return true;
         }

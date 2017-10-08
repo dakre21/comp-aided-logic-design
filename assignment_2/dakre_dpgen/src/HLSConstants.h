@@ -61,8 +61,12 @@ const char* DP_INPUT     = "input";
 const char* DP_OUTPUT    = "output";
 
 // Datawidth constants
-const char* DATAWIDTH_PARAM = "parameter DATAWIDTH = 2;";
-const char* DATAWIDTH       = "[DATAWIDTH-1:0]";
+const char* DATAWIDTH_1     = "";
+const char* DATAWIDTH_2     = "[1:0]";
+const char* DATAWIDTH_8     = "[7:0]";
+const char* DATAWIDTH_16    = "[15:0]";
+const char* DATAWIDTH_32    = "[31:0]";
+const char* DATAWIDTH_64    = "[63:0]";
 
 // Misc constants
 const char* MISC_NEW_LINE   = "\n";
