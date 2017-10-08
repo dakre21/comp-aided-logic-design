@@ -5,6 +5,9 @@ project (dpgen)
 set (dpgen_VERSION_MAJOR 1)
 set (dpgen_VERSION_MINOR 0)
 
+# Set compiler to cpp11
+set (CMAKE_CXX_STANDARD 11)
+
 # Add subdirectories
 add_subdirectory(src)
 

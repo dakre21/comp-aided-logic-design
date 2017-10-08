@@ -38,6 +38,6 @@ private:
     void parseBufferCreateVerilogSrc(char* buff, size_t buff_len);
 
     // Parse netlist substring and map to datapath component
-    void mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len);
+    bool mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len);
 
 };

@@ -27,6 +27,8 @@ const char* NET_UINT16   = "UInt16";
 const char* NET_UINT32   = "UInt32";
 const char* NET_UINT64   = "UInt64";
 const char* NET_WIRE     = "wire";
+const char* NET_INPUT    = "input";
+const char* NET_OUTPUT   = "output";
 
 // Data path constants
 const char* DP_ADD       = "ADD";
@@ -55,3 +57,14 @@ const char* DP_SDEC      = "SDEC";
 const char* DP_SMUX      = "SMUX2x1";
 const char* DP_REGISTER  = "reg";
 const char* DP_WIRE      = "wire";
+const char* DP_INPUT     = "input";
+const char* DP_OUTPUT    = "output";
+
+// Datawidth constants
+const char* DATAWIDTH_PARAM = "parameter DATAWIDTH = 2;";
+const char* DATAWIDTH       = "[DATAWIDTH-1:0]";
+
+// Misc constants
+const char* MISC_NEW_LINE   = "\n";
+const char* MISC_WHITESPACE = " ";
+const char* MISC_COMMENT    = "\\";
