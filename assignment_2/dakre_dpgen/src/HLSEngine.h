@@ -15,6 +15,7 @@
 #include <string.h>
 #include <iostream>
 #include <cstddef>
+#include <map>
 
 using namespace std;
 
@@ -34,6 +35,12 @@ public:
     float findCriticalPath(FILE* file_in, FILE* file_out);
 
 private:
+    // Class members
+    map<string, string> input_vars_;
+    map<string, string> output_vars_;
+    map<string, string> wire_vars_;
+    map<string, string> reg_vars_;
+
     // Parse input buffer and create verilog file
     void parseBufferCreateVerilogSrc(char* buff, size_t buff_len);
 

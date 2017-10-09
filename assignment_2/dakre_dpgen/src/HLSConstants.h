@@ -73,3 +73,4 @@ const char* MISC_NEW_LINE   = "\n";
 const char* MISC_WHITESPACE = " ";
 const char* MISC_COMMENT    = "\\";
 const char* MISC_LINE_END   = ";";
+const char* MISC_COMMA      = ",";

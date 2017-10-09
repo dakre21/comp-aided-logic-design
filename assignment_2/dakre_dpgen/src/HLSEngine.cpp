@@ -1,7 +1,12 @@
 #include "HLSEngine.h"
 #include "HLSConstants.h"
 
-HLSEngine::HLSEngine() {
+HLSEngine::HLSEngine() :
+
+           input_vars_(),
+           output_vars_(),
+           wire_vars_(),
+           reg_vars_() {
     // Do nothing
 }
 
@@ -17,6 +22,13 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
     size_t tmp_pos     = 0;
     bool   dtype_found = false;
     int    bad_rc      = -1;
+    int    begin       = 0;
+    bool   is_input    = false;
+    bool   is_output   = false;
+    bool   is_wire     = false;
+    bool   is_reg      = false;
+    string temp_var;
+    string data_width;
 
     // TODO: Create relationship between data type & data width with vars used in data path components
     // TODO: Write data path component to verilog file (signed or unsigned based on data type)    
@@ -27,6 +39,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
         dtype_found = true;
         sub_str.replace(pos, string(NET_INT16).length(), DATAWIDTH_16);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_16);
+        data_width = "16";
     }
 
     pos = sub_str.find(NET_UINT32);
@@ -34,6 +47,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
         dtype_found = true;
         sub_str.replace(pos, string(NET_INT32).length(), DATAWIDTH_32);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_32);
+        data_width = "32";
     }
 
     pos = sub_str.find(NET_UINT64);
@@ -41,6 +55,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
         dtype_found = true;
         sub_str.replace(pos, string(NET_INT64).length(), DATAWIDTH_64);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_64);
+        data_width = "64";
     }
 
     pos = sub_str.find(NET_UINT1);
@@ -48,6 +63,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
         dtype_found = true;
         sub_str.replace(pos, string(NET_INT1).length(), DATAWIDTH_1);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_1);
+        data_width = "1";
     }
 
     pos = sub_str.find(NET_UINT2);
@@ -55,6 +71,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
         dtype_found = true;
         sub_str.replace(pos, string(NET_INT2).length(), DATAWIDTH_2);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_2);
+        data_width = "2";
     }
 
     pos = sub_str.find(NET_UINT8);
@@ -62,6 +79,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
         dtype_found = true;
         sub_str.replace(pos, string(NET_INT8).length(), DATAWIDTH_8);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_8);
+        data_width = "8";
     }
 
     pos = sub_str.find(NET_INT16);
@@ -69,6 +87,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
         dtype_found = true;
         sub_str.replace(pos, string(NET_INT16).length(), DATAWIDTH_16);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_16);
+        data_width = "16";
     }
 
     pos = sub_str.find(NET_INT32);
@@ -76,6 +95,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
         dtype_found = true;
         sub_str.replace(pos, string(NET_INT32).length(), DATAWIDTH_32);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_32);
+        data_width = "32";
     }
 
     pos = sub_str.find(NET_INT64);
@@ -83,6 +103,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
         dtype_found = true;
         sub_str.replace(pos, string(NET_INT64).length(), DATAWIDTH_64);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_64);
+        data_width = "64";
     }
 
     pos = sub_str.find(NET_INT1);
@@ -90,6 +111,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
         dtype_found = true;
         sub_str.replace(pos, string(NET_INT1).length(), DATAWIDTH_1);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_1);
+        data_width = "1";
     }
 
     pos = sub_str.find(NET_INT2);
@@ -97,6 +119,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
         dtype_found = true;
         sub_str.replace(pos, string(NET_INT2).length(), DATAWIDTH_2);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_2);
+        data_width = "2";
     }
 
     pos = sub_str.find(NET_INT8);
@@ -104,13 +127,23 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
         dtype_found = true;
         sub_str.replace(pos, string(NET_INT8).length(), DATAWIDTH_8);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_8);
+        data_width = "8";
     }
 
     // Attempt to find either register or wire declaration
     // If there is a match, map the variable with the respective length
     if (dtype_found == true) {
         string var_str = sub_str.substr(temp_str.length(), sub_str.length());
-        cout << var_str << endl;
+
+        while (true) {
+            pos = var_str.find(MISC_COMMA);
+            
+            if (pos == -1) {
+                break;
+            }
+
+            var_str.replace(pos, 1, "");
+        }
 
         pos = sub_str.find(NET_REGISTER);
         if (pos != bad_rc) {
@@ -118,6 +151,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
             if (pos == bad_rc) {
                 sub_str += MISC_LINE_END;
             }
+            is_reg = true;
         }
 
         pos = sub_str.find(NET_WIRE);
@@ -126,6 +160,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
             if (pos == bad_rc) {
                 sub_str += MISC_LINE_END;
             }
+            is_wire = true;
         }
 
         pos = sub_str.find(NET_INPUT);
@@ -134,6 +169,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
             if (pos == bad_rc) {
                 sub_str += MISC_LINE_END;
             }
+            is_input = true;
         }
 
         pos = sub_str.find(NET_OUTPUT);
@@ -142,13 +178,38 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
             if (pos == bad_rc) {
                 sub_str += MISC_LINE_END;
             }
+            is_output = true;
         }
 
-        //cout << sub_str;
+        while (true) {
+            pos = var_str.find(MISC_WHITESPACE);
+
+            if (pos == -1 && var_str.length() == 0) {
+                break;
+            }
+
+            if (pos == 0) {
+                var_str.replace(0, 1, ""); 
+                continue;
+            }
+           
+            temp_var = var_str.substr(0, pos);
+            
+            if (is_input == true) {
+                input_vars_.insert(make_pair(temp_var, data_width));
+            } else if (is_output == true) {
+                output_vars_.insert(make_pair(temp_var, data_width));
+            } else if (is_wire == true) {
+                wire_vars_.insert(make_pair(temp_var, data_width));
+            } else {
+                reg_vars_.insert(make_pair(temp_var, data_width));
+            }
+            
+            var_str.replace(0, pos, "");
+        }
+
         return true;
     }
-
-    cout << sub_str;
 
     // TODO: Set the components below
     // Attempt to find data path components 
