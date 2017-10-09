@@ -72,3 +72,4 @@ const char* DATAWIDTH_64    = "[63:0]";
 const char* MISC_NEW_LINE   = "\n";
 const char* MISC_WHITESPACE = " ";
 const char* MISC_COMMENT    = "\\";
+const char* MISC_LINE_END   = ";";

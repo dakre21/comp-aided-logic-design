@@ -1,6 +1,5 @@
 #include "HLSEngine.h"
 #include "HLSConstants.h"
-#include <regex>
 
 HLSEngine::HLSEngine() {
     // Do nothing
@@ -21,89 +20,122 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
     // TODO: Create relationship between data type & data width with vars used in data path components
     // TODO: Write data path component to verilog file (signed or unsigned based on data type)    
 
-    cout << sub_str;
-
     // Attempt to find data type & data width
     pos = sub_str.find(NET_UINT16);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
+        sub_str.replace(pos, string(NET_INT16).length(), DATAWIDTH_16);
     }
 
     pos = sub_str.find(NET_UINT32);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
+        sub_str.replace(pos, string(NET_INT32).length(), DATAWIDTH_32);
     }
 
     pos = sub_str.find(NET_UINT64);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
+        sub_str.replace(pos, string(NET_INT64).length(), DATAWIDTH_64);
     }
 
     pos = sub_str.find(NET_UINT1);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
+        sub_str.replace(pos, string(NET_INT1).length(), DATAWIDTH_1);
     }
 
     pos = sub_str.find(NET_UINT2);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
+        sub_str.replace(pos, string(NET_INT2).length(), DATAWIDTH_2);
     }
 
     pos = sub_str.find(NET_UINT8);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
+        sub_str.replace(pos, string(NET_INT8).length(), DATAWIDTH_8);
     }
 
     pos = sub_str.find(NET_INT16);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
+        sub_str.replace(pos, string(NET_INT16).length(), DATAWIDTH_16);
     }
 
     pos = sub_str.find(NET_INT32);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
+        sub_str.replace(pos, string(NET_INT32).length(), DATAWIDTH_32);
     }
 
     pos = sub_str.find(NET_INT64);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
+        sub_str.replace(pos, string(NET_INT64).length(), DATAWIDTH_64);
     }
 
     pos = sub_str.find(NET_INT1);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
+        sub_str.replace(pos, string(NET_INT1).length(), DATAWIDTH_1);
     }
 
     pos = sub_str.find(NET_INT2);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
+        sub_str.replace(pos, string(NET_INT2).length(), DATAWIDTH_2);
     }
 
     pos = sub_str.find(NET_INT8);
     if (pos != bad_rc && dtype_found != true) {
         dtype_found = true;
+        sub_str.replace(pos, string(NET_INT8).length(), DATAWIDTH_8);
     }
+
 
     // Attempt to find either register or wire declaration
     pos = sub_str.find(NET_REGISTER);
     if (pos != bad_rc && dtype_found == true) {
+        pos = sub_str.find(MISC_LINE_END);
+        if (pos == bad_rc) {
+            sub_str += MISC_LINE_END;
+        }
+        cout << sub_str;
         return true;
     }
 
     pos = sub_str.find(NET_WIRE);
     if (pos != bad_rc && dtype_found == true) {
+        pos = sub_str.find(MISC_LINE_END);
+        if (pos == bad_rc) {
+            sub_str += MISC_LINE_END;
+        }
+        cout << sub_str;
         return true;
     }
 
     pos = sub_str.find(NET_INPUT);
     if (pos != bad_rc && dtype_found == true) {
+        pos = sub_str.find(MISC_LINE_END);
+        if (pos == bad_rc) {
+            sub_str += MISC_LINE_END;
+        }
+        cout << sub_str;
         return true;
     }
 
     pos = sub_str.find(NET_OUTPUT);
     if (pos != bad_rc && dtype_found == true) {
+        pos = sub_str.find(MISC_LINE_END);
+        if (pos == bad_rc) {
+            sub_str += MISC_LINE_END;
+        }
+        cout << sub_str;
         return true;
     }
+
+    cout << sub_str;
 
     // TODO: Set the components below
     // Attempt to find data path components 
