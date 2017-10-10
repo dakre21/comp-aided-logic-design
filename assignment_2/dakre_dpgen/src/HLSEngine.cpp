@@ -42,87 +42,89 @@ HLSEngine::~HLSEngine() {
 string HLSEngine::setDataPathComp(string op, string data_width, const char* dcomp) {
     // Forward declaration 
     string v_str = "";
+    string w_str = " ";
     int pos      = 0;
 
+    // Get position of signed char
     pos = data_width.find("S");
-    if (pos != bad_rc_) {
-        // Append signed data path component
-        if (dcomp == NET_ADD) {
-            v_str += MISC_TAB + string(DP_SADD) + " ";          
-        } else if (dcomp == NET_SUB) {
-            v_str += MISC_TAB + string(DP_SSUB) + " ";          
-        } else if (dcomp == NET_MUL) {
-            v_str += MISC_TAB + string(DP_SMUL) + " ";          
-        } else if (dcomp == NET_DIV) {
-            v_str += MISC_TAB + string(DP_SDIV) + " ";          
-        } else if (dcomp == NET_MOD) {
-            v_str += MISC_TAB + string(DP_SMOD) + " ";          
-        } else if (dcomp == NET_COMP_LT || 
-                dcomp == NET_COMP_GT || 
-                dcomp == NET_COMP_EQ) {
-            v_str += MISC_TAB + string(DP_SCOMP) + " ";          
-        } else if (dcomp == NET_SHL) {
-            v_str += MISC_TAB + string(DP_SSHL) + " ";          
-        } else if (dcomp == NET_SHR) {
-            v_str += MISC_TAB + string(DP_SSHR) + " ";          
-        } else if (dcomp == NET_REG) {
-            v_str += MISC_TAB + string(DP_SREG) + " ";          
-        } else if (dcomp == NET_INC) {
-            v_str += MISC_TAB + string(DP_SINC) + " ";          
-        } else if (dcomp == NET_DEC) {
-            v_str += MISC_TAB + string(DP_SDEC) + " ";          
-        } else if (dcomp == NET_MUX) {
-            v_str += MISC_TAB + string(DP_SMUX) + " ";          
-        }
-    } else {
-        // Append signed data path component
-        if (dcomp == NET_ADD) {
-            v_str += MISC_TAB + string(DP_ADD) + " ";          
-        } else if (dcomp == NET_SUB) {
-            v_str += MISC_TAB + string(DP_SUB) + " ";          
-        } else if (dcomp == NET_MUL) {
-            v_str += MISC_TAB + string(DP_MUL) + " ";          
-        } else if (dcomp == NET_DIV) {
-            v_str += MISC_TAB + string(DP_DIV) + " ";          
-        } else if (dcomp == NET_MOD) {
-            v_str += MISC_TAB + string(DP_MOD) + " ";          
-        } else if (dcomp == NET_COMP_LT || 
-                dcomp == NET_COMP_GT || 
-                dcomp == NET_COMP_EQ) {
-            v_str += MISC_TAB + string(DP_COMP) + " ";          
-        } else if (dcomp == NET_SHL) {
-            v_str += MISC_TAB + string(DP_SHL) + " ";          
-        } else if (dcomp == NET_SHR) {
-            v_str += MISC_TAB + string(DP_SHR) + " ";          
-        } else if (dcomp == NET_REG) {
-            v_str += MISC_TAB + string(DP_REG) + " ";          
-        } else if (dcomp == NET_INC) {
-            v_str += MISC_TAB + string(DP_INC) + " ";          
-        } else if (dcomp == NET_DEC) {
-            v_str += MISC_TAB + string(DP_DEC) + " ";          
-        } else if (dcomp == NET_MUX) {
-            v_str += MISC_TAB + string(DP_MUX) + " ";          
-        }
-    }
 
     // Remove signed/unsigned char
     data_width.replace(0, 1, "");
 
     if (data_width == string(DATAWIDTH_1_STR)) {
-        v_str += string(DATAWIDTH_1_INST) + " ";
+        w_str += string(DATAWIDTH_1_INST) + " ";
     } else if (data_width == string(DATAWIDTH_2_STR)) {
-        v_str += string(DATAWIDTH_2_INST) + " ";
+        w_str += string(DATAWIDTH_2_INST) + " ";
     } else if (data_width == string(DATAWIDTH_8_STR)) {
-        v_str += string(DATAWIDTH_8_INST) + " ";
+        w_str += string(DATAWIDTH_8_INST) + " ";
     } else if (data_width == string(DATAWIDTH_16_STR)) {
-        v_str += string(DATAWIDTH_16_INST) + " ";
+        w_str += string(DATAWIDTH_16_INST) + " ";
     } else if (data_width == string(DATAWIDTH_32_STR)) {
-        v_str += string(DATAWIDTH_32_INST) + " ";
+        w_str += string(DATAWIDTH_32_INST) + " ";
     } else {
-        v_str += string(DATAWIDTH_64_INST) + " ";
+        w_str += string(DATAWIDTH_64_INST) + " ";
     } 
 
-    cout << v_str << endl;
+    if (pos != bad_rc_) {
+        // Append signed data path component
+        if (dcomp == NET_ADD) {
+            v_str += MISC_TAB + string(DP_SADD) + w_str + string(DP_SADD_INST);          
+        } else if (dcomp == NET_SUB) {
+            v_str += MISC_TAB + string(DP_SSUB) + w_str + string(DP_SSUB_INST);          
+        } else if (dcomp == NET_MUL) {
+            v_str += MISC_TAB + string(DP_SMUL) + w_str +  string(DP_SMUL_INST);          
+        } else if (dcomp == NET_DIV) {
+            v_str += MISC_TAB + string(DP_SDIV) + w_str + string(DP_SDIV_INST);          
+        } else if (dcomp == NET_MOD) {
+            v_str += MISC_TAB + string(DP_SMOD) + w_str + string(DP_SMOD_INST);          
+        } else if (dcomp == NET_COMP_LT || 
+                dcomp == NET_COMP_GT || 
+                dcomp == NET_COMP_EQ) {
+            v_str += MISC_TAB + string(DP_SCOMP) + w_str + string(DP_SCOMP_INST);          
+        } else if (dcomp == NET_SHL) {
+            v_str += MISC_TAB + string(DP_SSHL) + w_str + string(DP_SSHL_INST);          
+        } else if (dcomp == NET_SHR) {
+            v_str += MISC_TAB + string(DP_SSHR) + w_str + string(DP_SSHR_INST);          
+        } else if (dcomp == NET_REG) {
+            v_str += MISC_TAB + string(DP_SREG) + w_str + string(DP_SREG_INST);          
+        } else if (dcomp == NET_INC) {
+            v_str += MISC_TAB + string(DP_SINC) + w_str + string(DP_SINC_INST);          
+        } else if (dcomp == NET_DEC) {
+            v_str += MISC_TAB + string(DP_SDEC) + w_str + string(DP_SDEC_INST);          
+        } else if (dcomp == NET_MUX) {
+            v_str += MISC_TAB + string(DP_SMUX) + w_str + string(DP_SMUX_INST);          
+        }
+    } else {
+        // Append signed data path component
+        if (dcomp == NET_ADD) {
+            v_str += MISC_TAB + string(DP_ADD) + w_str + string(DP_ADD_INST);          
+        } else if (dcomp == NET_SUB) {
+            v_str += MISC_TAB + string(DP_SUB) + w_str + string(DP_SUB_INST);          
+        } else if (dcomp == NET_MUL) {
+            v_str += MISC_TAB + string(DP_MUL) + w_str + string(DP_MUL_INST);          
+        } else if (dcomp == NET_DIV) {
+            v_str += MISC_TAB + string(DP_DIV) + w_str + string(DP_DIV_INST);          
+        } else if (dcomp == NET_MOD) {
+            v_str += MISC_TAB + string(DP_MOD) + w_str + string(DP_MOD_INST);          
+        } else if (dcomp == NET_COMP_LT || 
+                dcomp == NET_COMP_GT || 
+                dcomp == NET_COMP_EQ) {
+            v_str += MISC_TAB + string(DP_COMP) + w_str + string(DP_COMP_INST);          
+        } else if (dcomp == NET_SHL) {
+            v_str += MISC_TAB + string(DP_SHL) + w_str + string(DP_SHL_INST);          
+        } else if (dcomp == NET_SHR) {
+            v_str += MISC_TAB + string(DP_SHR) + w_str + string(DP_SHR_INST);          
+        } else if (dcomp == NET_REG) {
+            v_str += MISC_TAB + string(DP_REG) + w_str + string(DP_REG_INST);          
+        } else if (dcomp == NET_INC) {
+            v_str += MISC_TAB + string(DP_INC) + w_str + string(DP_INC_INST);          
+        } else if (dcomp == NET_DEC) {
+            v_str += MISC_TAB + string(DP_DEC) + w_str + string(DP_DEC_INST);          
+        } else if (dcomp == NET_MUX) {
+            v_str += MISC_TAB + string(DP_MUX) + w_str + string(DP_MUX_INST);          
+        }
+    }
+
 
     return v_str;
 }
