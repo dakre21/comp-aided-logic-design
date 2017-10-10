@@ -39,6 +39,27 @@ HLSEngine::~HLSEngine() {
     // Do nothing
 }
 
+string HLSEngine::setDataPathInst(const char* dcomp, string i_str, string o_str, string w_str, string r_str, string o_var) {
+    // Forward declaration
+    string v_str = "";
+
+    if (dcomp == NET_ADD || dcomp == NET_SUB || dcomp == NET_MUL ||
+            dcomp == NET_DIV || dcomp == NET_SHL || dcomp == NET_SHR ||
+            dcomp == NET_INC || dcomp == NET_DEC) {
+
+    } else if (dcomp == NET_COMP_LT || 
+            dcomp == NET_COMP_GT || 
+            dcomp == NET_COMP_EQ) {
+
+    } else if (dcomp == NET_SHL) {
+
+    } else if (dcomp == NET_MUX) {
+
+    }
+
+    return v_str;
+}
+
 string HLSEngine::setDataPathComp(string op, string data_width, const char* dcomp) {
     // Forward declaration 
     string v_str = "";
@@ -133,6 +154,11 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp) {
     // Forward declarations
     string v_str;
     string temp_str;
+    string i_str  = "";
+    string o_str  = "";
+    string r_str  = "";
+    string w_str  = "";
+    string o_var  = "";
     int npos      = 0;
     int epos      = 0;
     int spos      = 0;
@@ -165,8 +191,13 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp) {
         if (is_found == false) {
             if (npos != bad_rc_ && npos < epos) {
                 v_str = setDataPathComp(op, string(it->second), dcomp);
+                o_var = it->first;
                 is_found = true;
+            } else {
+                i_str += it->first + ", ";
             }
+        } else {
+            i_str += it->first + ", ";
         }
     }
 
@@ -177,8 +208,13 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp) {
         if (is_found == false) {
             if (npos != bad_rc_ && npos < epos) {
                 v_str = setDataPathComp(op, string(it->second), dcomp);
+                o_var = it->first;
                 is_found = true;
+            } else {
+                o_str += it->first + ", ";
             }
+        } else {
+            o_str += it->first + ", ";
         }
     }
 
@@ -189,8 +225,13 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp) {
         if (is_found == false) {
             if (npos != bad_rc_ && npos < epos) {
                 v_str = setDataPathComp(op, string(it->second), dcomp);
+                o_var = it->first;
                 is_found = true;
+            } else {
+                w_str += it->first + ", ";
             }
+        } else {
+            w_str += it->first + ", ";
         }
     }
 
@@ -201,10 +242,20 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp) {
         if (is_found == false) {
             if (npos != bad_rc_ && npos < epos) {
                 v_str = setDataPathComp(op, string(it->second), dcomp);
+                o_var = it->first;
                 is_found = true;
+            } else {
+                r_str += it->first + ", ";
             }
+        } else {
+            r_str += it->first + ", ";
         }
     }
+
+    // Set datapath component to str
+    v_str += setDataPathInst(dcomp, i_str, o_str, w_str, r_str, o_var);
+
+    // TODO: Write this str to file
 
     return true;
 }

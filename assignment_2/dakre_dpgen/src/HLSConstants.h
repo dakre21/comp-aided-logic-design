@@ -59,6 +59,8 @@ const char* DP_REGISTER  = "reg";
 const char* DP_WIRE      = "wire";
 const char* DP_INPUT     = "input";
 const char* DP_OUTPUT    = "output";
+const char* DP_CLK       = "Clk";
+const char* DP_RST       = "Rst";
 
 // Data path constants instances
 const char* DP_ADD_INST   = "add_";
