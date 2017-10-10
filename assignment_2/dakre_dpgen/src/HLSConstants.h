@@ -60,13 +60,51 @@ const char* DP_WIRE      = "wire";
 const char* DP_INPUT     = "input";
 const char* DP_OUTPUT    = "output";
 
+// Data path constants instances
+const char* DP_ADD_INST   = "add_";
+const char* DP_SUB_INST   = "sub_";
+const char* DP_MUL_INST   = "mul_";
+const char* DP_DIV_INST   = "div_";
+const char* DP_MOD_INST   = "mod_";
+const char* DP_COMP_INST  = "comp_";
+const char* DP_SHL_INST   = "shl_";
+const char* DP_SHR_INST   = "shr_";
+const char* DP_REG_INST   = "reg_";
+const char* DP_INC_INST   = "inc_";
+const char* DP_DEC_INST   = "dec_";
+const char* DP_MUX_INST   = "mux_";
+const char* DP_SADD_INST  = "sadd_";
+const char* DP_SSUB_INST  = "ssub_";
+const char* DP_SMUL_INST  = "smul_";
+const char* DP_SDIV_INST  = "sdiv_";
+const char* DP_SMOD_INST  = "smod_";
+const char* DP_SCOMP_INST = "scomp_";
+const char* DP_SSHL_INST  = "sshl_";
+const char* DP_SSHR_INST  = "sshr_";
+const char* DP_SREG_INST  = "sreg_";
+const char* DP_SINC_INST  = "sinc_";
+const char* DP_SDEC_INST  = "sdec_";
+const char* DP_SMUX_INST  = "smux_";
+
 // Datawidth constants
-const char* DATAWIDTH_1     = "";
-const char* DATAWIDTH_2     = "[1:0]";
-const char* DATAWIDTH_8     = "[7:0]";
-const char* DATAWIDTH_16    = "[15:0]";
-const char* DATAWIDTH_32    = "[31:0]";
-const char* DATAWIDTH_64    = "[63:0]";
+const char* DATAWIDTH_1       = "";
+const char* DATAWIDTH_2       = "[1:0]";
+const char* DATAWIDTH_8       = "[7:0]";
+const char* DATAWIDTH_16      = "[15:0]";
+const char* DATAWIDTH_32      = "[31:0]";
+const char* DATAWIDTH_64      = "[63:0]";
+const char* DATAWIDTH_1_INST  = "#(1)";
+const char* DATAWIDTH_2_INST  = "#(2)";
+const char* DATAWIDTH_8_INST  = "#(8)";
+const char* DATAWIDTH_16_INST = "#(16)";
+const char* DATAWIDTH_32_INST = "#(32)";
+const char* DATAWIDTH_64_INST = "#(64)";
+const char* DATAWIDTH_1_STR   = "1";
+const char* DATAWIDTH_2_STR   = "2";
+const char* DATAWIDTH_8_STR   = "8";
+const char* DATAWIDTH_16_STR  = "16";
+const char* DATAWIDTH_32_STR  = "32";
+const char* DATAWIDTH_64_STR  = "64";
 
 // Misc constants
 const char* MISC_NEW_LINE   = "\n";
@@ -74,3 +112,5 @@ const char* MISC_WHITESPACE = " ";
 const char* MISC_COMMENT    = "\\";
 const char* MISC_LINE_END   = ";";
 const char* MISC_COMMA      = ",";
+const char* MISC_TAB        = "    ";
+const char* MISC_EQUALS     = "=";
