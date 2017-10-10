@@ -397,8 +397,12 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
             var_str.replace(0, pos, "");
         }
 
+        cout << sub_str << endl;
+
         return true;
     }
+
+    cout << sub_str << endl;
 
     // Attempt to find data path components 
     pos = sub_str.find(NET_INC);
@@ -500,9 +504,9 @@ void HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len) {
     memset(sub_buff, '\0', buff_len);
 
     // Parse buffer for behavioral netlist
-    for (int i = 0; i < buff_len; i++) {
+    for (int i = 0; i < buff_len-1; i++) {
         // Read buffer into substring buffer line by line
-        if (buff[i] == '\n') {
+        if (buff[i] == '\n' || i == buff_len-1) {
             for (int j = buff_num; j < i; j++) {
                 sub_buff[k] = buff[j];
                 k++;
