@@ -112,7 +112,12 @@ const char* DATAWIDTH_64_STR  = "64";
 const char* MISC_NEW_LINE   = "\n";
 const char* MISC_WHITESPACE = " ";
 const char* MISC_COMMENT    = "\\";
-const char* MISC_LINE_END   = ";";
+const char* MISC_LINE_END   = ";\n";
 const char* MISC_COMMA      = ",";
 const char* MISC_TAB        = "    ";
 const char* MISC_EQUALS     = "=";
+const char* MISC_SEL        = ":";
+
+const char* GEQZ            = "gEQz";
+const char* GGTZ            = "gGTz";
+const char* GLTZ            = "gLTz";

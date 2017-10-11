@@ -39,27 +39,6 @@ HLSEngine::~HLSEngine() {
     // Do nothing
 }
 
-string HLSEngine::setDataPathInst(const char* dcomp, string i_str, string o_str, string w_str, string r_str, string o_var) {
-    // Forward declaration
-    string v_str = "";
-
-    if (dcomp == NET_ADD || dcomp == NET_SUB || dcomp == NET_MUL ||
-            dcomp == NET_DIV || dcomp == NET_SHL || dcomp == NET_SHR ||
-            dcomp == NET_INC || dcomp == NET_DEC) {
-
-    } else if (dcomp == NET_COMP_LT || 
-            dcomp == NET_COMP_GT || 
-            dcomp == NET_COMP_EQ) {
-
-    } else if (dcomp == NET_SHL) {
-
-    } else if (dcomp == NET_MUX) {
-
-    }
-
-    return v_str;
-}
-
 string HLSEngine::setDataPathComp(string op, string data_width, const char* dcomp) {
     // Forward declaration 
     string v_str = "";
@@ -154,14 +133,15 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp) {
     // Forward declarations
     string v_str;
     string temp_str;
-    string i_str  = "";
-    string o_str  = "";
-    string r_str  = "";
-    string w_str  = "";
-    string o_var  = "";
+    string o_var;
+    string m_var;
+    string m2_var;
+    string m3_var;
+    string i_var;
     int npos      = 0;
     int epos      = 0;
     int spos      = 0;
+    int cpos      = op.find(dcomp);
     bool is_found = false;
 
     // Get the mapped var sizes
@@ -194,10 +174,39 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp) {
                 o_var = it->first;
                 is_found = true;
             } else {
-                i_str += it->first + ", ";
+                // Assign var to right most position but before output var
+                if (dcomp == NET_MUX) {
+                    spos = op.find(MISC_SEL);
+                    if (npos < spos && npos < cpos) {
+                        m_var = o_var;
+                        o_var = it->first;
+                    } else if (npos < spos && cpos < npos) {
+                        m2_var = it->first;
+                    } else {
+                        i_var = it->first;
+                    }
+                } else if (cpos < npos) {
+                    m_var = it->first;        
+                } else {
+                    i_var = it->first;
+                }
             }
         } else {
-            i_str += it->first + ", ";
+            if (dcomp == NET_MUX) {
+                spos = op.find(MISC_SEL);
+                if (npos < spos && npos < cpos) {
+                    m_var = o_var;
+                    o_var = it->first;
+                } else if (npos < spos && cpos < npos) {
+                    m2_var = it->first;
+                } else {
+                    i_var = it->first;
+                }
+            } else if (cpos < npos) {
+                m_var = it->first;        
+            } else {
+                i_var = it->first;
+            }
         }
     }
 
@@ -211,10 +220,38 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp) {
                 o_var = it->first;
                 is_found = true;
             } else {
-                o_str += it->first + ", ";
+                if (dcomp == NET_MUX) {
+                    spos = op.find(MISC_SEL);
+                    if (npos < spos && npos < cpos) {
+                        m_var = o_var;
+                        o_var = it->first;
+                    } else if (npos < spos && cpos < npos) {
+                        m2_var = it->first;
+                    } else {
+                        i_var = it->first;
+                    }
+                } else if (cpos < npos) {
+                    m_var = it->first;        
+                } else {
+                    i_var = it->first;
+                }
             }
         } else {
-            o_str += it->first + ", ";
+            if (dcomp == NET_MUX) {
+                spos = op.find(MISC_SEL);
+                if (npos < spos && npos < cpos) {
+                    m_var = o_var;
+                    o_var = it->first;
+                } else if (npos < spos && cpos < npos) {
+                    m2_var = it->first;
+                } else {
+                    i_var = it->first;
+                }
+            } else if (cpos < npos) {
+                m_var = it->first;        
+            } else {
+                i_var = it->first;
+            }
         }
     }
 
@@ -228,10 +265,38 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp) {
                 o_var = it->first;
                 is_found = true;
             } else {
-                w_str += it->first + ", ";
+                if (dcomp == NET_MUX) {
+                    spos = op.find(MISC_SEL);
+                    if (npos < spos && npos < cpos) {
+                        m_var = o_var;
+                        o_var = it->first;
+                    } else if (npos < spos && cpos < npos) {
+                        m2_var = it->first;
+                    } else {
+                        i_var = it->first;
+                    }
+                } else if (cpos < npos) {
+                    m_var = it->first;        
+                } else {
+                    i_var = it->first;
+                }
             }
         } else {
-            w_str += it->first + ", ";
+            if (dcomp == NET_MUX) {
+                spos = op.find(MISC_SEL);
+                if (npos < spos && npos < cpos) {
+                    m_var = o_var;
+                    o_var = it->first;
+                } else if (npos < spos && cpos < npos) {
+                    m2_var = it->first;
+                } else {
+                    i_var = it->first;
+                }
+            } else if (cpos < npos) {
+                m_var = it->first;        
+            } else {
+                i_var = it->first;
+            }
         }
     }
 
@@ -245,15 +310,57 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp) {
                 o_var = it->first;
                 is_found = true;
             } else {
-                r_str += it->first + ", ";
+                if (dcomp == NET_MUX) {
+                    spos = op.find(MISC_SEL);
+                    if (npos < spos && npos < cpos) {
+                        m_var = o_var;
+                        o_var = it->first;
+                    } else if (npos < spos && cpos < npos) {
+                        m2_var = it->first;
+                    } else {
+                        i_var = it->first;
+                    }
+                } else if (cpos < npos) {
+                    m_var = it->first;        
+                } else {
+                    i_var = it->first;
+                }
             }
         } else {
-            r_str += it->first + ", ";
+            if (dcomp == NET_MUX) {
+                spos = op.find(MISC_SEL);
+                if (npos < spos && npos < cpos) {
+                    m_var = o_var;
+                    o_var = it->first;
+                } else if (npos < spos && cpos < npos) {
+                    m2_var = it->first;
+                } else {
+                    i_var = it->first;
+                }
+            } else if (cpos < npos) {
+                m_var = it->first;        
+            } else {
+                i_var = it->first;
+            }
         }
     }
 
-    // Set datapath component to str
-    v_str += setDataPathInst(dcomp, i_str, o_str, w_str, r_str, o_var);
+    if (dcomp == NET_MUX) {
+        v_str += i_var + ", " + m2_var + ", " + m_var + ", " + o_var + ")" + string(MISC_LINE_END);
+    } else if (dcomp == NET_REG) {
+        v_str += i_var + ", " + o_var + ", " + string(DP_CLK) + ", " + string(DP_RST) + ")" + string(MISC_LINE_END);
+    } else if (dcomp == NET_COMP_LT) {
+        v_str += i_var + ", " + m_var + ", " + string(GGTZ) + ", " + o_var + ", " + string(GEQZ) + ")" + string(MISC_LINE_END);
+    } else if (dcomp == NET_COMP_GT) {
+        v_str += i_var + ", " + m_var + ", " + o_var + ", " + string(GLTZ) + ", " + string(GEQZ) + ")" + string(MISC_LINE_END);
+    } else if (dcomp == NET_COMP_EQ) {
+        v_str += i_var + ", " + m_var + ", " + string(GGTZ) + ", " + string(GLTZ) + ", " + o_var + ")" + string(MISC_LINE_END);
+    }
+    else {
+        v_str += i_var + ", " + m_var + ", " + o_var + ")" + string(MISC_LINE_END);
+    }
+
+    cout << v_str;
 
     // TODO: Write this str to file
 

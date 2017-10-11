@@ -85,7 +85,4 @@ private:
     // Set datapath component to string
     string setDataPathComp(string op, string data_width, const char* dcomp);
 
-    // Set datapath instance to string
-    string setDataPathInst(const char* dcomp, string i_str, string o_str, string w_str, string r_str, string o_var);
-
 };
