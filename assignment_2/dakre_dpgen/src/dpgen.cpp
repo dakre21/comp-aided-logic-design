@@ -16,6 +16,7 @@
 // Forward declarations
 FILE* file_in;
 FILE* file_out;
+string v_file;
 
 // Verify dpgen inputs helper function
 bool verify_dpgen_inputs(int argc, char* argv[]) {
@@ -44,6 +45,7 @@ bool verify_dpgen_inputs(int argc, char* argv[]) {
     }
 
     file_out = fopen(argv[2], "w+");
+    v_file = string(argv[2]);
 
     // Check if the file exists
     if (file_out == NULL) {
@@ -68,7 +70,7 @@ int main(int argc, char* argv[]) {
     engine = new HLSEngine();
 
     // Create verilog src
-    engine->createVerilogSrc(file_in, file_out);
+    engine->createVerilogSrc(file_in, file_out, v_file);
 
     // Find critical path of netlist
     float critical_path = engine->findCriticalPath(file_in, file_out);

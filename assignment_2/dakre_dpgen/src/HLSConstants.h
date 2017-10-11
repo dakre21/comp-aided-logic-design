@@ -118,6 +118,14 @@ const char* MISC_TAB        = "    ";
 const char* MISC_EQUALS     = "=";
 const char* MISC_SEL        = ":";
 
-const char* GEQZ            = "gEQz";
-const char* GGTZ            = "gGTz";
-const char* GLTZ            = "gLTz";
+const char* EQZ             = "EQZ_";
+const char* GTZ             = "GTZ_";
+const char* LTZ             = "LTZ_";
+
+const char* STATIC_NULL      = " ";
+const char* STATIC_COMMENT   = "\n    // HLS has generated this HDL code with the dpgen executable\n    // Author: David Akre\n\n";
+const char* STATIC_REGS      = "    reg Clk, Rst, LTZ_, GTZ_, EQZ_;\n";
+const char* STATIC_ALWAYS    = "    always\n";
+const char* STATIC_CLK_START = "        #(10) Clk <= ~Clk;\n\n";
+const char* STATIC_ENDMODULE = "endmodule\n";
+const char* STATIC_MODULE    = "module ";

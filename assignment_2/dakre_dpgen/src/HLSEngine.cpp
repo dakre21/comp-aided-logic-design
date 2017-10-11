@@ -330,11 +330,11 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp, FILE* fi
     } else if (dcomp == NET_REG) {
         v_str += i_var + ", " + o_var + ", " + string(DP_CLK) + ", " + string(DP_RST) + ")" + string(MISC_LINE_END);
     } else if (dcomp == NET_COMP_LT) {
-        v_str += i_var + ", " + m_var + ", " + string(GGTZ) + ", " + o_var + ", " + string(GEQZ) + ")" + string(MISC_LINE_END);
+        v_str += i_var + ", " + m_var + ", " + string(GTZ) + ", " + o_var + ", " + string(EQZ) + ")" + string(MISC_LINE_END);
     } else if (dcomp == NET_COMP_GT) {
-        v_str += i_var + ", " + m_var + ", " + o_var + ", " + string(GLTZ) + ", " + string(GEQZ) + ")" + string(MISC_LINE_END);
+        v_str += i_var + ", " + m_var + ", " + o_var + ", " + string(LTZ) + ", " + string(EQZ) + ")" + string(MISC_LINE_END);
     } else if (dcomp == NET_COMP_EQ) {
-        v_str += i_var + ", " + m_var + ", " + string(GGTZ) + ", " + string(GLTZ) + ", " + o_var + ")" + string(MISC_LINE_END);
+        v_str += i_var + ", " + m_var + ", " + string(GTZ) + ", " + string(LTZ) + ", " + o_var + ")" + string(MISC_LINE_END);
     }
     else {
         v_str += i_var + ", " + m_var + ", " + o_var + ")" + string(MISC_LINE_END);
@@ -638,7 +638,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
     return false;
 }
 
-void HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* file_out) {
+bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* file_out) {
     // Forward declarations 
     char* sub_buff;
     size_t sub_buff_len;
@@ -662,7 +662,7 @@ void HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
             sub_buff_len = i - buff_num;
             if (mapNetOpToDataPathComp(sub_buff, sub_buff_len, file_out) != true) {
                 fprintf(stderr, "Failed to parse datapath component\n");
-                return;
+                return false;
             }
 
             // Set loop elements
@@ -673,12 +673,16 @@ void HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
             memset(sub_buff, '\0', buff_len);
         } 
     }
+
+    return true;
 }
 
-bool HLSEngine::createVerilogSrc(FILE* file_in, FILE* file_out) {
+bool HLSEngine::createVerilogSrc(FILE* file_in, FILE* file_out, string v_file) {
     // Forward declaration
     size_t buff_len;
     char*  buff;
+    bool   rc     = true;
+    string module;
 
     // Get size of file by seeking to the end and returning
     fseek(file_in, 0, SEEK_END);
@@ -700,8 +704,20 @@ bool HLSEngine::createVerilogSrc(FILE* file_in, FILE* file_out) {
     // Read buffer
     fread(buff, buff_len, 1, file_in);
 
-    // Write initial new line to file
-    fputs(MISC_NEW_LINE, file_out);
+    // Set initial buffer to file with null chars
+    for (int i = 0; i < 255; i++) {
+        fputs(STATIC_NULL, file_out);
+    }
+
+    // Write initial stuff for verilog code
+    fputs(STATIC_COMMENT, file_out);
+
+    // Write static regs
+    fputs(STATIC_REGS, file_out);
+
+    // Write starting clock info
+    fputs(STATIC_ALWAYS, file_out);
+    fputs(STATIC_CLK_START, file_out);
 
     if (strlen(buff) != buff_len) {
         fprintf(stderr, "Failed to read all of the bytes in the file\n");
@@ -709,8 +725,30 @@ bool HLSEngine::createVerilogSrc(FILE* file_in, FILE* file_out) {
     }
 
     // Parse buffer and create verilog file
-    parseBufferCreateVerilogSrc(buff, buff_len, file_out);
+    rc &= parseBufferCreateVerilogSrc(buff, buff_len, file_out);
     free(buff);
+
+    if (rc != false) {
+        module = string(STATIC_MODULE) + v_file.replace(v_file.size()-2, v_file.size(), "") + "(";
+
+        // Write end module
+        fputs(STATIC_ENDMODULE, file_out);
+
+        // Write module to first line
+        fseek(file_out, 0, SEEK_SET);
+
+        for (map<string, string>::iterator it = input_vars_.begin(); it != input_vars_.end(); ++it) {
+            module += it->first + ", ";
+        }
+        
+        for (map<string, string>::iterator it = output_vars_.begin(); it != output_vars_.end(); ++it) {
+            module += it->first + ", ";
+        }
+
+        module.replace(module.size()-2, module.size(), ");\n");
+    }
+
+    fputs(module.c_str(), file_out);
 
     return true;
 }

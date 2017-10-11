@@ -29,7 +29,7 @@ public:
     ~HLSEngine();
 
     // Create verilog src
-    bool createVerilogSrc(FILE* file_in, FILE* file_out);
+    bool createVerilogSrc(FILE* file_in, FILE* file_out, string v_file);
    
     // Determine critical path of input netlist
     float findCriticalPath(FILE* file_in, FILE* file_out);
@@ -49,7 +49,7 @@ private:
     int bad_rc_;
 
     // Parse input buffer and create verilog file
-    void parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* file_out);
+    bool parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* file_out);
 
     // Parse netlist substring and map to datapath component
     bool mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE* file_out);
