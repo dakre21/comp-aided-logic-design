@@ -49,13 +49,13 @@ private:
     int bad_rc_;
 
     // Parse input buffer and create verilog file
-    void parseBufferCreateVerilogSrc(char* buff, size_t buff_len);
+    void parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* file_out);
 
     // Parse netlist substring and map to datapath component
-    bool mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len);
+    bool mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE* file_out);
 
     // Write datapath op to file
-    bool dataPathOpToFile(string op, int pos, const char* dcomp);
+    bool dataPathOpToFile(string op, int pos, const char* dcomp, FILE* file_out);
 
     // Set datapath component to string
     string setDataPathComp(string op, string data_width, const char* dcomp);

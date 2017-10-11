@@ -102,11 +102,10 @@ string HLSEngine::setDataPathComp(string op, string data_width, const char* dcom
         }
     }
 
-
     return v_str;
 }
 
-bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp) {
+bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp, FILE* file_out) {
     // Forward declarations
     string v_str;
     string temp_str;
@@ -341,17 +340,17 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp) {
         v_str += i_var + ", " + m_var + ", " + o_var + ")" + string(MISC_LINE_END);
     }
 
-    cout << v_str;
-
-    // TODO: Write this str to file
+    // Write this str to file
+    fputs(v_str.c_str(), file_out);
 
     return true;
 }
 
-bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
+bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE* file_out) {
     // Forward declarations
     string sub_str     = string(sub_buff);
     string temp_str    = string(sub_buff);
+    string decl_str    = string(MISC_TAB);
     size_t pos         = 0;
     size_t tmp_pos     = 0;
     bool   dtype_found = false;
@@ -538,82 +537,88 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
             var_str.replace(0, pos, "");
         }
 
-        cout << sub_str << endl;
+        // Remove initial new line char
+        pos = sub_str.find(MISC_NEW_LINE);
+        if (pos == 0) {
+            sub_str.replace(0, 1, "");
+        }
+
+        // Write string to file
+        decl_str += sub_str + string(MISC_NEW_LINE);
+        fputs(decl_str.c_str(), file_out);
 
         return true;
     }
 
-    cout << sub_str << endl;
-
     // Attempt to find data path components 
     pos = sub_str.find(NET_INC);
     if (pos != bad_rc_) {
-        return dataPathOpToFile(sub_str, pos, NET_INC);
+        return dataPathOpToFile(sub_str, pos, NET_INC, file_out);
     }
 
     pos = sub_str.find(NET_DEC);
     if (pos != bad_rc_) {
-        return dataPathOpToFile(sub_str, pos, NET_DEC);
+        return dataPathOpToFile(sub_str, pos, NET_DEC, file_out);
     }
     
     pos = sub_str.find(NET_SHL);
     if (pos != bad_rc_) {
-        return dataPathOpToFile(sub_str, pos, NET_SHL);
+        return dataPathOpToFile(sub_str, pos, NET_SHL, file_out);
     }
 
     pos = sub_str.find(NET_SHR);
     if (pos != bad_rc_) {
-        return dataPathOpToFile(sub_str, pos, NET_SHR);
+        return dataPathOpToFile(sub_str, pos, NET_SHR, file_out);
     }
 
     pos = sub_str.find(NET_ADD);
     if (pos != bad_rc_) {
-        return dataPathOpToFile(sub_str, pos, NET_ADD);
+        return dataPathOpToFile(sub_str, pos, NET_ADD, file_out);
     }
 
     pos = sub_str.find(NET_SUB);
     if (pos != bad_rc_) {
-        return dataPathOpToFile(sub_str, pos, NET_SUB);
+        return dataPathOpToFile(sub_str, pos, NET_SUB, file_out);
     }
 
     pos = sub_str.find(NET_MUL);
     if (pos != bad_rc_) {
-        return dataPathOpToFile(sub_str, pos, NET_MUL);
+        return dataPathOpToFile(sub_str, pos, NET_MUL, file_out);
     }
 
     pos = sub_str.find(NET_DIV);
     if (pos != bad_rc_) {
-        return dataPathOpToFile(sub_str, pos, NET_DIV);
+        return dataPathOpToFile(sub_str, pos, NET_DIV, file_out);
     }
 
     pos = sub_str.find(NET_MOD);
     if (pos != bad_rc_) {
-        return dataPathOpToFile(sub_str, pos, NET_MOD);
+        return dataPathOpToFile(sub_str, pos, NET_MOD, file_out);
     }
 
     pos = sub_str.find(NET_COMP_LT);
     if (pos != bad_rc_) {
-        return dataPathOpToFile(sub_str, pos, NET_COMP_LT);
+        return dataPathOpToFile(sub_str, pos, NET_COMP_LT, file_out);
     }
 
     pos = sub_str.find(NET_COMP_GT);
     if (pos != bad_rc_) {
-        return dataPathOpToFile(sub_str, pos, NET_COMP_GT);
+        return dataPathOpToFile(sub_str, pos, NET_COMP_GT, file_out);
     }
 
     pos = sub_str.find(NET_COMP_EQ);
     if (pos != bad_rc_) {
-        return dataPathOpToFile(sub_str, pos, NET_COMP_EQ);
+        return dataPathOpToFile(sub_str, pos, NET_COMP_EQ, file_out);
     }
 
     pos = sub_str.find(NET_MUX);
     if (pos != bad_rc_) {
-        return dataPathOpToFile(sub_str, pos, NET_MUX);
+        return dataPathOpToFile(sub_str, pos, NET_MUX, file_out);
     }
 
     pos = sub_str.find(NET_REG);
     if (pos != bad_rc_) {
-        return dataPathOpToFile(sub_str, pos, NET_REG);
+        return dataPathOpToFile(sub_str, pos, NET_REG, file_out);
     }
 
     // Check if the only contents on the line is either a comment or new line
@@ -633,7 +638,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len) {
     return false;
 }
 
-void HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len) {
+void HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* file_out) {
     // Forward declarations 
     char* sub_buff;
     size_t sub_buff_len;
@@ -655,7 +660,7 @@ void HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len) {
 
             // Map netlist circuit operation to data path component
             sub_buff_len = i - buff_num;
-            if (mapNetOpToDataPathComp(sub_buff, sub_buff_len) != true) {
+            if (mapNetOpToDataPathComp(sub_buff, sub_buff_len, file_out) != true) {
                 fprintf(stderr, "Failed to parse datapath component\n");
                 return;
             }
@@ -695,13 +700,16 @@ bool HLSEngine::createVerilogSrc(FILE* file_in, FILE* file_out) {
     // Read buffer
     fread(buff, buff_len, 1, file_in);
 
+    // Write initial new line to file
+    fputs(MISC_NEW_LINE, file_out);
+
     if (strlen(buff) != buff_len) {
         fprintf(stderr, "Failed to read all of the bytes in the file\n");
         return false;
     }
 
     // Parse buffer and create verilog file
-    parseBufferCreateVerilogSrc(buff, buff_len);
+    parseBufferCreateVerilogSrc(buff, buff_len, file_out);
     free(buff);
 
     return true;
