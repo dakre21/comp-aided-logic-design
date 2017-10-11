@@ -43,32 +43,7 @@ private:
     map<string, string> reg_vars_;
 
     // Unsigned data path counters
-    int add_count_;
-    int sub_count_;
-    int mul_count_;
-    int div_count_;
-    int mod_count_;
-    int comp_count_;
-    int shl_count_;
-    int shr_count_;
-    int reg_count_;
-    int inc_count_;
-    int dec_count_;
-    int mux_count_;
-
-    // Signed data path counters
-    int sadd_count_;
-    int ssub_count_;
-    int smul_count_;
-    int sdiv_count_;
-    int smod_count_;
-    int scomp_count_;
-    int sshl_count_;
-    int sshr_count_;
-    int sreg_count_;
-    int sinc_count_;
-    int sdec_count_;
-    int smux_count_;
+    int dp_count_;
 
     // Bad return code
     int bad_rc_;

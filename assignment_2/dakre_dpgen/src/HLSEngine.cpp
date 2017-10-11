@@ -7,30 +7,7 @@ HLSEngine::HLSEngine() :
            output_vars_(),
            wire_vars_(),
            reg_vars_(),
-           add_count_(0),
-           sub_count_(0),
-           mul_count_(0),
-           div_count_(0),
-           mod_count_(0),
-           comp_count_(0),
-           shl_count_(0),
-           shr_count_(0),
-           reg_count_(0),
-           inc_count_(0),
-           dec_count_(0),
-           mux_count_(0),
-           sadd_count_(0),
-           ssub_count_(0),
-           smul_count_(0),
-           sdiv_count_(0),
-           smod_count_(0),
-           scomp_count_(0),
-           sshl_count_(0),
-           sshr_count_(0),
-           sreg_count_(0),
-           sinc_count_(0),
-           sdec_count_(0),
-           smux_count_(0),
+           dp_count_(0),
            bad_rc_(-1) {
     // Do nothing
 }
@@ -344,6 +321,10 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp) {
             }
         }
     }
+
+    // Set dp number to string
+    v_str += to_string(dp_count_) + "(";
+    dp_count_++;
 
     if (dcomp == NET_MUX) {
         v_str += i_var + ", " + m2_var + ", " + m_var + ", " + o_var + ")" + string(MISC_LINE_END);
