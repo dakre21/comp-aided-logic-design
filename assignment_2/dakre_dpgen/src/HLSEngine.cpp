@@ -46,29 +46,43 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
         return;
     }
 
+    cout << endl << map_var << endl;
+
     // Case for MUX 
     if (dcomp == NET_MUX) {
+        spos = op.find(MISC_SEL);
+        if (spos != bad_rc_) {
+            if (npos < epos && npos < cpos) {
+                *m_var = map_var;
+                cout << "IN HERE 1" << endl;
+            } else if (epos < npos && npos < cpos) {
+                *o_var = map_var;
+                cout << "IN HERE 2" << endl;
+            } else if (npos < spos && cpos < npos) {
+                *m2_var = map_var;
+                cout << "IN HERE 3" << endl;
+            } else {
+                *i_var = map_var;
+                cout << "IN HERE 4" << endl;
+            }
+        }
+
+
+        cout << npos << endl;
+        cout << cpos << endl;
+        cout << epos << endl;
+        cout << spos << endl;
         return;
     }
 
     // Case for non-mux/comp/reg
     if (npos < epos && npos < cpos) {
         *o_var = map_var; 
-        cout << "IN HERE" << endl;
     } else if (cpos < npos) {
         *m_var = map_var;
-        cout << "IN HERE 2" << endl;
     } else {
         *i_var = map_var;
-        cout << "IN HERE 3" << endl;
     }
-
-    cout << *i_var << endl;
-    cout << *o_var << endl;
-    cout << *m_var << endl;
-    cout << npos << endl;
-    cout << cpos << endl;
-    cout << epos << endl;
 
 }
 
