@@ -60,4 +60,8 @@ private:
     // Set datapath component to string
     string setDataPathComp(string op, string data_width, const char* dcomp);
 
+    // Set datapath vars to component string
+    void setDataPathVars(string* i_var, string* o_var, string* m_var, string* m2_var,
+            string* m3_var, string map_var, string op, const char* docmp, int npos);
+
 };

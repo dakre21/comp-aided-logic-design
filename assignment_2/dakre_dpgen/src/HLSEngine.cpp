@@ -16,6 +16,62 @@ HLSEngine::~HLSEngine() {
     // Do nothing
 }
 
+void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var, 
+        string* m2_var, string* m3_var, string map_var, string op, const char* dcomp, 
+        int npos) {
+    // Forward declarations
+    int epos = 0;
+    int spos = 0;
+    int cpos = op.find(dcomp);
+
+    // Determine location of = operator
+    epos = op.find(MISC_EQUALS);
+    if (epos == bad_rc_) {
+        return;
+    }
+
+    // Case for REG
+    if (dcomp == NET_REG) {
+        if (npos < epos && npos < cpos) {
+            *o_var = map_var;
+        } else {
+            *i_var = map_var;
+        }
+    
+        return;
+    }
+
+    // Case for COMP 
+    if (dcomp == NET_COMP_GT || dcomp == NET_COMP_LT || dcomp == NET_COMP_EQ) {
+        return;
+    }
+
+    // Case for MUX 
+    if (dcomp == NET_MUX) {
+        return;
+    }
+
+    // Case for non-mux/comp/reg
+    if (npos < epos && npos < cpos) {
+        *o_var = map_var; 
+        cout << "IN HERE" << endl;
+    } else if (cpos < npos) {
+        *m_var = map_var;
+        cout << "IN HERE 2" << endl;
+    } else {
+        *i_var = map_var;
+        cout << "IN HERE 3" << endl;
+    }
+
+    cout << *i_var << endl;
+    cout << *o_var << endl;
+    cout << *m_var << endl;
+    cout << npos << endl;
+    cout << cpos << endl;
+    cout << epos << endl;
+
+}
+
 string HLSEngine::setDataPathComp(string op, string data_width, const char* dcomp) {
     // Forward declaration 
     string v_str = "";
@@ -107,6 +163,7 @@ string HLSEngine::setDataPathComp(string op, string data_width, const char* dcom
 
 bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp, FILE* file_out) {
     // Forward declarations
+    int npos = 0;
     string v_str;
     string temp_str;
     string o_var;
@@ -114,11 +171,6 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp, FILE* fi
     string m2_var;
     string m3_var;
     string i_var;
-    int npos      = 0;
-    int epos      = 0;
-    int spos      = 0;
-    int cpos      = op.find(dcomp);
-    bool is_found = false;
 
     // Get the mapped var sizes
     size_t input_size = input_vars_.size();
@@ -133,101 +185,24 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp, FILE* fi
         return false;
     }
 
-    // Determine location of = operator
-    epos = op.find(MISC_EQUALS);
-    if (epos == bad_rc_) {
-        // If not found return false, invalid operation on dp comp
-        return false;
-    }
-
     // Check for input vars
     for (map<string, string>::iterator it = input_vars_.begin(); it != input_vars_.end(); ++it) {
         npos = op.find(it->first);
 
-        if (is_found == false) {
-            if (npos != bad_rc_ && npos < epos) {
-                v_str = setDataPathComp(op, string(it->second), dcomp);
-                o_var = it->first;
-                is_found = true;
-            } else {
-                // Assign var to right most position but before output var
-                if (dcomp == NET_MUX) {
-                    spos = op.find(MISC_SEL);
-                    if (npos < spos && npos < cpos) {
-                        m_var = o_var;
-                        o_var = it->first;
-                    } else if (npos < spos && cpos < npos) {
-                        m2_var = it->first;
-                    } else {
-                        i_var = it->first;
-                    }
-                } else if (cpos < npos) {
-                    m_var = it->first;        
-                } else {
-                    i_var = it->first;
-                }
-            }
-        } else {
-            if (dcomp == NET_MUX) {
-                spos = op.find(MISC_SEL);
-                if (npos < spos && npos < cpos) {
-                    m_var = o_var;
-                    o_var = it->first;
-                } else if (npos < spos && cpos < npos) {
-                    m2_var = it->first;
-                } else {
-                    i_var = it->first;
-                }
-            } else if (cpos < npos) {
-                m_var = it->first;        
-            } else {
-                i_var = it->first;
-            }
+        if (npos != bad_rc_) {
+            v_str = setDataPathComp(op, it->second, dcomp);
+            setDataPathVars(&i_var, &o_var, &m_var, &m2_var, &m3_var, it->first, op, dcomp, npos);
         }
+
     }
 
     // Check for output vars
     for (map<string, string>::iterator it = output_vars_.begin(); it != output_vars_.end(); ++it) {
         npos = op.find(it->first);
 
-        if (is_found == false) {
-            if (npos != bad_rc_ && npos < epos) {
-                v_str = setDataPathComp(op, string(it->second), dcomp);
-                o_var = it->first;
-                is_found = true;
-            } else {
-                if (dcomp == NET_MUX) {
-                    spos = op.find(MISC_SEL);
-                    if (npos < spos && npos < cpos) {
-                        m_var = o_var;
-                        o_var = it->first;
-                    } else if (npos < spos && cpos < npos) {
-                        m2_var = it->first;
-                    } else {
-                        i_var = it->first;
-                    }
-                } else if (cpos < npos) {
-                    m_var = it->first;        
-                } else {
-                    i_var = it->first;
-                }
-            }
-        } else {
-            if (dcomp == NET_MUX) {
-                spos = op.find(MISC_SEL);
-                if (npos < spos && npos < cpos) {
-                    m_var = o_var;
-                    o_var = it->first;
-                } else if (npos < spos && cpos < npos) {
-                    m2_var = it->first;
-                } else {
-                    i_var = it->first;
-                }
-            } else if (cpos < npos) {
-                m_var = it->first;        
-            } else {
-                i_var = it->first;
-            }
+        if (npos != bad_rc_) {
+            v_str = setDataPathComp(op, it->second, dcomp);
+            setDataPathVars(&i_var, &o_var, &m_var, &m2_var, &m3_var, it->first, op, dcomp, npos);
         }
     }
 
@@ -235,44 +210,9 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp, FILE* fi
     for (map<string, string>::iterator it = wire_vars_.begin(); it != wire_vars_.end(); ++it) {
         npos = op.find(it->first);
 
-        if (is_found == false) {
-            if (npos != bad_rc_ && npos < epos) {
-                v_str = setDataPathComp(op, string(it->second), dcomp);
-                o_var = it->first;
-                is_found = true;
-            } else {
-                if (dcomp == NET_MUX) {
-                    spos = op.find(MISC_SEL);
-                    if (npos < spos && npos < cpos) {
-                        m_var = o_var;
-                        o_var = it->first;
-                    } else if (npos < spos && cpos < npos) {
-                        m2_var = it->first;
-                    } else {
-                        i_var = it->first;
-                    }
-                } else if (cpos < npos) {
-                    m_var = it->first;        
-                } else {
-                    i_var = it->first;
-                }
-            }
-        } else {
-            if (dcomp == NET_MUX) {
-                spos = op.find(MISC_SEL);
-                if (npos < spos && npos < cpos) {
-                    m_var = o_var;
-                    o_var = it->first;
-                } else if (npos < spos && cpos < npos) {
-                    m2_var = it->first;
-                } else {
-                    i_var = it->first;
-                }
-            } else if (cpos < npos) {
-                m_var = it->first;        
-            } else {
-                i_var = it->first;
-            }
+        if (npos != bad_rc_) {
+            v_str = setDataPathComp(op, it->second, dcomp);
+            setDataPathVars(&i_var, &o_var, &m_var, &m2_var, &m3_var, it->first, op, dcomp, npos);
         }
     }
 
@@ -280,44 +220,9 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp, FILE* fi
     for (map<string, string>::iterator it = reg_vars_.begin(); it != reg_vars_.end(); ++it) {
         npos = op.find(it->first);
 
-        if (is_found == false) {
-            if (npos != bad_rc_ && npos < epos) {
-                v_str = setDataPathComp(op, string(it->second), dcomp);
-                o_var = it->first;
-                is_found = true;
-            } else {
-                if (dcomp == NET_MUX) {
-                    spos = op.find(MISC_SEL);
-                    if (npos < spos && npos < cpos) {
-                        m_var = o_var;
-                        o_var = it->first;
-                    } else if (npos < spos && cpos < npos) {
-                        m2_var = it->first;
-                    } else {
-                        i_var = it->first;
-                    }
-                } else if (cpos < npos) {
-                    m_var = it->first;        
-                } else {
-                    i_var = it->first;
-                }
-            }
-        } else {
-            if (dcomp == NET_MUX) {
-                spos = op.find(MISC_SEL);
-                if (npos < spos && npos < cpos) {
-                    m_var = o_var;
-                    o_var = it->first;
-                } else if (npos < spos && cpos < npos) {
-                    m2_var = it->first;
-                } else {
-                    i_var = it->first;
-                }
-            } else if (cpos < npos) {
-                m_var = it->first;        
-            } else {
-                i_var = it->first;
-            }
+        if (npos != bad_rc_) {
+            v_str = setDataPathComp(op, it->second, dcomp);
+            setDataPathVars(&i_var, &o_var, &m_var, &m2_var, &m3_var, it->first, op, dcomp, npos);
         }
     }
 
@@ -339,6 +244,8 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp, FILE* fi
     else {
         v_str += i_var + ", " + m_var + ", " + o_var + ")" + string(MISC_LINE_END);
     }
+
+    cout << v_str << endl;
 
     // Write this str to file
     fputs(v_str.c_str(), file_out);
@@ -547,8 +454,12 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
         decl_str += sub_str + string(MISC_NEW_LINE);
         fputs(decl_str.c_str(), file_out);
 
+        cout << decl_str;
+
         return true;
     }
+
+    cout << sub_str << endl;
 
     // Attempt to find data path components 
     pos = sub_str.find(NET_INC);
