@@ -322,19 +322,38 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp, FILE* fi
     v_str += to_string(dp_count_) + "(";
     dp_count_++;
 
+    if (i_var == "" || o_var == "") {
+        return false;
+    }
+
     if (dcomp == NET_MUX) {
+        if (m2_var == "" || m_var == "") {
+            return false;
+        }
         v_str += i_var + ", " + m2_var + ", " + m_var + ", " + o_var + ")" + string(MISC_LINE_END);
     } else if (dcomp == NET_REG) {
         v_str += i_var + ", " + o_var + ", " + string(DP_CLK) + ", " + string(DP_RST) + ")" + string(MISC_LINE_END);
     } else if (dcomp == NET_COMP_LT) {
+        if (m_var == "") {
+            return false;
+        }
         v_str += i_var + ", " + m_var + ", " + string(GTZ) + ", " + o_var + ", " + string(EQZ) + ")" + string(MISC_LINE_END);
     } else if (dcomp == NET_COMP_GT) {
+        if (m_var == "") {
+            return false;
+        }
         v_str += i_var + ", " + m_var + ", " + o_var + ", " + string(LTZ) + ", " + string(EQZ) + ")" + string(MISC_LINE_END);
     } else if (dcomp == NET_COMP_EQ) {
+        if (m_var == "") {
+            return false;
+        }
         v_str += i_var + ", " + m_var + ", " + string(GTZ) + ", " + string(LTZ) + ", " + o_var + ")" + string(MISC_LINE_END);
     } else if (dcomp == NET_INC || dcomp == NET_DEC) {
         v_str += i_var + ", " + o_var + ")" + string(MISC_LINE_END);   
     } else {
+        if (m_var == "") {
+            return false;
+        }
         v_str += i_var + ", " + m_var + ", " + o_var + ")" + string(MISC_LINE_END);
     }
 
