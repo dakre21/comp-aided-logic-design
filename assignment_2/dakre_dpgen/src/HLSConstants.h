@@ -109,6 +109,7 @@ const char* DATAWIDTH_32_STR  = "32";
 const char* DATAWIDTH_64_STR  = "64";
 
 // Misc constants
+const char* MISC_NULL       = "\0";
 const char* MISC_NEW_LINE   = "\n";
 const char* MISC_WHITESPACE = " ";
 const char* MISC_COMMENT    = "\\";

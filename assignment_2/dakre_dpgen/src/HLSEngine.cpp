@@ -59,7 +59,10 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
                 low_str == dcomp ||
                 low_str == string(MISC_SEL) ||
                 low_str == string(MISC_EQUALS) ||
-                low_str == string(MISC_NEW_LINE)) {
+                low_str == string(MISC_NEW_LINE) ||
+                low_str == string(MISC_NULL) ||
+                low_str == string(NET_COMP_LT) ||
+                low_str == string(NET_COMP_GT)) {
             // Do nothing
         } else {
             // Attempt to find sub string in diff location
@@ -73,11 +76,14 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
         }
 
         // Check upper bounds
-        if (low_str == string(MISC_WHITESPACE) || 
+        if (high_str == string(MISC_WHITESPACE) || 
                 high_str == dcomp ||
                 high_str == string(MISC_SEL) ||
                 high_str == string(MISC_EQUALS) ||
-                high_str == string(MISC_NEW_LINE)) {
+                high_str == string(MISC_NEW_LINE) ||
+                high_str == string(MISC_NULL) ||
+                high_str == string(NET_COMP_LT) ||
+                high_str == string(NET_COMP_GT)) {
             break;
         } else {
             // Attempt to find sub string in diff location
@@ -102,10 +108,15 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
         return;
     }
 
-    // TODO: FINISH COMP & MUX
-
     // Case for COMP 
     if (dcomp == NET_COMP_GT || dcomp == NET_COMP_LT || dcomp == NET_COMP_EQ) {
+        if (npos < epos && npos < cpos) {
+            *o_var = map_var;
+        } else if (epos < npos && npos < cpos) {
+            *i_var = map_var;
+        } else {
+            *m_var = map_var;
+        }
         return;
     }
 
