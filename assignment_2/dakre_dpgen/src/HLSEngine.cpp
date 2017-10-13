@@ -28,6 +28,10 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
     int cpos   = op.find(dcomp);
     int m_size = map_var.size();
     int o_size = op.size();
+    int lower  = 0;
+    int upper  = 0;
+    string low_str;
+    string high_str;
 
     // Determine location of = operator
     epos = op.find(MISC_EQUALS);
@@ -35,40 +39,56 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
         return;
     }
 
-    // Determine if variable is valid
-    int lower = npos - 1;
-    if (lower < 0) {
-        lower = 0; 
-    }
+    for (int i = 0; i < o_size; i++) {
+        // Determine if variable is valid
+        lower = npos - 1;
+        if (lower < 0) {
+            lower = 0; 
+        }
 
-    int upper = npos + m_size + 1;
-    if (upper >= o_size) {
-        upper = o_size;
-    }
+        upper = npos + m_size + 1;
+        if (upper >= o_size) {
+            upper = o_size;
+        }
 
-    string low_str = op.substr(lower, 1);
-    string high_str = op.substr(upper, 1);
+        low_str = op.substr(lower, 1);
+        high_str = op.substr(upper, 1);
 
-    // Check lower bounds
-    if (low_str == string(MISC_WHITESPACE) || 
-            low_str == dcomp ||
-            low_str == string(MISC_SEL) ||
-            low_str == string(MISC_EQUALS) ||
-            low_str == string(MISC_NEW_LINE)) {
-        // Do nothing
-    } else {
-        return;
-    }
+        // Check lower bounds
+        if (low_str == string(MISC_WHITESPACE) || 
+                low_str == dcomp ||
+                low_str == string(MISC_SEL) ||
+                low_str == string(MISC_EQUALS) ||
+                low_str == string(MISC_NEW_LINE)) {
+            // Do nothing
+        } else {
+            // Attempt to find sub string in diff location
+            op.replace(npos, m_size, "");
+            npos = op.find(map_var);
+            if (npos != bad_rc_) {
+                continue;
+            } else {
+                return;
+            }
+        }
 
-    // Check upper bounds
-    if (low_str == string(MISC_WHITESPACE) || 
-            high_str == dcomp ||
-            high_str == string(MISC_SEL) ||
-            high_str == string(MISC_EQUALS) ||
-            high_str == string(MISC_NEW_LINE)) {
-        // Do nothing
-    } else {
-        return;
+        // Check upper bounds
+        if (low_str == string(MISC_WHITESPACE) || 
+                high_str == dcomp ||
+                high_str == string(MISC_SEL) ||
+                high_str == string(MISC_EQUALS) ||
+                high_str == string(MISC_NEW_LINE)) {
+            break;
+        } else {
+            // Attempt to find sub string in diff location
+            op.replace(npos, m_size, "");
+            npos = op.find(map_var);
+            if (npos != bad_rc_) {
+                continue;
+            } else {
+                return;
+            }
+        }
     }
 
     // Case for REG
