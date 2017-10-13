@@ -62,7 +62,10 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
                 low_str == string(MISC_NEW_LINE) ||
                 low_str == string(MISC_NULL) ||
                 low_str == string(NET_COMP_LT) ||
-                low_str == string(NET_COMP_GT)) {
+                low_str == string(NET_COMP_GT) ||
+                low_str == string(NET_ADD) ||
+                low_str == string(NET_SUB) ||
+                low_str == string(dcomp)) {
             // Do nothing
         } else {
             // Attempt to find sub string in diff location
@@ -83,7 +86,10 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
                 high_str == string(MISC_NEW_LINE) ||
                 high_str == string(MISC_NULL) ||
                 high_str == string(NET_COMP_LT) ||
-                high_str == string(NET_COMP_GT)) {
+                high_str == string(NET_COMP_GT) ||
+                high_str == string(NET_ADD) ||
+                high_str == string(NET_SUB) ||
+                high_str == string(dcomp)) {
             break;
         } else {
             // Attempt to find sub string in diff location
@@ -138,7 +144,16 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
         return;
     }
 
-    // Case for non-mux/comp/reg
+    if (dcomp == NET_INC || dcomp == NET_DEC) {
+        if (npos < epos && npos < cpos) {
+            *o_var = map_var;
+        } else {
+            *i_var = map_var;
+        }
+        return;
+    }
+
+    // Case for non-mux/comp/reg/inc/dec
     if (npos < epos && npos < cpos) {
         *o_var = map_var; 
     } else if (cpos < npos) {
@@ -317,8 +332,9 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp, FILE* fi
         v_str += i_var + ", " + m_var + ", " + o_var + ", " + string(LTZ) + ", " + string(EQZ) + ")" + string(MISC_LINE_END);
     } else if (dcomp == NET_COMP_EQ) {
         v_str += i_var + ", " + m_var + ", " + string(GTZ) + ", " + string(LTZ) + ", " + o_var + ")" + string(MISC_LINE_END);
-    }
-    else {
+    } else if (dcomp == NET_INC || dcomp == NET_DEC) {
+        v_str += i_var + ", " + o_var + ")" + string(MISC_LINE_END);   
+    } else {
         v_str += i_var + ", " + m_var + ", " + o_var + ")" + string(MISC_LINE_END);
     }
 
