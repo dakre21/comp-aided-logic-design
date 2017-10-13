@@ -20,13 +20,54 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
         string* m2_var, string* m3_var, string map_var, string op, const char* dcomp, 
         int npos) {
     // Forward declarations
-    int epos = 0;
-    int spos = 0;
-    int cpos = op.find(dcomp);
+    int epos   = 0;
+    int spos   = 0;
+
+    // Append new line char at the end of the op string
+    op += "\n";
+    int cpos   = op.find(dcomp);
+    int m_size = map_var.size();
+    int o_size = op.size();
 
     // Determine location of = operator
     epos = op.find(MISC_EQUALS);
     if (epos == bad_rc_) {
+        return;
+    }
+
+    // Determine if variable is valid
+    int lower = npos - 1;
+    if (lower < 0) {
+        lower = 0; 
+    }
+
+    int upper = npos + m_size + 1;
+    if (upper >= o_size) {
+        upper = o_size;
+    }
+
+    string low_str = op.substr(lower, 1);
+    string high_str = op.substr(upper, 1);
+
+    // Check lower bounds
+    if (low_str == string(MISC_WHITESPACE) || 
+            low_str == dcomp ||
+            low_str == string(MISC_SEL) ||
+            low_str == string(MISC_EQUALS) ||
+            low_str == string(MISC_NEW_LINE)) {
+        // Do nothing
+    } else {
+        return;
+    }
+
+    // Check upper bounds
+    if (low_str == string(MISC_WHITESPACE) || 
+            high_str == dcomp ||
+            high_str == string(MISC_SEL) ||
+            high_str == string(MISC_EQUALS) ||
+            high_str == string(MISC_NEW_LINE)) {
+        // Do nothing
+    } else {
         return;
     }
 
@@ -41,12 +82,12 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
         return;
     }
 
+    // TODO: FINISH COMP & MUX
+
     // Case for COMP 
     if (dcomp == NET_COMP_GT || dcomp == NET_COMP_LT || dcomp == NET_COMP_EQ) {
         return;
     }
-
-    cout << endl << map_var << endl;
 
     // Case for MUX 
     if (dcomp == NET_MUX) {
@@ -54,24 +95,15 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
         if (spos != bad_rc_) {
             if (npos < epos && npos < cpos) {
                 *m_var = map_var;
-                cout << "IN HERE 1" << endl;
             } else if (epos < npos && npos < cpos) {
                 *o_var = map_var;
-                cout << "IN HERE 2" << endl;
             } else if (npos < spos && cpos < npos) {
                 *m2_var = map_var;
-                cout << "IN HERE 3" << endl;
             } else {
                 *i_var = map_var;
-                cout << "IN HERE 4" << endl;
             }
         }
 
-
-        cout << npos << endl;
-        cout << cpos << endl;
-        cout << epos << endl;
-        cout << spos << endl;
         return;
     }
 
