@@ -85,6 +85,6 @@ int main(int argc, char* argv[]) {
     // Find critical path of netlist
     float critical_path = engine->findCriticalPath(file_in, file_out);
 
-    printf("Critical Path : %.3f\n", critical_path);
+    printf("Critical Path : %.3f ns\n", critical_path);
     app_exit(0);
 }

@@ -817,57 +817,187 @@ bool HLSEngine::createVerilogSrc(FILE* file_in, FILE* file_out, string v_file) {
     return true;
 }
 
+float HLSEngine::calcDpLatency(string dcomp) {
+    // Forward declaration
+    float latency = 0.0;
+
+    // Find data path component and return latency
+    if (dcomp == ((string(DP_REG) + string(DP_WIDTH_1)))) {
+        latency = DP_REG_1;
+    } else if (dcomp == ((string(DP_REG) + string(DP_WIDTH_2)))) {
+        latency = DP_REG_2;
+    } else if (dcomp == ((string(DP_REG) + string(DP_WIDTH_8)))) {
+        latency = DP_REG_8;
+    } else if (dcomp == ((string(DP_REG) + string(DP_WIDTH_16)))) {
+        latency = DP_REG_16;
+    } else if (dcomp == ((string(DP_REG) + string(DP_WIDTH_32)))) {
+        latency = DP_REG_32;
+    } else if (dcomp == ((string(DP_REG) + string(DP_WIDTH_64)))) {
+        latency = DP_REG_64;
+    } else if (dcomp == ((string(DP_ADD) + string(DP_WIDTH_1)))) {
+        latency = DP_ADD_1;
+    } else if (dcomp == ((string(DP_ADD) + string(DP_WIDTH_2)))) {
+        latency = DP_ADD_2;
+    } else if (dcomp == ((string(DP_ADD) + string(DP_WIDTH_8)))) {
+        latency = DP_ADD_8;
+    } else if (dcomp == ((string(DP_ADD) + string(DP_WIDTH_16)))) {
+        latency = DP_ADD_16;
+    } else if (dcomp == ((string(DP_ADD) + string(DP_WIDTH_32)))) {
+        latency = DP_ADD_32;
+    } else if (dcomp == ((string(DP_ADD) + string(DP_WIDTH_64)))) {
+        latency = DP_ADD_64;
+    } else if (dcomp == ((string(DP_SUB) + string(DP_WIDTH_1)))) {
+        latency = DP_SUB_1;
+    } else if (dcomp == ((string(DP_SUB) + string(DP_WIDTH_2)))) {
+        latency = DP_SUB_2;
+    } else if (dcomp == ((string(DP_SUB) + string(DP_WIDTH_8)))) {
+        latency = DP_SUB_8;
+    } else if (dcomp == ((string(DP_SUB) + string(DP_WIDTH_16)))) {
+        latency = DP_SUB_16;
+    } else if (dcomp == ((string(DP_SUB) + string(DP_WIDTH_32)))) {
+        latency = DP_SUB_32;
+    } else if (dcomp == ((string(DP_SUB) + string(DP_WIDTH_64)))) {
+        latency = DP_SUB_64;
+    } else if (dcomp == ((string(DP_MUL) + string(DP_WIDTH_1)))) {
+        latency = DP_MUL_1;
+    } else if (dcomp == ((string(DP_MUL) + string(DP_WIDTH_2)))) {
+        latency = DP_MUL_2;
+    } else if (dcomp == ((string(DP_MUL) + string(DP_WIDTH_8)))) {
+        latency = DP_MUL_8;
+    } else if (dcomp == ((string(DP_MUL) + string(DP_WIDTH_16)))) {
+        latency = DP_MUL_16;
+    } else if (dcomp == ((string(DP_MUL) + string(DP_WIDTH_32)))) {
+        latency = DP_MUL_32;
+    } else if (dcomp == ((string(DP_MUL) + string(DP_WIDTH_64)))) {
+        latency = DP_MUL_64;
+    } else if (dcomp == ((string(DP_COMP) + string(DP_WIDTH_1)))) {
+        latency = DP_COMP_1;
+    } else if (dcomp == ((string(DP_COMP) + string(DP_WIDTH_2)))) {
+        latency = DP_COMP_2;
+    } else if (dcomp == ((string(DP_COMP) + string(DP_WIDTH_8)))) {
+        latency = DP_COMP_8;
+    } else if (dcomp == ((string(DP_COMP) + string(DP_WIDTH_16)))) {
+        latency = DP_COMP_16;
+    } else if (dcomp == ((string(DP_COMP) + string(DP_WIDTH_32)))) {
+        latency = DP_COMP_32;
+    } else if (dcomp == ((string(DP_COMP) + string(DP_WIDTH_64)))) {
+        latency = DP_COMP_64;
+    } else if (dcomp == ((string(DP_MUX) + string(DP_WIDTH_1)))) {
+        latency = DP_MUX2x1_1;
+    } else if (dcomp == ((string(DP_MUX) + string(DP_WIDTH_2)))) {
+        latency = DP_MUX2x1_2;
+    } else if (dcomp == ((string(DP_MUX) + string(DP_WIDTH_8)))) {
+        latency = DP_MUX2x1_8;
+    } else if (dcomp == ((string(DP_MUX) + string(DP_WIDTH_16)))) {
+        latency = DP_MUX2x1_16;
+    } else if (dcomp == ((string(DP_MUX) + string(DP_WIDTH_32)))) {
+        latency = DP_MUX2x1_32;
+    } else if (dcomp == ((string(DP_MUX) + string(DP_WIDTH_64)))) {
+        latency = DP_MUX2x1_64;
+    } else if (dcomp == ((string(DP_SHR) + string(DP_WIDTH_1)))) {
+        latency = DP_SHR_1;
+    } else if (dcomp == ((string(DP_SHR) + string(DP_WIDTH_2)))) {
+        latency = DP_SHR_2;
+    } else if (dcomp == ((string(DP_SHR) + string(DP_WIDTH_8)))) {
+        latency = DP_SHR_8;
+    } else if (dcomp == ((string(DP_SHR) + string(DP_WIDTH_16)))) {
+        latency = DP_SHR_16;
+    } else if (dcomp == ((string(DP_SHR) + string(DP_WIDTH_32)))) {
+        latency = DP_SHR_32;
+    } else if (dcomp == ((string(DP_SHR) + string(DP_WIDTH_64)))) {
+        latency = DP_SHR_64;
+    } else if (dcomp == ((string(DP_SHL) + string(DP_WIDTH_1)))) {
+        latency = DP_SHL_1;
+    } else if (dcomp == ((string(DP_SHL) + string(DP_WIDTH_2)))) {
+        latency = DP_SHL_2;
+    } else if (dcomp == ((string(DP_SHL) + string(DP_WIDTH_8)))) {
+        latency = DP_SHL_8;
+    } else if (dcomp == ((string(DP_SHL) + string(DP_WIDTH_16)))) {
+        latency = DP_SHL_16;
+    } else if (dcomp == ((string(DP_SHL) + string(DP_WIDTH_32)))) {
+        latency = DP_SHL_32;
+    } else if (dcomp == ((string(DP_SHL) + string(DP_WIDTH_64)))) {
+        latency = DP_SHL_64;
+    } else if (dcomp == ((string(DP_DIV) + string(DP_WIDTH_1)))) {
+        latency = DP_DIV_1;
+    } else if (dcomp == ((string(DP_DIV) + string(DP_WIDTH_2)))) {
+        latency = DP_DIV_2;
+    } else if (dcomp == ((string(DP_DIV) + string(DP_WIDTH_8)))) {
+        latency = DP_DIV_8;
+    } else if (dcomp == ((string(DP_DIV) + string(DP_WIDTH_16)))) {
+        latency = DP_DIV_16;
+    } else if (dcomp == ((string(DP_DIV) + string(DP_WIDTH_32)))) {
+        latency = DP_DIV_32;
+    } else if (dcomp == ((string(DP_DIV) + string(DP_WIDTH_64)))) {
+        latency = DP_DIV_64;
+    } else if (dcomp == ((string(DP_MOD) + string(DP_WIDTH_1)))) {
+        latency = DP_MOD_1;
+    } else if (dcomp == ((string(DP_MOD) + string(DP_WIDTH_2)))) {
+        latency = DP_MOD_2;
+    } else if (dcomp == ((string(DP_MOD) + string(DP_WIDTH_8)))) {
+        latency = DP_MOD_8;
+    } else if (dcomp == ((string(DP_MOD) + string(DP_WIDTH_16)))) {
+        latency = DP_MOD_16;
+    } else if (dcomp == ((string(DP_MOD) + string(DP_WIDTH_32)))) {
+        latency = DP_MOD_32;
+    } else if (dcomp == ((string(DP_MOD) + string(DP_WIDTH_64)))) {
+        latency = DP_MOD_64;
+    } else if (dcomp == ((string(DP_INC) + string(DP_WIDTH_1)))) {
+        latency = DP_INC_1;
+    } else if (dcomp == ((string(DP_INC) + string(DP_WIDTH_2)))) {
+        latency = DP_INC_2;
+    } else if (dcomp == ((string(DP_INC) + string(DP_WIDTH_8)))) {
+        latency = DP_INC_8;
+    } else if (dcomp == ((string(DP_INC) + string(DP_WIDTH_16)))) {
+        latency = DP_INC_16;
+    } else if (dcomp == ((string(DP_INC) + string(DP_WIDTH_32)))) {
+        latency = DP_INC_32;
+    } else if (dcomp == ((string(DP_INC) + string(DP_WIDTH_64)))) {
+        latency = DP_INC_64;
+    } else if (dcomp == ((string(DP_DEC) + string(DP_WIDTH_1)))) {
+        latency = DP_DEC_1;
+    } else if (dcomp == ((string(DP_DEC) + string(DP_WIDTH_2)))) {
+        latency = DP_DEC_2;
+    } else if (dcomp == ((string(DP_DEC) + string(DP_WIDTH_8)))) {
+        latency = DP_DEC_8;
+    } else if (dcomp == ((string(DP_DEC) + string(DP_WIDTH_16)))) {
+        latency = DP_DEC_16;
+    } else if (dcomp == ((string(DP_DEC) + string(DP_WIDTH_32)))) {
+        latency = DP_DEC_32;
+    } else if (dcomp == ((string(DP_DEC) + string(DP_WIDTH_64)))) {
+        latency = DP_DEC_64;
+    }
+
+    return latency;
+}
+
 float HLSEngine::findCriticalPath(FILE* file_in, FILE* file_out) {
     // Forward declarations
-    float cp  = 0.0;
-    float tcp = 0.0;
+    float cp   = 0.0;
+    float tcp  = 0.0;
+    int count  = 0;
+    string var = "";
 
-    for (map<string, string>::iterator it1 = vars_to_dp_.begin(); it1 != vars_to_dp_.end(); ++it1) {
-        cout << "var " << it1->first << " value " << it1->second  << " count " << vars_to_dp_.count(it1->first) << endl;
-    }
-    // Iterate through input vars
-    /*for (map<string, string>::iterator it1 = input_vars_.begin(); it1 != input_vars_.end(); ++it1) {
-        cout << "input var " << it1->first << endl;
-        for (map<string, string>::iterator it2 = vars_to_dp_.begin(); it2 != vars_to_dp_.end(); ++it2) {
-            cout << "var to dp " << it2->first << endl;
-            if (it1->first == it2->first) {
-                cout << it2->second << endl;
-            }
+    for (map<string, string>::iterator it = vars_to_dp_.begin(); it != vars_to_dp_.end(); ++it) {
+        // Reset count & tcp if the current var doesn't equal previous
+        if (var != it->first) {
+            count = 0;
+            tcp = 0;
         }
-    }
 
-    // Iterate through output vars
-    for (map<string, string>::iterator it1 = output_vars_.begin(); it1 != output_vars_.end(); ++it1) {
-        cout << "output var " << it1->first << endl;
-        for (map<string, string>::iterator it2 = vars_to_dp_.begin(); it2 != vars_to_dp_.end(); ++it2) {
-            cout << "var to dp " << it2->first << endl;
-            if (it1->first == it2->first) {
-                cout << it2->second << endl;
-            }
+        // Calculate temp critical path
+        if (count < vars_to_dp_.count(it->first)) {
+            tcp += calcDpLatency(it->second);
+            count++;
+        } 
+
+        // Set temp to final critical path if its greater
+        if (cp < tcp) {
+            cp = tcp;
         }
+
+        var = it->first;
     }
 
-    // Iterate through wire vars
-    for (map<string, string>::iterator it1 = wire_vars_.begin(); it1 != wire_vars_.end(); ++it1) {
-        cout << "wire var " << it1->first << endl;
-        for (map<string, string>::iterator it2 = vars_to_dp_.begin(); it2 != vars_to_dp_.end(); ++it2) {
-            cout << "var to dp " << it2->first << endl;
-            if (it1->first == it2->first) {
-                cout << it2->second << endl;
-            }
-        }
-    }
-
-    // Iterate through reg vars
-    for (map<string, string>::iterator it1 = reg_vars_.begin(); it1 != reg_vars_.end(); ++it1) {
-        cout << "reg var " << it1->first << endl;
-        for (map<string, string>::iterator it2 = vars_to_dp_.begin(); it2 != vars_to_dp_.end(); ++it2) {
-            cout << "var to dp " << it2->first << endl;
-            if (it1->first == it2->first) {
-                cout << it2->second << endl;
-            }
-        }
-    }*/
-
-    return 0.0;
+    return cp;
 }

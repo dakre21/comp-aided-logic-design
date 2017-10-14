@@ -71,4 +71,7 @@ private:
     void setDataPathVars(string* i_var, string* o_var, string* m_var, string* m2_var,
             string* m3_var, string map_var, string op, const char* docmp, int npos);
 
+    // Calculate individual dapath component latency
+    float calcDpLatency(string dcomp);
+
 };
