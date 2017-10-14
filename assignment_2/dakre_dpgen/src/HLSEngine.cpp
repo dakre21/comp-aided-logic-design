@@ -723,9 +723,9 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
     memset(sub_buff, '\0', buff_len);
 
     // Parse buffer for behavioral netlist
-    for (int i = 0; i < buff_len-1; i++) {
+    for (int i = 0; i < buff_len+1; i++) {
         // Read buffer into substring buffer line by line
-        if (buff[i] == '\n' || i == buff_len-1) {
+        if (buff[i] == '\n' || i == buff_len) {
             for (int j = buff_num; j < i; j++) {
                 sub_buff[k] = buff[j];
                 k++;
@@ -983,8 +983,6 @@ float HLSEngine::calcDpLatency(string dcomp) {
     } else if (dcomp == ((string(DP_DEC) + string(DP_WIDTH_64)))) {
         latency = DP_DEC_64;
     }
-
-    cout << dcomp << " " << latency << endl;
 
     return latency;
 }
