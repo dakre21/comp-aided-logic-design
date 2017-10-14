@@ -128,5 +128,6 @@ const char* STATIC_COMMENT   = "\n    // HLS has generated this HDL code with th
 const char* STATIC_REGS      = "    reg Clk, Rst, LTZ_, GTZ_, EQZ_;\n";
 const char* STATIC_ALWAYS    = "    always\n";
 const char* STATIC_CLK_START = "        #(10) Clk <= ~Clk;\n\n";
-const char* STATIC_ENDMODULE = "endmodule\n";
+const char* STATIC_ENDMODULE = "\nendmodule\n";
 const char* STATIC_MODULE    = "module ";
+const char* STATIC_TIMING    = "`timescale 1ns / 1ns\n\n\n";

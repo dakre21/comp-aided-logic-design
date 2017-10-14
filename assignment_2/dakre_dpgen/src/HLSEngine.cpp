@@ -357,8 +357,6 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp, FILE* fi
         v_str += i_var + ", " + m_var + ", " + o_var + ")" + string(MISC_LINE_END);
     }
 
-    cout << v_str << endl;
-
     // Write this str to file
     fputs(v_str.c_str(), file_out);
 
@@ -566,12 +564,8 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
         decl_str += sub_str + string(MISC_NEW_LINE);
         fputs(decl_str.c_str(), file_out);
 
-        cout << decl_str;
-
         return true;
     }
-
-    cout << sub_str << endl;
 
     // Attempt to find data path components 
     pos = sub_str.find(NET_INC);
@@ -771,6 +765,10 @@ bool HLSEngine::createVerilogSrc(FILE* file_in, FILE* file_out, string v_file) {
         module.replace(module.size()-2, module.size(), ");\n");
     }
 
+    // Write timing signal
+    fputs(STATIC_TIMING, file_out);
+
+    // Write module
     fputs(module.c_str(), file_out);
 
     return true;

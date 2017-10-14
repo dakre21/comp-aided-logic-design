@@ -1,17 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a100tfgg484-1" LaunchTime="1506291133">
-  <File Type="VDS-TIMING-PB" Name="circuit1_timing_summary_synth.pb"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="circuit1_timing_summary_synth.rpt"/>
-  <File Type="RDS-DCP" Name="circuit1.dcp"/>
-  <File Type="RDS-UTIL-PB" Name="circuit1_utilization_synth.pb"/>
-  <File Type="RDS-UTIL" Name="circuit1_utilization_synth.rpt"/>
-  <File Type="RDS-PROPCONSTRS" Name="circuit1_drc_synth.rpt"/>
-  <File Type="RDS-RDS" Name="circuit1.vds"/>
-  <File Type="PA-TCL" Name="circuit1.tcl"/>
+<GenRun Id="synth_1" LaunchPart="xc7a100tfgg484-1" LaunchTime="1507943480">
+  <File Type="VDS-TIMING-PB" Name="test1_timing_summary_synth.pb"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="test1_timing_summary_synth.rpt"/>
+  <File Type="RDS-DCP" Name="test1.dcp"/>
+  <File Type="RDS-UTIL-PB" Name="test1_utilization_synth.pb"/>
+  <File Type="RDS-UTIL" Name="test1_utilization_synth.rpt"/>
+  <File Type="RDS-PROPCONSTRS" Name="test1_drc_synth.rpt"/>
+  <File Type="RDS-RDS" Name="test1.vds"/>
+  <File Type="PA-TCL" Name="test1.tcl"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
+    <File Path="$PPRDIR/../assignment_2/dakre_dpgen/datapath_components/sadd.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../assignment_2/dakre_dpgen/datapath_components/scomp.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../assignment_2/dakre_dpgen/datapath_components/smul.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../assignment_2/dakre_dpgen/datapath_components/smux.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../assignment_2/dakre_dpgen/datapath_components/ssub.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../assignment_2/dakre_dpgen/build/test1.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PSRCDIR/sources_1/new/add.v">
       <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -19,6 +62,7 @@
     </File>
     <File Path="$PSRCDIR/sources_1/new/comp.v">
       <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -26,6 +70,7 @@
     </File>
     <File Path="$PSRCDIR/sources_1/new/mul.v">
       <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -33,6 +78,7 @@
     </File>
     <File Path="$PSRCDIR/sources_1/new/reg.v">
       <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -40,6 +86,7 @@
     </File>
     <File Path="$PSRCDIR/sources_1/new/sub.v">
       <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -47,6 +94,7 @@
     </File>
     <File Path="$PSRCDIR/sources_1/new/circuit1.v">
       <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -172,9 +220,65 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PPRDIR/../assignment_2/dakre_dpgen/datapath_components/sshr.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../assignment_2/dakre_dpgen/datapath_components/sinc.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../assignment_2/dakre_dpgen/datapath_components/sdiv.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../assignment_2/dakre_dpgen/datapath_components/smod.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../assignment_2/dakre_dpgen/datapath_components/sreg.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../assignment_2/dakre_dpgen/datapath_components/sdec.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../assignment_2/dakre_dpgen/datapath_components/sshl.v">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
-      <Option Name="TopModule" Val="circuit1"/>
+      <Option Name="TopModule" Val="test1"/>
     </Config>
   </FileSet>
   <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">

@@ -1,0 +1,42 @@
+#-----------------------------------------------------------
+# Vivado v2017.2 (64-bit)
+# SW Build 1909853 on Thu Jun 15 18:39:10 MDT 2017
+# IP Build 1909766 on Thu Jun 15 19:58:00 MDT 2017
+# Start of session at: Fri Oct 13 19:11:21 2017
+# Process ID: 519
+# Current directory: /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.runs/synth_1
+# Command line: vivado -log test1.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source test1.tcl
+# Log file: /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.runs/synth_1/test1.vds
+# Journal file: /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.runs/synth_1/vivado.jou
+#-----------------------------------------------------------
+source test1.tcl -notrace
+Command: synth_design -top test1 -part xc7a100tfgg484-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a100t-fgg484'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a100t-fgg484'
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 879 
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:03 ; elapsed = 00:00:06 . Memory (MB): peak = 1143.645 ; gain = 45.996 ; free physical = 3885 ; free virtual = 14156
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'test1' [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:4]
+WARNING: [Synth 8-85] always block has no event control specified [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:10]
+INFO: [Synth 8-638] synthesizing module 'SADD' [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/sadd.v:22]
+	Parameter DATAWIDTH bound to: 8 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'SADD' (1#1) [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/sadd.v:22]
+INFO: [Synth 8-638] synthesizing module 'SCOMP' [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/scomp.v:22]
+	Parameter DATAWIDTH bound to: 16 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'SCOMP' (2#1) [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/scomp.v:22]
+WARNING: [Synth 8-689] width (8) of port connection 'a' does not match port width (16) of module 'SCOMP' [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:27]
+WARNING: [Synth 8-689] width (8) of port connection 'b' does not match port width (16) of module 'SCOMP' [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:27]
+WARNING: [Synth 8-689] width (16) of port connection 'gt' does not match port width (1) of module 'SCOMP' [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:27]
+ERROR: [Synth 8-685] variable 'LTZ_' should not be used in output port connection [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:27]
+ERROR: [Synth 8-285] failed synthesizing module 'test1' [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:4]
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:00:04 ; elapsed = 00:00:07 . Memory (MB): peak = 1184.145 ; gain = 86.496 ; free physical = 3892 ; free virtual = 14163
+---------------------------------------------------------------------------------
+synthesize failed
+6 Infos, 4 Warnings, 0 Critical Warnings and 3 Errors encountered.
+synth_design failed
+ERROR: [Common 17-69] Command failed: Vivado Synthesis failed
+INFO: [Common 17-206] Exiting Vivado at Fri Oct 13 19:11:47 2017...
