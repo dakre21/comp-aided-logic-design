@@ -18,6 +18,14 @@ FILE* file_in;
 FILE* file_out;
 string v_file;
 
+void app_exit(int rc) {
+    // Close files
+    fclose(file_in);
+    fclose(file_out);
+
+    exit(rc);
+}
+
 // Verify dpgen inputs helper function
 bool verify_dpgen_inputs(int argc, char* argv[]) {
     // Begin verification steps
@@ -70,16 +78,13 @@ int main(int argc, char* argv[]) {
     engine = new HLSEngine();
 
     // Create verilog src
-    engine->createVerilogSrc(file_in, file_out, v_file);
+    if (engine->createVerilogSrc(file_in, file_out, v_file) != true) {
+        app_exit(-1);
+    }
 
     // Find critical path of netlist
     float critical_path = engine->findCriticalPath(file_in, file_out);
 
     printf("Critical Path : %.3f\n", critical_path);
-
-    // Close files
-    fclose(file_in);
-    fclose(file_out);
-
-    exit(0);
+    app_exit(0);
 }

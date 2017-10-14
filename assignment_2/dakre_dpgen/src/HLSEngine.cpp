@@ -383,7 +383,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
     pos = sub_str.find(NET_UINT16);
     if (pos != bad_rc_ && dtype_found != true) {
         dtype_found = true;
-        sub_str.replace(pos, string(NET_UINT16).length(), DATAWIDTH_16);
+        sub_str.replace(pos, strlen(NET_UINT16), DATAWIDTH_16);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_16);
         data_width = "U16";
     }
@@ -391,7 +391,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
     pos = sub_str.find(NET_UINT32);
     if (pos != bad_rc_ && dtype_found != true) {
         dtype_found = true;
-        sub_str.replace(pos, string(NET_UINT32).length(), DATAWIDTH_32);
+        sub_str.replace(pos, strlen(NET_UINT32), DATAWIDTH_32);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_32);
         data_width = "U32";
     }
@@ -399,7 +399,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
     pos = sub_str.find(NET_UINT64);
     if (pos != bad_rc_ && dtype_found != true) {
         dtype_found = true;
-        sub_str.replace(pos, string(NET_UINT64).length(), DATAWIDTH_64);
+        sub_str.replace(pos, strlen(NET_UINT64), DATAWIDTH_64);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_64);
         data_width = "U64";
     }
@@ -407,7 +407,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
     pos = sub_str.find(NET_UINT1);
     if (pos != bad_rc_ && dtype_found != true) {
         dtype_found = true;
-        sub_str.replace(pos, string(NET_UINT1).length(), DATAWIDTH_1);
+        sub_str.replace(pos, strlen(NET_UINT1), DATAWIDTH_1);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_1);
         data_width = "U1";
     }
@@ -415,7 +415,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
     pos = sub_str.find(NET_UINT2);
     if (pos != bad_rc_ && dtype_found != true) {
         dtype_found = true;
-        sub_str.replace(pos, string(NET_UINT2).length(), DATAWIDTH_2);
+        sub_str.replace(pos, strlen(NET_UINT2), DATAWIDTH_2);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_2);
         data_width = "U2";
     }
@@ -423,7 +423,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
     pos = sub_str.find(NET_UINT8);
     if (pos != bad_rc_ && dtype_found != true) {
         dtype_found = true;
-        sub_str.replace(pos, string(NET_UINT8).length(), DATAWIDTH_8);
+        sub_str.replace(pos, strlen(NET_UINT8), DATAWIDTH_8);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_8);
         data_width = "U8";
     }
@@ -431,7 +431,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
     pos = sub_str.find(NET_INT16);
     if (pos != bad_rc_ && dtype_found != true) {
         dtype_found = true;
-        sub_str.replace(pos, string(NET_INT16).length(), DATAWIDTH_16);
+        sub_str.replace(pos, strlen(NET_INT16), DATAWIDTH_16);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_16);
         data_width = "S16";
     }
@@ -439,7 +439,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
     pos = sub_str.find(NET_INT32);
     if (pos != bad_rc_ && dtype_found != true) {
         dtype_found = true;
-        sub_str.replace(pos, string(NET_INT32).length(), DATAWIDTH_32);
+        sub_str.replace(pos, strlen(NET_INT32), DATAWIDTH_32);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_32);
         data_width = "S32";
     }
@@ -447,7 +447,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
     pos = sub_str.find(NET_INT64);
     if (pos != bad_rc_ && dtype_found != true) {
         dtype_found = true;
-        sub_str.replace(pos, string(NET_INT64).length(), DATAWIDTH_64);
+        sub_str.replace(pos, strlen(NET_INT64), DATAWIDTH_64);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_64);
         data_width = "S64";
     }
@@ -455,7 +455,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
     pos = sub_str.find(NET_INT1);
     if (pos != bad_rc_ && dtype_found != true) {
         dtype_found = true;
-        sub_str.replace(pos, string(NET_INT1).length(), DATAWIDTH_1);
+        sub_str.replace(pos, strlen(NET_INT1), DATAWIDTH_1);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_1);
         data_width = "S1";
     }
@@ -463,7 +463,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
     pos = sub_str.find(NET_INT2);
     if (pos != bad_rc_ && dtype_found != true) {
         dtype_found = true;
-        sub_str.replace(pos, string(NET_INT2).length(), DATAWIDTH_2);
+        sub_str.replace(pos, strlen(NET_INT2), DATAWIDTH_2);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_2);
         data_width = "S2";
     }
@@ -471,7 +471,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
     pos = sub_str.find(NET_INT8);
     if (pos != bad_rc_ && dtype_found != true) {
         dtype_found = true;
-        sub_str.replace(pos, string(NET_INT8).length(), DATAWIDTH_8);
+        sub_str.replace(pos, strlen(NET_INT8), DATAWIDTH_8);
         temp_str.replace(pos, temp_str.length(), DATAWIDTH_8);
         data_width = "S8";
     }
@@ -493,7 +493,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
 
         pos = sub_str.find(NET_REGISTER);
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen(NET_REGISTER), NET_REGL);
+            sub_str.replace(pos, strlen(NET_REGISTER), NET_REGW);
             pos = sub_str.find(MISC_LINE_END);
             if (pos == bad_rc_) {
                 sub_str += MISC_LINE_END;
@@ -730,8 +730,9 @@ bool HLSEngine::createVerilogSrc(FILE* file_in, FILE* file_out, string v_file) {
     // Write initial stuff for verilog code
     fputs(STATIC_COMMENT, file_out);
 
-    // Write static regs
+    // Write static regs & wires
     fputs(STATIC_REGS, file_out);
+    fputs(STATIC_WIRES, file_out);
 
     // Write starting clock info
     fputs(STATIC_ALWAYS, file_out);
@@ -764,6 +765,8 @@ bool HLSEngine::createVerilogSrc(FILE* file_in, FILE* file_out, string v_file) {
         }
 
         module.replace(module.size()-2, module.size(), ");\n");
+    } else {
+        return false;
     }
 
     // Write timing signal

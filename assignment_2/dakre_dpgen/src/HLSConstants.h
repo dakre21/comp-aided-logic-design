@@ -29,7 +29,7 @@ const char* NET_UINT64   = "UInt64";
 const char* NET_WIRE     = "wire";
 const char* NET_INPUT    = "input";
 const char* NET_OUTPUT   = "output";
-const char* NET_REGL     = "reg";
+const char* NET_REGW     = "wire";
 
 // Data path constants
 const char* DP_ADD       = "ADD";
@@ -126,7 +126,8 @@ const char* LTZ             = "LTZ_";
 
 const char* STATIC_NULL      = " ";
 const char* STATIC_COMMENT   = "\n    // HLS has generated this HDL code with the dpgen executable\n    // Author: David Akre\n\n";
-const char* STATIC_REGS      = "    reg Clk, Rst, LTZ_, GTZ_, EQZ_;\n";
+const char* STATIC_REGS      = "    reg Clk, Rst;\n";
+const char* STATIC_WIRES     = "    wire LTZ_, GTZ_, EQZ_;\n";
 const char* STATIC_ALWAYS    = "    always\n";
 const char* STATIC_CLK_START = "        #(10) Clk <= ~Clk;\n\n";
 const char* STATIC_ENDMODULE = "\nendmodule\n";

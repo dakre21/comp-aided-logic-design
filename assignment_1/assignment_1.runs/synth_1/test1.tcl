@@ -14,11 +14,7 @@ set_property target_language Verilog [current_project]
 set_property ip_output_repo /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 read_verilog -library xil_defaultlib {
-  /home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/sadd.v
-  /home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/scomp.v
-  /home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/smul.v
-  /home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/smux.v
-  /home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/ssub.v
+  /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.srcs/sources_1/new/add.v
   /home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v
 }
 # Mark all dcp files as not used in implementation to prevent them from being
