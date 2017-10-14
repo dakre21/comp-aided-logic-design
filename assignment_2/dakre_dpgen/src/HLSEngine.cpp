@@ -105,11 +105,6 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
         }
     }
 
-    // Append mapped_var to vars_to_dp_
-    if (map_var != "") {
-        vars_to_dp_.insert(pair<string, string>(map_var, curr_dp_));
-    }
-
     // Case for REG
     if (dcomp == NET_REG) {
         if (npos < epos && npos < cpos) {
@@ -394,6 +389,27 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp, FILE* fi
             return false;
         }
         v_str += i_var + ", " + m_var + ", " + o_var + ")" + string(MISC_LINE_END);
+    }
+
+    // Append mapped_var to vars_to_dp_
+    if (i_var != "") {
+        vars_to_dp_.insert(pair<string, string>(i_var, curr_dp_));
+    }
+
+    if (o_var != "") {
+        vars_to_dp_.insert(pair<string, string>(o_var, curr_dp_));
+    }
+
+    if (m_var != "") {
+        vars_to_dp_.insert(pair<string, string>(m_var, curr_dp_));
+    }
+
+    if (m2_var != "") {
+        vars_to_dp_.insert(pair<string, string>(m2_var, curr_dp_));
+    }
+
+    if (m3_var != "") {
+        vars_to_dp_.insert(pair<string, string>(m3_var, curr_dp_));
     }
 
     // Write this str to file
@@ -968,6 +984,8 @@ float HLSEngine::calcDpLatency(string dcomp) {
         latency = DP_DEC_64;
     }
 
+    cout << dcomp << " " << latency << endl;
+
     return latency;
 }
 
@@ -989,6 +1007,7 @@ float HLSEngine::findCriticalPath(FILE* file_in, FILE* file_out) {
         if (count < vars_to_dp_.count(it->first)) {
             tcp += calcDpLatency(it->second);
             count++;
+            //cout << "var " << it->first << " tcp " << tcp << " count " << count << " var count " << vars_to_dp_.count(it->first) << endl;
         } 
 
         // Set temp to final critical path if its greater
