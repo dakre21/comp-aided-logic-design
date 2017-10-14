@@ -493,6 +493,7 @@ bool HLSEngine::mapNetOpToDataPathComp(char* sub_buff, size_t sub_buff_len, FILE
 
         pos = sub_str.find(NET_REGISTER);
         if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_REGISTER), NET_REGL);
             pos = sub_str.find(MISC_LINE_END);
             if (pos == bad_rc_) {
                 sub_str += MISC_LINE_END;

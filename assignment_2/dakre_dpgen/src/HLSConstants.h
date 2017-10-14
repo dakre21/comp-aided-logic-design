@@ -29,6 +29,7 @@ const char* NET_UINT64   = "UInt64";
 const char* NET_WIRE     = "wire";
 const char* NET_INPUT    = "input";
 const char* NET_OUTPUT   = "output";
+const char* NET_REGL     = "reg";
 
 // Data path constants
 const char* DP_ADD       = "ADD";
