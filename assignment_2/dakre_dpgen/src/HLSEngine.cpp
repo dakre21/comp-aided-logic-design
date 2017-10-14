@@ -7,6 +7,8 @@ HLSEngine::HLSEngine() :
            output_vars_(),
            wire_vars_(),
            reg_vars_(),
+           vars_to_dp_(),
+           curr_dp_(),
            dp_count_(0),
            bad_rc_(-1) {
     // Do nothing
@@ -103,6 +105,11 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
         }
     }
 
+    // Append mapped_var to vars_to_dp_
+    if (map_var != "") {
+        vars_to_dp_.insert(pair<string, string>(map_var, curr_dp_));
+    }
+
     // Case for REG
     if (dcomp == NET_REG) {
         if (npos < epos && npos < cpos) {
@@ -144,6 +151,7 @@ void HLSEngine::setDataPathVars(string* i_var, string* o_var, string* m_var,
         return;
     }
 
+    // Case for inc/dec
     if (dcomp == NET_INC || dcomp == NET_DEC) {
         if (npos < epos && npos < cpos) {
             *o_var = map_var;
@@ -169,6 +177,7 @@ string HLSEngine::setDataPathComp(string op, string data_width, const char* dcom
     string v_str = "";
     string w_str = " ";
     int pos      = 0;
+    string width;
 
     // Get position of signed char
     pos = data_width.find("S");
@@ -178,75 +187,105 @@ string HLSEngine::setDataPathComp(string op, string data_width, const char* dcom
 
     if (data_width == string(DATAWIDTH_1_STR)) {
         w_str += string(DATAWIDTH_1_INST) + " ";
+        width = string(DP_WIDTH_1);
     } else if (data_width == string(DATAWIDTH_2_STR)) {
         w_str += string(DATAWIDTH_2_INST) + " ";
+        width = string(DP_WIDTH_2);
     } else if (data_width == string(DATAWIDTH_8_STR)) {
         w_str += string(DATAWIDTH_8_INST) + " ";
+        width = string(DP_WIDTH_8);
     } else if (data_width == string(DATAWIDTH_16_STR)) {
         w_str += string(DATAWIDTH_16_INST) + " ";
+        width = string(DP_WIDTH_16);
     } else if (data_width == string(DATAWIDTH_32_STR)) {
         w_str += string(DATAWIDTH_32_INST) + " ";
+        width = string(DP_WIDTH_32);
     } else {
         w_str += string(DATAWIDTH_64_INST) + " ";
+        width = string(DP_WIDTH_64);
     } 
 
     if (pos != bad_rc_) {
         // Append signed data path component
         if (dcomp == NET_ADD) {
             v_str += MISC_TAB + string(DP_SADD) + w_str + string(DP_SADD_INST);          
+            curr_dp_ = string(DP_ADD) + width;
         } else if (dcomp == NET_SUB) {
             v_str += MISC_TAB + string(DP_SSUB) + w_str + string(DP_SSUB_INST);          
+            curr_dp_ = string(DP_SUB) + width;
         } else if (dcomp == NET_MUL) {
             v_str += MISC_TAB + string(DP_SMUL) + w_str +  string(DP_SMUL_INST);          
+            curr_dp_ = string(DP_MUL) + width;
         } else if (dcomp == NET_DIV) {
             v_str += MISC_TAB + string(DP_SDIV) + w_str + string(DP_SDIV_INST);          
+            curr_dp_ = string(DP_DIV) + width;
         } else if (dcomp == NET_MOD) {
             v_str += MISC_TAB + string(DP_SMOD) + w_str + string(DP_SMOD_INST);          
+            curr_dp_ = string(DP_MOD) + width;
         } else if (dcomp == NET_COMP_LT || 
                 dcomp == NET_COMP_GT || 
                 dcomp == NET_COMP_EQ) {
             v_str += MISC_TAB + string(DP_SCOMP) + w_str + string(DP_SCOMP_INST);          
+            curr_dp_ = string(DP_COMP) + width;
         } else if (dcomp == NET_SHL) {
             v_str += MISC_TAB + string(DP_SSHL) + w_str + string(DP_SSHL_INST);          
+            curr_dp_ = string(DP_SHL) + width;
         } else if (dcomp == NET_SHR) {
             v_str += MISC_TAB + string(DP_SSHR) + w_str + string(DP_SSHR_INST);          
+            curr_dp_ = string(DP_SHR) + width;
         } else if (dcomp == NET_REG) {
             v_str += MISC_TAB + string(DP_SREG) + w_str + string(DP_SREG_INST);          
+            curr_dp_ = string(DP_REG) + width;
         } else if (dcomp == NET_INC) {
             v_str += MISC_TAB + string(DP_SINC) + w_str + string(DP_SINC_INST);          
+            curr_dp_ = string(DP_INC) + width;
         } else if (dcomp == NET_DEC) {
             v_str += MISC_TAB + string(DP_SDEC) + w_str + string(DP_SDEC_INST);          
+            curr_dp_ = string(DP_DEC) + width;
         } else if (dcomp == NET_MUX) {
             v_str += MISC_TAB + string(DP_SMUX) + w_str + string(DP_SMUX_INST);          
+            curr_dp_ = string(DP_MUX) + width;
         }
     } else {
         // Append signed data path component
         if (dcomp == NET_ADD) {
             v_str += MISC_TAB + string(DP_ADD) + w_str + string(DP_ADD_INST);          
+            curr_dp_ = string(DP_ADD) + width;
         } else if (dcomp == NET_SUB) {
             v_str += MISC_TAB + string(DP_SUB) + w_str + string(DP_SUB_INST);          
+            curr_dp_ = string(DP_SUB) + width;
         } else if (dcomp == NET_MUL) {
             v_str += MISC_TAB + string(DP_MUL) + w_str + string(DP_MUL_INST);          
+            curr_dp_ = string(DP_MUL) + width;
         } else if (dcomp == NET_DIV) {
             v_str += MISC_TAB + string(DP_DIV) + w_str + string(DP_DIV_INST);          
+            curr_dp_ = string(DP_DIV) + width;
         } else if (dcomp == NET_MOD) {
             v_str += MISC_TAB + string(DP_MOD) + w_str + string(DP_MOD_INST);          
+            curr_dp_ = string(DP_MUX) + width;
         } else if (dcomp == NET_COMP_LT || 
                 dcomp == NET_COMP_GT || 
                 dcomp == NET_COMP_EQ) {
             v_str += MISC_TAB + string(DP_COMP) + w_str + string(DP_COMP_INST);          
+            curr_dp_ = string(DP_COMP) + width;
         } else if (dcomp == NET_SHL) {
             v_str += MISC_TAB + string(DP_SHL) + w_str + string(DP_SHL_INST);          
+            curr_dp_ = string(DP_SHL) + width;
         } else if (dcomp == NET_SHR) {
             v_str += MISC_TAB + string(DP_SHR) + w_str + string(DP_SHR_INST);          
+            curr_dp_ = string(DP_SHR) + width;
         } else if (dcomp == NET_REG) {
             v_str += MISC_TAB + string(DP_REG) + w_str + string(DP_REG_INST);          
+            curr_dp_ = string(DP_REG) + width;
         } else if (dcomp == NET_INC) {
             v_str += MISC_TAB + string(DP_INC) + w_str + string(DP_INC_INST);          
+            curr_dp_ = string(DP_INC) + width;
         } else if (dcomp == NET_DEC) {
             v_str += MISC_TAB + string(DP_DEC) + w_str + string(DP_DEC_INST);          
+            curr_dp_ = string(DP_DEC) + width;
         } else if (dcomp == NET_MUX) {
             v_str += MISC_TAB + string(DP_MUX) + w_str + string(DP_MUX_INST);          
+            curr_dp_ = string(DP_MUX) + width;
         }
     }
 
@@ -779,6 +818,56 @@ bool HLSEngine::createVerilogSrc(FILE* file_in, FILE* file_out, string v_file) {
 }
 
 float HLSEngine::findCriticalPath(FILE* file_in, FILE* file_out) {
-    // TODO: Implement
+    // Forward declarations
+    float cp  = 0.0;
+    float tcp = 0.0;
+
+    for (map<string, string>::iterator it1 = vars_to_dp_.begin(); it1 != vars_to_dp_.end(); ++it1) {
+        cout << "var " << it1->first << " value " << it1->second  << " count " << vars_to_dp_.count(it1->first) << endl;
+    }
+    // Iterate through input vars
+    /*for (map<string, string>::iterator it1 = input_vars_.begin(); it1 != input_vars_.end(); ++it1) {
+        cout << "input var " << it1->first << endl;
+        for (map<string, string>::iterator it2 = vars_to_dp_.begin(); it2 != vars_to_dp_.end(); ++it2) {
+            cout << "var to dp " << it2->first << endl;
+            if (it1->first == it2->first) {
+                cout << it2->second << endl;
+            }
+        }
+    }
+
+    // Iterate through output vars
+    for (map<string, string>::iterator it1 = output_vars_.begin(); it1 != output_vars_.end(); ++it1) {
+        cout << "output var " << it1->first << endl;
+        for (map<string, string>::iterator it2 = vars_to_dp_.begin(); it2 != vars_to_dp_.end(); ++it2) {
+            cout << "var to dp " << it2->first << endl;
+            if (it1->first == it2->first) {
+                cout << it2->second << endl;
+            }
+        }
+    }
+
+    // Iterate through wire vars
+    for (map<string, string>::iterator it1 = wire_vars_.begin(); it1 != wire_vars_.end(); ++it1) {
+        cout << "wire var " << it1->first << endl;
+        for (map<string, string>::iterator it2 = vars_to_dp_.begin(); it2 != vars_to_dp_.end(); ++it2) {
+            cout << "var to dp " << it2->first << endl;
+            if (it1->first == it2->first) {
+                cout << it2->second << endl;
+            }
+        }
+    }
+
+    // Iterate through reg vars
+    for (map<string, string>::iterator it1 = reg_vars_.begin(); it1 != reg_vars_.end(); ++it1) {
+        cout << "reg var " << it1->first << endl;
+        for (map<string, string>::iterator it2 = vars_to_dp_.begin(); it2 != vars_to_dp_.end(); ++it2) {
+            cout << "var to dp " << it2->first << endl;
+            if (it1->first == it2->first) {
+                cout << it2->second << endl;
+            }
+        }
+    }*/
+
     return 0.0;
 }

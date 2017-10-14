@@ -42,6 +42,12 @@ private:
     map<string, string> output_vars_;
     map<string, string> wire_vars_;
     map<string, string> reg_vars_;
+    
+    // Dapapath to var multipmap
+    multimap<string, string> vars_to_dp_;
+
+    // Current datapath component
+    string curr_dp_;
 
     // Unsigned data path counters
     int dp_count_;
