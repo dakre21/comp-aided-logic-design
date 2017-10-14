@@ -1005,7 +1005,6 @@ float HLSEngine::findCriticalPath(FILE* file_in, FILE* file_out) {
         if (count < vars_to_dp_.count(it->first)) {
             tcp += calcDpLatency(it->second);
             count++;
-            //cout << "var " << it->first << " tcp " << tcp << " count " << count << " var count " << vars_to_dp_.count(it->first) << endl;
         } 
 
         // Set temp to final critical path if its greater

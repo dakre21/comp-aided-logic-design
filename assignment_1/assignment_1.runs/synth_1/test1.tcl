@@ -18,6 +18,7 @@ read_verilog -library xil_defaultlib {
   /home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/scomp.v
   /home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/smul.v
   /home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/smux.v
+  /home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/sreg.v
   /home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/ssub.v
   /home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v
 }

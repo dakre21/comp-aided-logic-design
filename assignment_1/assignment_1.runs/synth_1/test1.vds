@@ -2,8 +2,8 @@
 # Vivado v2017.2 (64-bit)
 # SW Build 1909853 on Thu Jun 15 18:39:10 MDT 2017
 # IP Build 1909766 on Thu Jun 15 19:58:00 MDT 2017
-# Start of session at: Sat Oct 14 13:21:12 2017
-# Process ID: 25520
+# Start of session at: Sat Oct 14 14:20:10 2017
+# Process ID: 27306
 # Current directory: /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.runs/synth_1
 # Command line: vivado -log test1.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source test1.tcl
 # Log file: /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.runs/synth_1/test1.vds
@@ -15,9 +15,9 @@ Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7a100t-fgg484'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a100t-fgg484'
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 25840 
+INFO: Helper process launched with PID 27590 
 ---------------------------------------------------------------------------------
-Starting Synthesize : Time (s): cpu = 00:00:04 ; elapsed = 00:00:08 . Memory (MB): peak = 1143.641 ; gain = 45.996 ; free physical = 3604 ; free virtual = 14011
+Starting Synthesize : Time (s): cpu = 00:00:03 ; elapsed = 00:00:07 . Memory (MB): peak = 1143.633 ; gain = 45.992 ; free physical = 3537 ; free virtual = 13948
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-638] synthesizing module 'test1' [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:4]
 WARNING: [Synth 8-85] always block has no event control specified [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:11]
@@ -46,41 +46,28 @@ INFO: [Synth 8-638] synthesizing module 'SSUB' [/home/dakre/comp-aided-logic-des
 	Parameter DATAWIDTH bound to: 16 - type: integer 
 INFO: [Synth 8-256] done synthesizing module 'SSUB' (5#1) [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/ssub.v:22]
 WARNING: [Synth 8-689] width (8) of port connection 'b' does not match port width (16) of module 'SSUB' [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:31]
-WARNING: [Synth 8-6014] Unused sequential element Clk_reg was removed.  [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:12]
-WARNING: [Synth 8-3848] Net x in module/entity test1 does not have driver. [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:18]
-INFO: [Synth 8-256] done synthesizing module 'test1' (6#1) [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:4]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[15]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[14]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[13]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[12]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[11]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[10]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[9]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[8]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[7]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[6]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[5]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[4]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[3]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[2]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[1]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[0]
+INFO: [Synth 8-638] synthesizing module 'SREG' [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/sreg.v:23]
+	Parameter DATAWIDTH bound to: 16 - type: integer 
+WARNING: [Synth 8-6014] Unused sequential element i was removed.  [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/sreg.v:42]
+INFO: [Synth 8-256] done synthesizing module 'SREG' (6#1) [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/datapath_components/sreg.v:23]
+WARNING: [Synth 8-3848] Net Rst in module/entity test1 does not have driver. [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:9]
+INFO: [Synth 8-256] done synthesizing module 'test1' (7#1) [/home/dakre/comp-aided-logic-design/assignment_2/dakre_dpgen/build/test1.v:4]
 ---------------------------------------------------------------------------------
-Finished Synthesize : Time (s): cpu = 00:00:04 ; elapsed = 00:00:09 . Memory (MB): peak = 1184.141 ; gain = 86.496 ; free physical = 3609 ; free virtual = 14015
+Finished Synthesize : Time (s): cpu = 00:00:04 ; elapsed = 00:00:08 . Memory (MB): peak = 1184.133 ; gain = 86.492 ; free physical = 3545 ; free virtual = 13957
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:04 ; elapsed = 00:00:09 . Memory (MB): peak = 1184.141 ; gain = 86.496 ; free physical = 3610 ; free virtual = 14016
+Finished Constraint Validation : Time (s): cpu = 00:00:04 ; elapsed = 00:00:08 . Memory (MB): peak = 1184.133 ; gain = 86.492 ; free physical = 3547 ; free virtual = 13958
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a100tfgg484-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:04 ; elapsed = 00:00:09 . Memory (MB): peak = 1192.145 ; gain = 94.500 ; free physical = 3610 ; free virtual = 14016
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:04 ; elapsed = 00:00:08 . Memory (MB): peak = 1192.137 ; gain = 94.496 ; free physical = 3547 ; free virtual = 13958
 ---------------------------------------------------------------------------------
 INFO: [Device 21-403] Loading part xc7a100tfgg484-1
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:09 . Memory (MB): peak = 1200.152 ; gain = 102.508 ; free physical = 3601 ; free virtual = 14007
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:09 . Memory (MB): peak = 1200.145 ; gain = 102.504 ; free physical = 3538 ; free virtual = 13950
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -96,8 +83,10 @@ Detailed RTL Component Info :
 +---Adders : 
 	   3 Input     16 Bit       Adders := 1     
 	   2 Input      8 Bit       Adders := 2     
++---Registers : 
+	               16 Bit    Registers := 1     
 +---Muxes : 
-	   2 Input     16 Bit        Muxes := 1     
+	   2 Input     16 Bit        Muxes := 3     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -117,6 +106,12 @@ Module SSUB
 Detailed RTL Component Info : 
 +---Adders : 
 	   3 Input     16 Bit       Adders := 1     
+Module SREG 
+Detailed RTL Component Info : 
++---Registers : 
+	               16 Bit    Registers := 1     
++---Muxes : 
+	   2 Input     16 Bit        Muxes := 2     
 ---------------------------------------------------------------------------------
 Finished RTL Hierarchical Component Statistics
 ---------------------------------------------------------------------------------
@@ -133,24 +128,8 @@ No constraint files found.
 ---------------------------------------------------------------------------------
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
-WARNING: [Synth 8-3331] design test1 has unconnected port x[15]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[14]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[13]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[12]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[11]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[10]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[9]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[8]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[7]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[6]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[5]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[4]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[3]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[2]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[1]
-WARNING: [Synth 8-3331] design test1 has unconnected port x[0]
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:07 ; elapsed = 00:00:14 . Memory (MB): peak = 1314.949 ; gain = 217.305 ; free physical = 3453 ; free virtual = 13860
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:07 ; elapsed = 00:00:14 . Memory (MB): peak = 1313.941 ; gain = 216.301 ; free physical = 3384 ; free virtual = 13796
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -163,7 +142,7 @@ No constraint files found.
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:07 ; elapsed = 00:00:14 . Memory (MB): peak = 1314.949 ; gain = 217.305 ; free physical = 3453 ; free virtual = 13859
+Finished Timing Optimization : Time (s): cpu = 00:00:07 ; elapsed = 00:00:14 . Memory (MB): peak = 1313.941 ; gain = 216.301 ; free physical = 3384 ; free virtual = 13795
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -175,7 +154,7 @@ Report RTL Partitions:
 Start Technology Mapping
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:07 ; elapsed = 00:00:14 . Memory (MB): peak = 1314.949 ; gain = 217.305 ; free physical = 3452 ; free virtual = 13858
+Finished Technology Mapping : Time (s): cpu = 00:00:07 ; elapsed = 00:00:14 . Memory (MB): peak = 1323.957 ; gain = 226.316 ; free physical = 3382 ; free virtual = 13794
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -199,7 +178,7 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1314.949 ; gain = 217.305 ; free physical = 3452 ; free virtual = 13859
+Finished IO Insertion : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1323.957 ; gain = 226.316 ; free physical = 3382 ; free virtual = 13794
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -212,7 +191,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1314.949 ; gain = 217.305 ; free physical = 3452 ; free virtual = 13859
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1323.957 ; gain = 226.316 ; free physical = 3382 ; free virtual = 13794
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -224,25 +203,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1314.949 ; gain = 217.305 ; free physical = 3452 ; free virtual = 13859
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1323.957 ; gain = 226.316 ; free physical = 3382 ; free virtual = 13794
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1314.949 ; gain = 217.305 ; free physical = 3452 ; free virtual = 13859
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1323.957 ; gain = 226.316 ; free physical = 3382 ; free virtual = 13794
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1314.949 ; gain = 217.305 ; free physical = 3452 ; free virtual = 13859
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1323.957 ; gain = 226.316 ; free physical = 3382 ; free virtual = 13794
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1314.949 ; gain = 217.305 ; free physical = 3452 ; free virtual = 13859
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1323.957 ; gain = 226.316 ; free physical = 3382 ; free virtual = 13794
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -258,41 +237,48 @@ Report Cell Usage:
 +------+-------+------+
 |      |Cell   |Count |
 +------+-------+------+
-|1     |CARRY4 |     6|
-|2     |LUT2   |    16|
-|3     |LUT4   |    24|
-|4     |IBUF   |    24|
-|5     |OBUF   |     8|
-|6     |OBUFT  |    16|
+|1     |CARRY4 |    23|
+|2     |LUT1   |     9|
+|3     |LUT2   |    49|
+|4     |LUT3   |     5|
+|5     |LUT4   |    47|
+|6     |LUT5   |    11|
+|7     |LUT6   |    30|
+|8     |FDRE   |    16|
+|9     |IBUF   |    24|
+|10    |OBUF   |    24|
 +------+-------+------+
 
 Report Instance Areas: 
 +------+----------+--------+------+
 |      |Instance  |Module  |Cells |
 +------+----------+--------+------+
-|1     |top       |        |    94|
+|1     |top       |        |   238|
 |2     |  sadd_0  |SADD    |    10|
 |3     |  sadd_1  |SADD_0  |    10|
 |4     |  scomp_2 |SCOMP   |     2|
-|5     |  smux_3  |SMUX2x1 |    24|
+|5     |  smul_4  |SMUL    |    56|
+|6     |  smux_3  |SMUX2x1 |    24|
+|7     |  sreg_6  |SREG    |    16|
+|8     |  ssub_5  |SSUB    |    71|
 +------+----------+--------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1314.949 ; gain = 217.305 ; free physical = 3452 ; free virtual = 13859
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1323.957 ; gain = 226.316 ; free physical = 3382 ; free virtual = 13794
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 45 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1314.949 ; gain = 217.305 ; free physical = 3452 ; free virtual = 13859
-Synthesis Optimization Complete : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1314.957 ; gain = 217.305 ; free physical = 3455 ; free virtual = 13861
+Synthesis finished with 0 errors, 0 critical warnings and 13 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1323.957 ; gain = 226.316 ; free physical = 3383 ; free virtual = 13794
+Synthesis Optimization Complete : Time (s): cpu = 00:00:08 ; elapsed = 00:00:15 . Memory (MB): peak = 1323.965 ; gain = 226.316 ; free physical = 3385 ; free virtual = 13797
 INFO: [Project 1-571] Translating synthesized netlist
-INFO: [Netlist 29-17] Analyzing 30 Unisim elements for replacement
+INFO: [Netlist 29-17] Analyzing 47 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-20 Infos, 45 Warnings, 0 Critical Warnings and 0 Errors encountered.
+22 Infos, 13 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:10 ; elapsed = 00:00:19 . Memory (MB): peak = 1418.719 ; gain = 333.660 ; free physical = 3371 ; free virtual = 13777
+synth_design: Time (s): cpu = 00:00:10 ; elapsed = 00:00:20 . Memory (MB): peak = 1419.703 ; gain = 334.652 ; free physical = 3319 ; free virtual = 13730
 INFO: [Common 17-1381] The checkpoint '/home/dakre/comp-aided-logic-design/assignment_1/assignment_1.runs/synth_1/test1.dcp' has been generated.
-report_utilization: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.15 . Memory (MB): peak = 1418.719 ; gain = 0.000 ; free physical = 3372 ; free virtual = 13778
-INFO: [Common 17-206] Exiting Vivado at Sat Oct 14 13:21:54 2017...
+report_utilization: Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.15 . Memory (MB): peak = 1419.703 ; gain = 0.000 ; free physical = 3320 ; free virtual = 13731
+INFO: [Common 17-206] Exiting Vivado at Sat Oct 14 14:20:50 2017...

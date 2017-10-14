@@ -1,7 +1,7 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2017.2 (lin64) Build 1909853 Thu Jun 15 18:39:10 MDT 2017
-| Date         : Sat Oct 14 13:21:54 2017
+| Date         : Sat Oct 14 14:20:50 2017
 | Host         : dakre-VirtualBox running 64-bit Ubuntu 16.04.3 LTS
 | Command      : report_utilization -file test1_utilization_synth.rpt -pb test1_utilization_synth.pb
 | Design       : test1
@@ -30,11 +30,11 @@ Table of Contents
 +-------------------------+------+-------+-----------+-------+
 |        Site Type        | Used | Fixed | Available | Util% |
 +-------------------------+------+-------+-----------+-------+
-| Slice LUTs*             |   32 |     0 |     63400 |  0.05 |
-|   LUT as Logic          |   32 |     0 |     63400 |  0.05 |
+| Slice LUTs*             |  120 |     0 |     63400 |  0.19 |
+|   LUT as Logic          |  120 |     0 |     63400 |  0.19 |
 |   LUT as Memory         |    0 |     0 |     19000 |  0.00 |
-| Slice Registers         |    0 |     0 |    126800 |  0.00 |
-|   Register as Flip Flop |    0 |     0 |    126800 |  0.00 |
+| Slice Registers         |   16 |     0 |    126800 |  0.01 |
+|   Register as Flip Flop |   16 |     0 |    126800 |  0.01 |
 |   Register as Latch     |    0 |     0 |    126800 |  0.00 |
 | F7 Muxes                |    0 |     0 |     31700 |  0.00 |
 | F8 Muxes                |    0 |     0 |     15850 |  0.00 |
@@ -57,7 +57,7 @@ Table of Contents
 | 0     |          Yes |           - |          Set |
 | 0     |          Yes |           - |        Reset |
 | 0     |          Yes |         Set |            - |
-| 0     |          Yes |       Reset |            - |
+| 16    |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -149,12 +149,16 @@ Table of Contents
 +----------+------+---------------------+
 | Ref Name | Used | Functional Category |
 +----------+------+---------------------+
-| LUT4     |   24 |                 LUT |
+| LUT2     |   49 |                 LUT |
+| LUT4     |   47 |                 LUT |
+| LUT6     |   30 |                 LUT |
+| OBUF     |   24 |                  IO |
 | IBUF     |   24 |                  IO |
-| OBUFT    |   16 |                  IO |
-| LUT2     |   16 |                 LUT |
-| OBUF     |    8 |                  IO |
-| CARRY4   |    6 |          CarryLogic |
+| CARRY4   |   23 |          CarryLogic |
+| FDRE     |   16 |        Flop & Latch |
+| LUT5     |   11 |                 LUT |
+| LUT1     |    9 |                 LUT |
+| LUT3     |    5 |                 LUT |
 +----------+------+---------------------+
 
 
