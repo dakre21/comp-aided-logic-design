@@ -9,6 +9,8 @@ HLSEngine::HLSEngine() :
            reg_vars_(),
            vars_to_dp_(),
            curr_dp_(),
+           outputs_(),
+           ops_(),
            dp_count_(0),
            bad_rc_(-1) {
     // Do nothing
@@ -412,6 +414,9 @@ bool HLSEngine::dataPathOpToFile(string op, int pos, const char* dcomp, FILE* fi
         curr_dp_ = "O_" + curr_dp_;
         vars_to_dp_.insert(pair<string, string>(o_var, curr_dp_));
     }
+
+    ops_.push_back(v_str);
+    outputs_.push_back(o_var);
 
     // Write this str to file
     fputs(v_str.c_str(), file_out);
@@ -994,60 +999,93 @@ float HLSEngine::findCriticalPath(FILE* file_in, FILE* file_out) {
     float tcp   = 0.0;
     float itcp  = 0.0;
     float itcp2 = 0.0;
+    float itcp3 = 0.0;
     int count   = 0;
     int pos     = 0;
     string var  = "";
+    string prev_output = "";
+    string prev_output2 = "";
     bool begin  = false;
+    bool found  = false;
+    bool found2 = false;
 
     int size = vars_to_dp_.size();
+    int size_ops = ops_.size()-1;
 
     for (int i = 0; i < size; i++) {
-        for (multimap<string, string>::iterator it = vars_to_dp_.begin(); it != vars_to_dp_.end(); it++) {
-            // Reset count & tcp if the current var doesn't equal previous
-            if (count == 0) {
-                begin = true;
-                var = it->first;
-                count = 0;
-                tcp = 0;
-                itcp = 0;
-                itcp2 = 0;
-            }
+        for (int x = size_ops; x > 0; x--) {
+            for (multimap<string, string>::iterator it = vars_to_dp_.begin(); it != vars_to_dp_.end(); it++) {
+                // Reset count & tcp if the current var doesn't equal previous
+                if (count == 0) {
+                    begin = true;
+                    found = false;
+                    found2 = false;
+                    var = it->first;
+                    itcp3 = tcp;
+                    prev_output = prev_output2;
 
-            if (var == it->first) {
-                // Attempt to find an output variable if so sum current tcp with its latency
-                // Otherwise find longest latency of input variable
-                pos = it->second.find("O_");
-                if (pos != bad_rc_) {
-                    it->second.replace(pos, 2, "");
-                    tcp += calcDpLatency(it->second);
-                } else {
-                    itcp2 = calcDpLatency(it->second);
-
-                    if (itcp < itcp2) {
-                        itcp = itcp2;
-                    }
+                    // Re-init variables
+                    count = 0;
+                    tcp = 0;
+                    itcp = 0;
+                    itcp2 = 0;
                 }
 
-                vars_to_dp_.erase(it);
-                count++;
-            } else {
-                break;
+                if (var == it->first) {
+                    // Attempt to find an output variable if so sum current tcp with its latency
+                    // Otherwise find longest latency of input variable
+                    pos = it->second.find("O_");
+                    if (pos != bad_rc_) {
+                        it->second.replace(pos, 2, "");
+                        tcp += calcDpLatency(it->second);
+                        prev_output2 = it->first;
+
+                        // This is checking the chaining/edges of previous nodes 
+                        // with the current node's output
+                        if (found2 != true) {
+                            if (prev_output != prev_output2) {
+                                for (int x = size_ops; x > 0; x--) {
+                                    pos = ops_[x].find(prev_output);
+                                    if (pos != bad_rc_) {
+                                        pos = ops_[x].find(prev_output2);
+                                        if (pos != bad_rc_) {
+                                            if (outputs_[x] == prev_output2) {
+                                                tcp += itcp3;
+                                                found2 = true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        found = true;
+                    } else {
+                        if (found == true) {
+                            itcp2 = calcDpLatency(it->second);
+                            if (itcp < itcp2) {
+                                itcp = itcp2;
+                            }
+                        }
+                    }
+
+                    vars_to_dp_.erase(it);
+                    count++;
+                } else {
+                    break;
+                }
+
             }
 
-        }
+            if (begin == true) {
+                // Set temp to final critical path if its greater
+                if (cp < tcp) {
+                    cp = tcp;
+                }
 
-        if (begin == true) {
-            // Append current highest input cp to temp cp
-            tcp += itcp;
-
-            // Set temp to final critical path if its greater
-            if (cp < tcp) {
-                cp = tcp;
+                // Reset count
+                count = 0;
+                begin = false;
             }
-
-            // Reset count
-            count = 0;
-            begin = false;
         }
     }
 

@@ -17,6 +17,7 @@
 #include <iostream>
 #include <cstddef>
 #include <map>
+#include <vector>
 
 using namespace std;
 
@@ -45,6 +46,10 @@ private:
     
     // Dapapath to var multipmap
     multimap<string, string> vars_to_dp_;
+
+    // Vector of operations
+    vector<string> ops_;
+    vector<string> outputs_;
 
     // Current datapath component
     string curr_dp_;
