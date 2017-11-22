@@ -13,3 +13,4 @@ add_subdirectory(src)
 
 # Create the exe
 add_executable(dpgen $<TARGET_OBJECTS:SRC>)
+set(EXECUTABLE_OUTPUT_PATH src)
