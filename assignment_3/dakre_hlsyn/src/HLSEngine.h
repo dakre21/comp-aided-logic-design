@@ -37,6 +37,7 @@ private:
     // Initialize class members
     vector<string> vertices_;
     vector<string> operands_;
+    vector<string> outputs_;
 
     // Map states to operations
     map<int, char*> unsched_map_;

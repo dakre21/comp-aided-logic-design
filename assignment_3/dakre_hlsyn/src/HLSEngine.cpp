@@ -1,5 +1,6 @@
 #include "HLSEngine.h"
 #include "HLSConstants.h"
+#include <ctype.h>
 
 HLSEngine::HLSEngine() :
 
@@ -7,6 +8,7 @@ HLSEngine::HLSEngine() :
            unsched_map_(),
            unsched_map_count_(0),
            operands_(),
+           outputs_(),
            bad_rc_(-1) {
     // Do nothing
 }
@@ -51,8 +53,29 @@ bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
        str_operands = line.substr((found + strlen(NET_INT64) + 1), line.length());
     }
 
-    // Split operands string into individual operands
+    // Determine output
     string tmp_str = "";
+    found = line.find("=");
+    if (found != bad_rc_) {
+        tmp_str = line.substr(0, (found - 1)); 
+    }
+
+    string new_str = "";
+    for (size_t i = 0; i < tmp_str.length(); i++) {
+        if (isspace(tmp_str[i])) {
+            // Do nothing
+        } else {
+            new_str.push_back(tmp_str[i]); 
+        }
+    }
+
+    //cout << new_str << endl;
+
+    if (new_str.length() > 0) {
+        outputs_.push_back(new_str);
+    }
+
+    // Split operands string into individual operands
     for (size_t i = 0; i < str_operands.length(); i++) {
         if (str_operands[i] != ',' && str_operands[i] != ' ') {
             tmp_str.push_back(str_operands[i]); 
@@ -115,11 +138,10 @@ bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
         } 
     }
 
-    // Determine edges
+    // Create unscheduled graph
     // 1) Find inner dependencies
     // 2) Find outter dependencies
 
-    // Finding inner dependencies
     for (size_t i = 0; i < sub_buff_len; i++) {
         
     }
@@ -172,6 +194,10 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
     for (int i = 0; i < operands_.size(); i++) {
         cout << operands_[i] << endl;
     }*/
+
+    for (int i = 0; i < outputs_.size(); i++) {
+        cout << outputs_[i] << endl;
+    }
 
     return true;
 }
