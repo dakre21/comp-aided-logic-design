@@ -53,7 +53,22 @@ private:
     // Create CDFG
     bool createCDFG(const char* sub_buff, size_t sub_buff_len);
 
-    // Unscheduled graph
-    void createUnschedGraph();
+    // Create CDFG extended
+    void createCDFGExt();
+
+    // Create ASAP schedule
+    void createASAP();
+
+    // Create ALAP schedule
+    void createALAP();
+
+    // Create FDS schedule
+    void createFDS();
+
+    // Create HLSM
+    void createHLSM();
+
+    // Check errors
+    void checkErrors();
 
 };

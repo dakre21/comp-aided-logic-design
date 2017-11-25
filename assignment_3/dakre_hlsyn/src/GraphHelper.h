@@ -15,25 +15,25 @@ using namespace std;
 struct Node {
     int force;
     int cycle;
+    int asap;
+    int alap;
+    int slack;
     string op;
     
     Node(string operation) { 
         op = operation;
         force = 0;
         cycle = 0;
+        asap = 0;
+        alap = 0;
+        slack = 0;
     }
 };
 
 struct Edge {
-    int asap;
-    int alap;
-    int slack;
     Node* vertex;
 
     Edge(Node* node) {
         vertex = node;
-        asap = 0;
-        alap = 0;
-        slack = 0;
     }
 };

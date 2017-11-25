@@ -1,6 +1,7 @@
 #include "HLSEngine.h"
 #include "HLSConstants.h"
 #include <ctype.h>
+#include <list>
 
 HLSEngine::HLSEngine() :
 
@@ -18,7 +19,52 @@ HLSEngine::~HLSEngine() {
     // Do nothing
 }
 
-void HLSEngine::createUnschedGraph() {
+void HLSEngine::checkErrors() {
+    //TODO Implement
+}
+
+void HLSEngine::createHLSM() {
+    //TODO Implement
+}
+
+void HLSEngine::createFDS() {
+    //TODO Implement
+}
+
+void HLSEngine::createALAP() {
+    //TODO Implement
+}
+
+void HLSEngine::createASAP() {
+    bool found = false;
+    int time = 0;
+    vector<Node> scheduled;
+
+    for (int i = 0; i < vertices_.size(); i++) {
+        time = 0;
+        found = false;
+        for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[i]), 
+                end = edges_.upper_bound(&vertices_[i]); it != end; ++it) {
+            if (it->second.vertex->op == vertices_[i].op) {
+                time += 1;
+            }
+        }
+
+        for (int j = 0; j < scheduled.size(); j++) {
+            if (scheduled[j].op == vertices_[i].op) {
+               found = true; 
+               break;
+            }
+        }
+
+        if (found != false) {
+            vertices_[i].asap = time;
+            scheduled.push_back(vertices_[i]);
+        }
+    }
+}
+
+void HLSEngine::createCDFGExt() {
     // Follow pemdas for priority for scheduling + MISC
     size_t found;
     size_t efound;
@@ -221,7 +267,7 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
         } 
     }
 
-    createUnschedGraph();
+    createCDFGExt();
 
     /*for (int i = 0; i < vertices_.size(); i++) {
         cout << vertices_[i] << endl;
@@ -235,16 +281,16 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
         cout << outputs_[i] << endl;
     }*/
 
-    /*for (int i = 0; i < vertices_.size(); i++) {
-        cout << vertices_[i].op << endl;
-    }*/
-
     for (int i = 0; i < vertices_.size(); i++) {
+        cout << vertices_[i].op << " " << vertices_[i].asap << endl;
+    }
+
+    /*for (int i = 0; i < vertices_.size(); i++) {
         for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[i]), 
                 end = edges_.upper_bound(&vertices_[i]); it != end; ++it) {
                 cout << it->first->op << " " << it->second.vertex->op << endl;
         }
-    }
+    }*/
 
     return true;
 }
