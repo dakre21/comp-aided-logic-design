@@ -23,6 +23,7 @@ void HLSEngine::createUnschedGraph() {
     size_t found;
     size_t efound;
     size_t nfound;
+    size_t vfound;
     string line;
     string output;
     string noutput;
@@ -39,8 +40,14 @@ void HLSEngine::createUnschedGraph() {
                         noutput = outputs_[k];
                         nfound = line.find(noutput);
                         if (nfound != bad_rc_) {
-                            edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[k])));
-                            break;
+                            if (vertices_[i].op == vertices_[k].op) {
+                                continue;
+                            }
+
+                            vfound = line.find(vertices_[k].op.substr(0,1));
+                            if (vfound != bad_rc_) {
+                                edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[k])));
+                            }
                         }
                     }
                 }
@@ -228,15 +235,14 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
         cout << outputs_[i] << endl;
     }*/
 
-    for (int i = 0; i < vertices_.size(); i++) {
+    /*for (int i = 0; i < vertices_.size(); i++) {
         cout << vertices_[i].op << endl;
-    }
+    }*/
 
     for (int i = 0; i < vertices_.size(); i++) {
         for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[i]), 
                 end = edges_.upper_bound(&vertices_[i]); it != end; ++it) {
-                cout << it->first->op << endl;
-                cout << it->second.vertex << endl;
+                cout << it->first->op << " " << it->second.vertex->op << endl;
         }
     }
 
