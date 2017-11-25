@@ -12,14 +12,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <math.h>
 #include <iostream>
 #include <cstddef>
 #include <map>
 #include <vector>
-
-using namespace std;
+#include "GraphHelper.h"
 
 class HLSEngine {
 
@@ -35,23 +33,27 @@ public:
    
 private:
     // Initialize class members
-    vector<string> vertices_;
+    vector<Node> vertices_;
     vector<string> operands_;
     vector<string> outputs_;
+    vector<string> operations_;
 
-    // Map states to operations
-    map<int, char*> unsched_map_;
+    // Map edges
+    multimap<Node*, Edge> edges_;
 
     // Bad return code
     int bad_rc_;
 
-    // Map count
-    int unsched_map_count_;
+    // Vertices count
+    int count_;
 
     // Parse input buffer and create verilog file
     bool parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* file_out);
 
     // Create CDFG
     bool createCDFG(const char* sub_buff, size_t sub_buff_len);
+
+    // Unscheduled graph
+    void createUnschedGraph();
 
 };

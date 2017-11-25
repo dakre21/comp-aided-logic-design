@@ -5,10 +5,11 @@
 HLSEngine::HLSEngine() :
 
            vertices_(),
-           unsched_map_(),
-           unsched_map_count_(0),
            operands_(),
            outputs_(),
+           operations_(),
+           edges_(),
+           count_(0),
            bad_rc_(-1) {
     // Do nothing
 }
@@ -17,9 +18,41 @@ HLSEngine::~HLSEngine() {
     // Do nothing
 }
 
+void HLSEngine::createUnschedGraph() {
+    // Follow pemdas for priority for scheduling + MISC
+    size_t found;
+    size_t efound;
+    size_t nfound;
+    string line;
+    string output;
+    string noutput;
+    
+    for (size_t i = 0; i < outputs_.size(); i++) {
+        output = outputs_[i];
+        for (size_t j = 0; j < operations_.size(); j++) {
+            line = operations_[j]; 
+            found = line.find(output);
+            efound = line.find("=");
+            if (found != bad_rc_ && efound != bad_rc_) {
+                if (efound < found) {
+                    for (size_t k = 0; k < outputs_.size(); k++) {
+                        noutput = outputs_[k];
+                        nfound = line.find(noutput);
+                        if (nfound != bad_rc_) {
+                            edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[k])));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
     // Forward declarations
     string line = sub_buff;
+    operations_.push_back(line);
     string str_operands  = "";
 
     // Determine operands
@@ -69,8 +102,6 @@ bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
         }
     }
 
-    //cout << new_str << endl;
-
     if (new_str.length() > 0) {
         outputs_.push_back(new_str);
     }
@@ -91,7 +122,6 @@ bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
         }
     }
 
-
     // Find all vertices in sub_buff
     for (size_t i = 0; i < sub_buff_len; i++) {
         string temp = "";
@@ -101,22 +131,27 @@ bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
         size_t t = i + 4;
         if (sub_buff[i] == '+' || sub_buff[i] == '-' || sub_buff[i] == '*'
                 || sub_buff[i] == '/' || sub_buff[i] == '%' || sub_buff[i] == '?') {
+            count_++;
             temp.push_back(sub_buff[i]);
-            vertices_.push_back(temp);
+            vertices_.push_back(Node(temp + to_string(count_)));
         } else if (sub_buff[i] == '<' || sub_buff[i] == '>') {
             if (sub_buff[n] == '<') {
-                vertices_.push_back("<<");
+                count_++;
+                vertices_.push_back(Node("<<" + to_string(count_)));
                 i += 1;
             } else if (sub_buff[n] == '>') {
-                vertices_.push_back(">>");
+                count_++;
+                vertices_.push_back(Node(">>" + to_string(count_)));
                 i += 1;
             } else {
+                count_++;
                 temp.push_back(sub_buff[i]);
-                vertices_.push_back(temp);
+                vertices_.push_back(Node(temp + to_string(count_)));
             }
         } else if (sub_buff[i] == '=') { 
             if (sub_buff[n] == '=') {
-                vertices_.push_back("==");
+                count_++;
+                vertices_.push_back(Node(Node("==" + to_string(count_))));
             }
         } else if (sub_buff[i] == 'i' && sub_buff[n] == 'f' && sub_buff[w] == ' ' && 
                 sub_buff[po] == '(') {
@@ -134,20 +169,12 @@ bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
                     temp.push_back(sub_buff[z]);
                 }
             }
-            vertices_.push_back(temp);
+            count_++;
+            vertices_.push_back(Node(temp + to_string(count_)));
         } 
     }
 
-    // Create unscheduled graph
-    // 1) Find inner dependencies
-    // 2) Find outter dependencies
-
-    for (size_t i = 0; i < sub_buff_len; i++) {
-        
-    }
-
     return true;
-
 }
 
 
@@ -187,16 +214,30 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
         } 
     }
 
+    createUnschedGraph();
+
     /*for (int i = 0; i < vertices_.size(); i++) {
         cout << vertices_[i] << endl;
     }
 
     for (int i = 0; i < operands_.size(); i++) {
         cout << operands_[i] << endl;
-    }*/
+    }
 
     for (int i = 0; i < outputs_.size(); i++) {
         cout << outputs_[i] << endl;
+    }*/
+
+    for (int i = 0; i < vertices_.size(); i++) {
+        cout << vertices_[i].op << endl;
+    }
+
+    for (int i = 0; i < vertices_.size(); i++) {
+        for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[i]), 
+                end = edges_.upper_bound(&vertices_[i]); it != end; ++it) {
+                cout << it->first->op << endl;
+                cout << it->second.vertex << endl;
+        }
     }
 
     return true;

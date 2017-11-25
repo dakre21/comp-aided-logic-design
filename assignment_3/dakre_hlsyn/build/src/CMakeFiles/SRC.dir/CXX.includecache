@@ -6,12 +6,14 @@
 
 #IncludeRegexTransform: 
 
+../src/./GraphHelper.h
+string.h
+-
+
 ../src/./HLSEngine.h
 stdio.h
 -
 stdlib.h
--
-string.h
 -
 math.h
 -
@@ -23,9 +25,15 @@ map
 -
 vector
 -
+GraphHelper.h
+../src/./GraphHelper.h
 
 ../src/./hlsyn.h
 HLSEngine.h
+-
+
+/home/dakre/comp-aided-logic-design/assignment_3/dakre_hlsyn/src/GraphHelper.h
+string.h
 -
 
 /home/dakre/comp-aided-logic-design/assignment_3/dakre_hlsyn/src/HLSConstants.h
@@ -43,8 +51,6 @@ stdio.h
 -
 stdlib.h
 -
-string.h
--
 math.h
 -
 iostream
@@ -55,6 +61,8 @@ map
 -
 vector
 -
+GraphHelper.h
+/home/dakre/comp-aided-logic-design/assignment_3/dakre_hlsyn/src/GraphHelper.h
 
 /home/dakre/comp-aided-logic-design/assignment_3/dakre_hlsyn/src/hlsyn.cpp
 hlsyn.h
