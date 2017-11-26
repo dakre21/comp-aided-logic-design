@@ -43,10 +43,12 @@ void HLSEngine::createASAP() {
     for (int i = 0; i < vertices_.size(); i++) {
         time = 0;
         found = false;
-        for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[i]), 
-                end = edges_.upper_bound(&vertices_[i]); it != end; ++it) {
-            if (it->second.vertex->op == vertices_[i].op) {
-                time += 1;
+        for (int j = 0; j < vertices_.size(); j++) {
+            for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[j]), 
+                    end = edges_.upper_bound(&vertices_[j]); it != end; ++it) {
+                if (it->second.vertex->op == vertices_[i].op) {
+                    time += 1;
+                }
             }
         }
 
@@ -57,7 +59,7 @@ void HLSEngine::createASAP() {
             }
         }
 
-        if (found != false) {
+        if (found != true) {
             vertices_[i].asap = time;
             scheduled.push_back(vertices_[i]);
         }
@@ -269,6 +271,8 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
 
     createCDFGExt();
 
+    createASAP();
+
     /*for (int i = 0; i < vertices_.size(); i++) {
         cout << vertices_[i] << endl;
     }
@@ -285,12 +289,12 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
         cout << vertices_[i].op << " " << vertices_[i].asap << endl;
     }
 
-    /*for (int i = 0; i < vertices_.size(); i++) {
+    for (int i = 0; i < vertices_.size(); i++) {
         for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[i]), 
                 end = edges_.upper_bound(&vertices_[i]); it != end; ++it) {
                 cout << it->first->op << " " << it->second.vertex->op << endl;
         }
-    }*/
+    }
 
     return true;
 }
