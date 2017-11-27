@@ -62,9 +62,9 @@ bool HLSEngine::createALAP(int latency) {
     for (size_t i = 0; i < vertices_.size(); i++) {
         vertices_[i].alap = latency - vertices_[i].alap;
 
-        /*if (vertices_[i].alap < 0) {
+        if (vertices_[i].alap < 0) {
             return false;
-        }*/
+        }
     }
 
     return true;
@@ -129,6 +129,12 @@ bool HLSEngine::createCDFGExt() {
             efound = line.find("=");
             ifound = line.find("if");
             ffound = line.find("for");
+            if (output == " e ") {
+                cout << line << endl;
+                cout << output << endl;
+                cout << found << endl;
+                cout << efound << endl;
+            }
             if (found != bad_rc_) {
                 if (efound < found && efound != bad_rc_) {
                     for (size_t k = 0; k < outputs_.size(); k++) {
@@ -137,12 +143,6 @@ bool HLSEngine::createCDFGExt() {
                         if (nfound != bad_rc_) {
                             if (vertices_[i].op == vertices_[k].op) {
                                 continue;
-                            }
-
-                            if (line.length() < (found + 1)) {
-                                if (line.substr(found, found + 1) != " ") {
-                                    continue;
-                                }
                             }
 
                             vfound = line.find(vertices_[k].op.substr(0, (vertices_[k].op.length() - 1)));
@@ -163,12 +163,6 @@ bool HLSEngine::createCDFGExt() {
                             noutput = outputs_[l];
                             nfound = line.find(noutput);
 
-                            if (line.length() < (found + 1)) {
-                                if (line.substr(found, found + 1) != " ") {
-                                    continue;
-                                }
-                            }
-
                             if (nfound != bad_rc_) {
                                 efound = line.find("=");
                                 if (efound != bad_rc_ && nfound < efound) {
@@ -187,13 +181,14 @@ bool HLSEngine::createCDFGExt() {
 
 bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
     // Forward declarations
-    string line = " " + string(sub_buff) + " ";
+    string line = "    " + string(sub_buff) + "    ";
 
     // Pad line with initial white space to help with parsing
-    line[1] = line[0];
-    line[0] = '\n';
-    line[line.length()-1] = line[line.length()];
-    line[line.length()] = '\n';
+    for (int i = 0; i < line.length(); i++) {
+        if (line[i] == '\n') {
+            line[i] = ' ';
+        }
+    }
 
     operations_.push_back(line);
     string str_operands = "";
