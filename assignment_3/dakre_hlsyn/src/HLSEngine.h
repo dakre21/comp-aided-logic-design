@@ -48,19 +48,22 @@ private:
     int count_;
 
     // Parse input buffer and create verilog file
-    bool parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* file_out);
+    bool parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* file_out, int latency);
 
     // Create CDFG
     bool createCDFG(const char* sub_buff, size_t sub_buff_len);
 
     // Create CDFG extended
-    void createCDFGExt();
+    bool createCDFGExt();
 
     // Create ASAP schedule
-    void createASAP();
+    bool createASAP(int latency);
 
     // Create ALAP schedule
-    void createALAP();
+    bool createALAP(int latency);
+
+    // Calculate mobility
+    void calcSlack();
 
     // Create FDS schedule
     void createFDS();

@@ -31,11 +31,46 @@ void HLSEngine::createFDS() {
     //TODO Implement
 }
 
-void HLSEngine::createALAP() {
-    //TODO Implement
+void HLSEngine::calcSlack() {
+    for (int i = 0; i < vertices_.size(); i++) {
+        vertices_[i].slack = vertices_[i].alap - vertices_[i].asap; 
+    }
 }
 
-void HLSEngine::createASAP() {
+bool HLSEngine::createALAP(int latency) {
+    bool found = false;
+    int time = latency;
+    vector<Node> scheduled;
+
+    for (int i = 0; i < vertices_.size(); i++) {
+        time = latency;
+        found = false;
+        for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[i]), 
+                end = edges_.upper_bound(&vertices_[i]); it != end; ++it) {
+            time -= 1;
+        }
+
+        for (int j = 0; j < scheduled.size(); j++) {
+            if (scheduled[j].op == vertices_[i].op) {
+               found = true; 
+               break;
+            }
+        }
+
+        if (found != true) {
+            vertices_[i].alap = time;
+            
+            if (time < 0) {
+                return false;
+            }
+            scheduled.push_back(vertices_[i]);
+        }
+    }
+
+    return true;
+}
+
+bool HLSEngine::createASAP(int latency) {
     bool found = false;
     int time = 0;
     vector<Node> scheduled;
@@ -61,12 +96,18 @@ void HLSEngine::createASAP() {
 
         if (found != true) {
             vertices_[i].asap = time;
+            
+            if (time > latency) {
+                return false;
+            }
             scheduled.push_back(vertices_[i]);
         }
     }
+
+    return true;
 }
 
-void HLSEngine::createCDFGExt() {
+bool HLSEngine::createCDFGExt() {
     // Follow pemdas for priority for scheduling + MISC
     size_t found;
     size_t efound;
@@ -102,6 +143,8 @@ void HLSEngine::createCDFGExt() {
             }
         }
     }
+
+    return true;
 }
 
 bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
@@ -233,7 +276,7 @@ bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
 }
 
 
-bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* file_out) {
+bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* file_out, int latency) {
     // Forward declarations 
     char* sub_buff;
     size_t sub_buff_len;
@@ -269,9 +312,24 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
         } 
     }
 
-    createCDFGExt();
+    if (createCDFGExt() != true) {
+        fprintf(stderr, "Failed to create CDFG... issue with given netlist\n");
+        return false;
+    }
 
-    createASAP();
+    if (createASAP(latency) != true) {
+        fprintf(stderr, "Failed to create ASAP graph... issue with given latency "\
+                "being too small based netlist's total inter opertaional dependencies exceeding latency time\n");
+        return false;
+    }
+
+    if (createALAP(latency) != true) {
+        fprintf(stderr, "Failed to create ALAP graph... issue with given latency "\
+                "being too small based on netlist's total inter operational total dependencies exceeding latency time\n");
+        return false;
+    }
+
+    calcSlack();
 
     /*for (int i = 0; i < vertices_.size(); i++) {
         cout << vertices_[i] << endl;
@@ -285,10 +343,22 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
         cout << outputs_[i] << endl;
     }*/
 
+    cout << "ALAP TIMES" << endl;
+    for (int i = 0; i < vertices_.size(); i++) {
+        cout << vertices_[i].op << " " << vertices_[i].alap << endl;
+    }
+
+    cout << "ASAP TIMES" << endl;
     for (int i = 0; i < vertices_.size(); i++) {
         cout << vertices_[i].op << " " << vertices_[i].asap << endl;
     }
 
+    cout << "SLACK TIMES" << endl;
+    for (int i = 0; i < vertices_.size(); i++) {
+        cout << vertices_[i].op << " " << vertices_[i].slack << endl;
+    }
+
+    cout << "EDGES" << endl;
     for (int i = 0; i < vertices_.size(); i++) {
         for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[i]), 
                 end = edges_.upper_bound(&vertices_[i]); it != end; ++it) {
@@ -348,7 +418,7 @@ bool HLSEngine::createVerilogSrc(FILE* file_in, FILE* file_out, string v_file, i
     }
 
     // Parse buffer and create verilog file
-    rc &= parseBufferCreateVerilogSrc(buff, buff_len, file_out);
+    rc &= parseBufferCreateVerilogSrc(buff, buff_len, file_out, latency);
     free(buff);
 
     return true;
