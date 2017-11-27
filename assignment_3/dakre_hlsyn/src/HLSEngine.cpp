@@ -32,7 +32,7 @@ void HLSEngine::createFDS() {
 }
 
 void HLSEngine::calcSlack() {
-    for (int i = 0; i < vertices_.size(); i++) {
+    for (size_t i = 0; i < vertices_.size(); i++) {
         vertices_[i].slack = vertices_[i].alap - vertices_[i].asap; 
     }
 }
@@ -42,7 +42,7 @@ bool HLSEngine::createALAP(int latency) {
     int time = latency;
     vector<Node> scheduled;
 
-    for (int i = 0; i < vertices_.size(); i++) {
+    for (size_t i = 0; i < vertices_.size(); i++) {
         time = latency;
         found = false;
         for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[i]), 
@@ -50,7 +50,7 @@ bool HLSEngine::createALAP(int latency) {
             time -= 1;
         }
 
-        for (int j = 0; j < scheduled.size(); j++) {
+        for (size_t j = 0; j < scheduled.size(); j++) {
             if (scheduled[j].op == vertices_[i].op) {
                found = true; 
                break;
@@ -75,10 +75,10 @@ bool HLSEngine::createASAP(int latency) {
     int time = 0;
     vector<Node> scheduled;
 
-    for (int i = 0; i < vertices_.size(); i++) {
+    for (size_t i = 0; i < vertices_.size(); i++) {
         time = 0;
         found = false;
-        for (int j = 0; j < vertices_.size(); j++) {
+        for (size_t j = 0; j < vertices_.size(); j++) {
             for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[j]), 
                     end = edges_.upper_bound(&vertices_[j]); it != end; ++it) {
                 if (it->second.vertex->op == vertices_[i].op) {
@@ -87,7 +87,7 @@ bool HLSEngine::createASAP(int latency) {
             }
         }
 
-        for (int j = 0; j < scheduled.size(); j++) {
+        for (size_t j = 0; j < scheduled.size(); j++) {
             if (scheduled[j].op == vertices_[i].op) {
                found = true; 
                break;
@@ -113,6 +113,9 @@ bool HLSEngine::createCDFGExt() {
     size_t efound;
     size_t nfound;
     size_t vfound;
+    size_t bfound;
+    size_t ifound;
+    size_t ffound;
     string line;
     string output;
     string noutput;
@@ -123,24 +126,41 @@ bool HLSEngine::createCDFGExt() {
             line = operations_[j]; 
             found = line.find(output);
             efound = line.find("=");
-            if (found != bad_rc_ && efound != bad_rc_) {
-                if (efound < found) {
+            ifound = line.find("if");
+            ffound = line.find("for");
+            if (found != bad_rc_) {
+                if (efound < found && efound != bad_rc_) {
                     for (size_t k = 0; k < outputs_.size(); k++) {
                         noutput = outputs_[k];
                         nfound = line.find(noutput);
                         if (nfound != bad_rc_) {
-                            if (vertices_[i].op == vertices_[k].op) {
-                                continue;
-                            }
-
                             vfound = line.find(vertices_[k].op.substr(0,1));
                             if (vfound != bad_rc_) {
                                 edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[k])));
                             }
                         }
                     }
+                } else if (ifound != bad_rc_) {
+                    for (size_t k = j + 1; k < operations_.size(); k++) {
+                        line = operations_[k];
+                        bfound = line.find("}");
+                        if (bfound != bad_rc_) {
+                            break;
+                        }
+
+                        for (size_t l = 0; l < outputs_.size(); l++) {
+                            noutput = outputs_[l];
+                            nfound = line.find(noutput);
+                            if (nfound != bad_rc_) {
+                                efound = line.find("=");
+                                if (efound != bad_rc_ && nfound < efound) {
+                                    edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[l])));
+                                }
+                            }
+                        }
+                    }
                 }
-            }
+            } 
         }
     }
 
