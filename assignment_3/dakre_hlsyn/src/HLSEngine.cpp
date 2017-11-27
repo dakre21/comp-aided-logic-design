@@ -109,13 +109,14 @@ bool HLSEngine::createASAP(int latency) {
 
 bool HLSEngine::createCDFGExt() {
     // Follow pemdas for priority for scheduling + MISC
-    size_t found;
-    size_t efound;
-    size_t nfound;
-    size_t vfound;
-    size_t bfound;
-    size_t ifound;
-    size_t ffound;
+    bool trigger = false;
+    int found;
+    int efound;
+    int nfound;
+    int vfound;
+    int bfound;
+    int ifound;
+    int ffound;
     string line;
     string output;
     string noutput;
@@ -134,7 +135,17 @@ bool HLSEngine::createCDFGExt() {
                         noutput = outputs_[k];
                         nfound = line.find(noutput);
                         if (nfound != bad_rc_) {
-                            vfound = line.find(vertices_[k].op.substr(0,1));
+                            if (vertices_[i].op == vertices_[k].op) {
+                                continue;
+                            }
+
+                            if (line.length() < (found + 1)) {
+                                if (line.substr(found, found + 1) != " ") {
+                                    continue;
+                                }
+                            }
+
+                            vfound = line.find(vertices_[k].op.substr(0, 1));
                             if (vfound != bad_rc_) {
                                 edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[k])));
                             }
@@ -151,6 +162,13 @@ bool HLSEngine::createCDFGExt() {
                         for (size_t l = 0; l < outputs_.size(); l++) {
                             noutput = outputs_[l];
                             nfound = line.find(noutput);
+
+                            if (line.length() < (found + 1)) {
+                                if (line.substr(found, found + 1) != " ") {
+                                    continue;
+                                }
+                            }
+
                             if (nfound != bad_rc_) {
                                 efound = line.find("=");
                                 if (efound != bad_rc_ && nfound < efound) {
@@ -169,9 +187,16 @@ bool HLSEngine::createCDFGExt() {
 
 bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
     // Forward declarations
-    string line = sub_buff;
+    string line = " " + string(sub_buff) + " ";
+
+    // Pad line with initial white space to help with parsing
+    line[1] = line[0];
+    line[0] = '\n';
+    line[line.length()-1] = line[line.length()];
+    line[line.length()] = '\n';
+
     operations_.push_back(line);
-    string str_operands  = "";
+    string str_operands = "";
 
     // Determine operands
     size_t found = line.find(NET_INT1);
@@ -220,8 +245,11 @@ bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
         }
     }
 
+    // Underlying assumption is there is a space between and after to differentiate
+    // variables from one another (e.g. d and dEQz could result in the same parse
+    // otherwise)
     if (new_str.length() > 0) {
-        outputs_.push_back(new_str);
+        outputs_.push_back(" " + new_str + " ");
     }
 
     // Split operands string into individual operands
