@@ -40,31 +40,31 @@ void HLSEngine::calcSlack() {
 bool HLSEngine::createALAP(int latency) {
     bool found = false;
     int time = latency;
-    vector<Node> scheduled;
 
     for (size_t i = 0; i < vertices_.size(); i++) {
         time = latency;
         found = false;
-        for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[i]), 
-                end = edges_.upper_bound(&vertices_[i]); it != end; ++it) {
-            time -= 1;
-        }
+        string node = vertices_[i].op;
 
-        for (size_t j = 0; j < scheduled.size(); j++) {
-            if (scheduled[j].op == vertices_[i].op) {
-               found = true; 
-               break;
+        for (multimap<Node*, Edge>::reverse_iterator it = edges_.rbegin(); it != edges_.rend(); ++it) {
+            if (node == it->second.vertex->op && vertices_[i].op != it->first->op) {
+                node = it->first->op;
+                for (size_t j = 0; j < vertices_.size(); j++) {
+                    if (node == vertices_[j].op) {
+                        vertices_[j].alap += 1;
+                    }
+                }
             }
         }
+    }
 
-        if (found != true) {
-            vertices_[i].alap = time;
-            
-            if (time < 0) {
-                return false;
-            }
-            scheduled.push_back(vertices_[i]);
-        }
+    // Schedule nodes per latency request
+    for (size_t i = 0; i < vertices_.size(); i++) {
+        vertices_[i].alap = latency - vertices_[i].alap;
+
+        /*if (vertices_[i].alap < 0) {
+            return false;
+        }*/
     }
 
     return true;
@@ -78,12 +78,12 @@ bool HLSEngine::createASAP(int latency) {
     for (size_t i = 0; i < vertices_.size(); i++) {
         time = 0;
         found = false;
-        for (size_t j = 0; j < vertices_.size(); j++) {
-            for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[j]), 
-                    end = edges_.upper_bound(&vertices_[j]); it != end; ++it) {
-                if (it->second.vertex->op == vertices_[i].op) {
-                    time += 1;
-                }
+        string node = vertices_[i].op;
+
+        for (multimap<Node*, Edge>::reverse_iterator it = edges_.rbegin(); it != edges_.rend(); ++it) {
+            if (node == it->second.vertex->op && vertices_[i].op != it->first->op) {
+                time += 1;
+                node = it->first->op;
             }
         }
 
@@ -145,7 +145,7 @@ bool HLSEngine::createCDFGExt() {
                                 }
                             }
 
-                            vfound = line.find(vertices_[k].op.substr(0, 1));
+                            vfound = line.find(vertices_[k].op.substr(0, (vertices_[k].op.length() - 1)));
                             if (vfound != bad_rc_) {
                                 edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[k])));
                             }
