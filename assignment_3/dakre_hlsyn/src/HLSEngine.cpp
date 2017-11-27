@@ -129,18 +129,12 @@ bool HLSEngine::createCDFGExt() {
             efound = line.find("=");
             ifound = line.find("if");
             ffound = line.find("for");
-            if (output == " e ") {
-                cout << line << endl;
-                cout << output << endl;
-                cout << found << endl;
-                cout << efound << endl;
-            }
             if (found != bad_rc_) {
                 if (efound < found && efound != bad_rc_) {
                     for (size_t k = 0; k < outputs_.size(); k++) {
                         noutput = outputs_[k];
                         nfound = line.find(noutput);
-                        if (nfound != bad_rc_) {
+                        if (nfound != bad_rc_ && nfound < efound) {
                             if (vertices_[i].op == vertices_[k].op) {
                                 continue;
                             }
