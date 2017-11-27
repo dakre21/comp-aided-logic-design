@@ -117,6 +117,7 @@ bool HLSEngine::createCDFGExt() {
     int bfound;
     int ifound;
     int ffound;
+    int diff;
     string line;
     string output;
     string noutput;
@@ -129,8 +130,10 @@ bool HLSEngine::createCDFGExt() {
             efound = line.find("=");
             ifound = line.find("if");
             ffound = line.find("for");
+
             if (found != bad_rc_) {
                 if (efound < found && efound != bad_rc_) {
+                    
                     for (size_t k = 0; k < outputs_.size(); k++) {
                         noutput = outputs_[k];
                         nfound = line.find(noutput);
@@ -139,7 +142,21 @@ bool HLSEngine::createCDFGExt() {
                                 continue;
                             }
 
-                            vfound = line.find(vertices_[k].op.substr(0, (vertices_[k].op.length() - 1)));
+                            if (k >= 0 && k <= 8) {
+                                diff = 1;
+                            } else if (k > 8) {
+                                diff = 2;                
+                            } else if (k > 98) {
+                                diff = 3;
+                            } else if (k > 998) {
+                                diff = 4;
+                            } else {
+                                fprintf(stderr, "Netlist contains too many operations to presumably be placed "\
+                                        "on the FPGA\n");
+                                return false;
+                            }
+
+                            vfound = line.find(vertices_[k].op.substr(0, (vertices_[k].op.length() - diff)));
                             if (vfound != bad_rc_) {
                                 edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[k])));
                             }
@@ -356,13 +373,13 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
 
     if (createASAP(latency) != true) {
         fprintf(stderr, "Failed to create ASAP graph... issue with given latency "\
-                "being too small based netlist's total inter opertaional dependencies exceeding latency time\n");
+                "being too small based netlist's total inter-opertaional dependencies exceeding latency time\n");
         return false;
     }
 
     if (createALAP(latency) != true) {
         fprintf(stderr, "Failed to create ALAP graph... issue with given latency "\
-                "being too small based on netlist's total inter operational total dependencies exceeding latency time\n");
+                "being too small based on netlist's total inter-operational total dependencies exceeding latency time\n");
         return false;
     }
 
