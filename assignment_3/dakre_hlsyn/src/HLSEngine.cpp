@@ -117,7 +117,6 @@ bool HLSEngine::createCDFGExt() {
     int bfound;
     int ifound;
     int ffound;
-    int diff;
     string line;
     string output;
     string noutput;
@@ -132,37 +131,19 @@ bool HLSEngine::createCDFGExt() {
             ffound = line.find("for");
 
             if (found != bad_rc_) {
-                if (efound < found && efound != bad_rc_) {
-                    
+                if (efound < found && efound != bad_rc_ || (ifound != bad_rc_ || ffound != bad_rc_)) {
                     for (size_t k = 0; k < outputs_.size(); k++) {
                         noutput = outputs_[k];
                         nfound = line.find(noutput);
-                        if (nfound != bad_rc_ && nfound < efound) {
+                        if (nfound != bad_rc_ && (nfound < efound || ifound != bad_rc_ || ffound != bad_rc_)) {
                             if (vertices_[i].op == vertices_[k].op) {
                                 continue;
                             }
-
-                            if (k >= 0 && k <= 8) {
-                                diff = 1;
-                            } else if (k > 8) {
-                                diff = 2;                
-                            } else if (k > 98) {
-                                diff = 3;
-                            } else if (k > 998) {
-                                diff = 4;
-                            } else {
-                                fprintf(stderr, "Netlist contains too many operations to presumably be placed "\
-                                        "on the FPGA\n");
-                                return false;
-                            }
-
-                            vfound = line.find(vertices_[k].op.substr(0, (vertices_[k].op.length() - diff)));
-                            if (vfound != bad_rc_) {
-                                edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[k])));
-                            }
+                            
+                            edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[k])));
                         }
                     }
-                } else if (ifound != bad_rc_) {
+                } /*else if (ifound != bad_rc_) {
                     for (size_t k = j + 1; k < operations_.size(); k++) {
                         line = operations_[k];
                         bfound = line.find("}");
@@ -182,7 +163,7 @@ bool HLSEngine::createCDFGExt() {
                             }
                         }
                     }
-                }
+                }*/
             } 
         }
     }
@@ -196,7 +177,7 @@ bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
 
     // Pad line with initial white space to help with parsing
     for (int i = 0; i < line.length(); i++) {
-        if (line[i] == '\n') {
+        if (line[i] == '\n' || line[i] == '\t') {
             line[i] = ' ';
         }
     }
