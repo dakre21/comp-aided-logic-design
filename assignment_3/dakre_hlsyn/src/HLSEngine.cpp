@@ -110,6 +110,7 @@ bool HLSEngine::createASAP(int latency) {
 bool HLSEngine::createCDFGExt() {
     // Follow pemdas for priority for scheduling + MISC
     bool trigger = false;
+    bool add = true;
     int found;
     int efound;
     int nfound;
@@ -117,6 +118,7 @@ bool HLSEngine::createCDFGExt() {
     int bfound;
     int ifound;
     int ffound;
+    int mfound;
     string line;
     string output;
     string noutput;
@@ -124,6 +126,7 @@ bool HLSEngine::createCDFGExt() {
     for (size_t i = 0; i < outputs_.size(); i++) {
         output = outputs_[i];
         for (size_t j = 0; j < operations_.size(); j++) {
+            add = true;
             line = operations_[j]; 
             found = line.find(output);
             efound = line.find("=");
@@ -139,31 +142,26 @@ bool HLSEngine::createCDFGExt() {
                             if (vertices_[i].op == vertices_[k].op) {
                                 continue;
                             }
+
+                            if (output == " d ") {
+                                cout << line << endl;
+                                cout << output << endl;
+                                cout << noutput << endl;
+                            }
                             
-                            edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[k])));
-                        }
-                    }
-                } /*else if (ifound != bad_rc_) {
-                    for (size_t k = j + 1; k < operations_.size(); k++) {
-                        line = operations_[k];
-                        bfound = line.find("}");
-                        if (bfound != bad_rc_) {
-                            break;
-                        }
-
-                        for (size_t l = 0; l < outputs_.size(); l++) {
-                            noutput = outputs_[l];
-                            nfound = line.find(noutput);
-
-                            if (nfound != bad_rc_) {
-                                efound = line.find("=");
-                                if (efound != bad_rc_ && nfound < efound) {
-                                    edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[l])));
+                            for (multimap<Node*, Edge>::iterator it = edges_.begin(); it != edges_.end(); ++it) {
+                                if (it->first->op == vertices_[i].op && it->second.vertex->op == vertices_[k].op) {
+                                    add = false;
+                                    break;
                                 }
+                            }
+
+                            if (add == true) {
+                                edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[k])));
                             }
                         }
                     }
-                }*/
+                } 
             } 
         }
     }
@@ -221,6 +219,16 @@ bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
     found = line.find("=");
     if (found != bad_rc_) {
         tmp_str = line.substr(0, (found - 1)); 
+    }
+
+    found = line.find("if");
+    if (found != bad_rc_) {
+        tmp_str = line.substr((found + 4), (line.length() - 16)); 
+    }
+
+    found = line.find("for");
+    if (found != bad_rc_) {
+        tmp_str = line.substr((found + 4), (line.length() - 16)); 
     }
 
     string new_str = "";
@@ -366,17 +374,17 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
 
     calcSlack();
 
-    /*for (int i = 0; i < vertices_.size(); i++) {
-        cout << vertices_[i] << endl;
+    for (int i = 0; i < vertices_.size(); i++) {
+        cout << vertices_[i].op << endl;
     }
 
-    for (int i = 0; i < operands_.size(); i++) {
+    /*for (int i = 0; i < operands_.size(); i++) {
         cout << operands_[i] << endl;
-    }
+    }*/
 
     for (int i = 0; i < outputs_.size(); i++) {
         cout << outputs_[i] << endl;
-    }*/
+    }
 
     cout << "ALAP TIMES" << endl;
     for (int i = 0; i < vertices_.size(); i++) {
