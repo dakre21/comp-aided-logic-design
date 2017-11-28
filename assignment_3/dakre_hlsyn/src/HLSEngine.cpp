@@ -110,15 +110,8 @@ bool HLSEngine::createASAP(int latency) {
 bool HLSEngine::createCDFGExt() {
     // Follow pemdas for priority for scheduling + MISC
     bool trigger = false;
-    bool add = true;
-    int found;
-    int efound;
-    int nfound;
-    int vfound;
-    int bfound;
-    int ifound;
-    int ffound;
-    int mfound;
+    int found, efound, nfound, vfound, bfound, ifound, ffound, mfound;
+    int nnfound, eefound, iifound, fffound, bcfound;
     string line;
     string output;
     string noutput;
@@ -126,7 +119,6 @@ bool HLSEngine::createCDFGExt() {
     for (size_t i = 0; i < outputs_.size(); i++) {
         output = outputs_[i];
         for (size_t j = 0; j < operations_.size(); j++) {
-            add = true;
             line = operations_[j]; 
             found = line.find(output);
             efound = line.find("=");
@@ -134,30 +126,33 @@ bool HLSEngine::createCDFGExt() {
             ffound = line.find("for");
 
             if (found != bad_rc_) {
-                if (efound < found && efound != bad_rc_ || (ifound != bad_rc_ || ffound != bad_rc_)) {
-                    for (size_t k = 0; k < outputs_.size(); k++) {
+                if ((efound < found && efound != bad_rc_) || (ifound != bad_rc_ || ffound != bad_rc_)) {
+                    for (size_t k = i; k < outputs_.size(); k++) {
                         noutput = outputs_[k];
                         nfound = line.find(noutput);
                         if (nfound != bad_rc_ && (nfound < efound || ifound != bad_rc_ || ffound != bad_rc_)) {
-                            if (vertices_[i].op == vertices_[k].op) {
-                                continue;
-                            }
+                            addEdge(i, k); 
+                        } else if (ifound != bad_rc_ || ffound != bad_rc_) {
+                            for (size_t l = j; l < operations_.size(); l++) {
+                                nnfound = operations_[l].find(noutput);
+                                eefound = operations_[l].find("=");
+                                iifound = operations_[l].find("if");
+                                fffound = operations_[l].find("for");
+                                bcfound = operations_[l].find("}");
 
-                            if (output == " d ") {
-                                cout << line << endl;
-                                cout << output << endl;
-                                cout << noutput << endl;
-                            }
-                            
-                            for (multimap<Node*, Edge>::iterator it = edges_.begin(); it != edges_.end(); ++it) {
-                                if (it->first->op == vertices_[i].op && it->second.vertex->op == vertices_[k].op) {
-                                    add = false;
+                                if (output == " g "  && noutput == " zrin ") {
+                                    cout << operations_[l] << endl;
+                                    cout << noutput << endl;
+                                    cout << nnfound << endl;
+                                }
+
+                                if (nnfound != bad_rc_ && (nnfound < eefound || iifound != bad_rc_ || fffound != bad_rc_)) {
+                                    if (output.find(vertices_[i].op.substr(0, vertices_[i].op.length() - 1)) != bad_rc_) {
+                                        addEdge(i, k);
+                                    }
+                                } else if (bcfound != bad_rc_) {
                                     break;
                                 }
-                            }
-
-                            if (add == true) {
-                                edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[k])));
                             }
                         }
                     }
@@ -167,6 +162,20 @@ bool HLSEngine::createCDFGExt() {
     }
 
     return true;
+}
+
+void HLSEngine::addEdge(size_t i, size_t k) {
+    if (vertices_[i].op == vertices_[k].op) {
+        return;
+    }
+                        
+    for (multimap<Node*, Edge>::iterator it = edges_.begin(); it != edges_.end(); ++it) {
+        if (it->first->op == vertices_[i].op && it->second.vertex->op == vertices_[k].op) {
+            return;
+        }
+    }
+
+    edges_.insert(make_pair(&vertices_[i], Edge(&vertices_[k])));
 }
 
 bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
@@ -311,7 +320,7 @@ bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
                 }
             }
             count_++;
-            vertices_.push_back(Node(temp + to_string(count_)));
+            vertices_.push_back(Node(" " + temp + " " + to_string(count_)));
         } 
     }
 
@@ -374,17 +383,17 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
 
     calcSlack();
 
-    for (int i = 0; i < vertices_.size(); i++) {
+    /*for (int i = 0; i < vertices_.size(); i++) {
         cout << vertices_[i].op << endl;
     }
 
-    /*for (int i = 0; i < operands_.size(); i++) {
+    for (int i = 0; i < operands_.size(); i++) {
         cout << operands_[i] << endl;
-    }*/
+    }
 
     for (int i = 0; i < outputs_.size(); i++) {
         cout << outputs_[i] << endl;
-    }
+    }*/
 
     cout << "ALAP TIMES" << endl;
     for (int i = 0; i < vertices_.size(); i++) {

@@ -74,4 +74,7 @@ private:
     // Check errors
     void checkErrors();
 
+    // Add edge helper
+    void addEdge(size_t i, size_t k);
+
 };
