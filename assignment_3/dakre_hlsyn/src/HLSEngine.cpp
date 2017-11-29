@@ -142,9 +142,7 @@ bool HLSEngine::createCDFGExt() {
                                 bcfound = operations_[l].find("}");
 
                                 if (nnfound != bad_rc_ && (nnfound < eefound || iifound != bad_rc_ || fffound != bad_rc_)) {
-                                    if (output.find(vertices_[i].op.substr(0, vertices_[i].op.length() - 1)) != bad_rc_) {
-                                        addEdge(i, k);
-                                    }
+                                    addEdge(i, k);
                                 } else if (bcfound != bad_rc_) {
                                     if (l < operations_.size()) {
                                         lfound = operations_[l + 1].find("else");
@@ -233,12 +231,18 @@ bool HLSEngine::createCDFG(const char* sub_buff, size_t sub_buff_len) {
 
     found = line.find("if");
     if (found != bad_rc_) {
-        tmp_str = line.substr((found + 4), (line.length() - 16)); 
+        tmp_str = line.substr((found + 4), line.length()); 
     }
 
     found = line.find("for");
     if (found != bad_rc_) {
-        tmp_str = line.substr((found + 4), (line.length() - 16)); 
+        tmp_str = line.substr((found + 4), line.length()); 
+    }
+
+    for (size_t i = 0; i < tmp_str.length(); i++) {
+        if (tmp_str[i] == ')' || tmp_str[i] == '{') {
+            tmp_str[i] = ' ';
+        }
     }
 
     string new_str = "";
