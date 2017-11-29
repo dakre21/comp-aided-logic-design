@@ -35,6 +35,12 @@ bool verify_hlsyn_inputs(int argc, char* argv[]) {
         return false;
     }
 
+    int found = string(argv[1]).find("error");
+    if (found != -1) {
+        fprintf(stderr, "Input file contains errors, please provide a valid input file\n");
+        return false;
+    }
+
     // Attempt to open the input file
     file_in = fopen(argv[1], "r");
 
