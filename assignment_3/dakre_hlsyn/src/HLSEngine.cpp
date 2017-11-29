@@ -111,7 +111,7 @@ bool HLSEngine::createCDFGExt() {
     // Follow pemdas for priority for scheduling + MISC
     bool trigger = false;
     int found, efound, nfound, vfound, bfound, ifound, ffound, mfound;
-    int nnfound, eefound, iifound, fffound, bcfound;
+    int nnfound, eefound, iifound, fffound, bcfound, lfound;
     string line;
     string output;
     string noutput;
@@ -130,6 +130,7 @@ bool HLSEngine::createCDFGExt() {
                     for (size_t k = i; k < outputs_.size(); k++) {
                         noutput = outputs_[k];
                         nfound = line.find(noutput);
+
                         if (nfound != bad_rc_ && (nfound < efound || ifound != bad_rc_ || ffound != bad_rc_)) {
                             addEdge(i, k); 
                         } else if (ifound != bad_rc_ || ffound != bad_rc_) {
@@ -140,17 +141,17 @@ bool HLSEngine::createCDFGExt() {
                                 fffound = operations_[l].find("for");
                                 bcfound = operations_[l].find("}");
 
-                                if (output == " g "  && noutput == " zrin ") {
-                                    cout << operations_[l] << endl;
-                                    cout << noutput << endl;
-                                    cout << nnfound << endl;
-                                }
-
                                 if (nnfound != bad_rc_ && (nnfound < eefound || iifound != bad_rc_ || fffound != bad_rc_)) {
                                     if (output.find(vertices_[i].op.substr(0, vertices_[i].op.length() - 1)) != bad_rc_) {
                                         addEdge(i, k);
                                     }
                                 } else if (bcfound != bad_rc_) {
+                                    if (l < operations_.size()) {
+                                        lfound = operations_[l + 1].find("else");
+                                        if (lfound != bad_rc_) {
+                                            continue;
+                                        }
+                                    }
                                     break;
                                 }
                             }
