@@ -56,6 +56,16 @@ bool HLSEngine::createALAP(int latency) {
                 }
             }
         }
+
+        for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[i]), 
+                end = edges_.upper_bound(&vertices_[i]); it != end; ++it) {
+            string node = it->second.vertex->op;
+            for (size_t j = 0; j < vertices_.size(); j++) {
+                if (node == vertices_[j].op) {
+                    vertices_[i].alap += 1;
+                }
+            }
+        }
     }
 
     // Schedule nodes per latency request
