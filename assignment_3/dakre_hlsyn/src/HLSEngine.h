@@ -17,7 +17,7 @@
 #include <cstddef>
 #include <map>
 #include <vector>
-#include "GraphHelper.h"
+#include "HLSGraphHelper.h"
 
 class HLSEngine {
 
@@ -63,16 +63,13 @@ private:
     bool createALAP(int latency);
 
     // Calculate mobility
-    void calcSlack();
+    void calcTimeFrame();
 
     // Create FDS schedule
-    void createFDS();
+    void createFDS(int latency);
 
     // Create HLSM
     void createHLSM();
-
-    // Check errors
-    void checkErrors();
 
     // Add edge helper
     void addEdge(size_t i, size_t k);

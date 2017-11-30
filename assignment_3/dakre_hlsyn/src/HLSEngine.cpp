@@ -19,21 +19,154 @@ HLSEngine::~HLSEngine() {
     // Do nothing
 }
 
-void HLSEngine::checkErrors() {
-    //TODO Implement
-}
-
 void HLSEngine::createHLSM() {
     //TODO Implement
 }
 
-void HLSEngine::createFDS() {
-    //TODO Implement
+void HLSEngine::createFDS(int latency) {
+    bool scheduled = false;
+    int time_to_end = 0;
+    int cycle = 0;
+    int offset = 0;
+    float probs[latency*vertices_.size()];
+    float sum_probs[vertices_.size()];
+    float quotient;
+    float max_force_mul;
+    float max_force_div;
+    float max_force_alu;
+    int count_mul;
+    int count_alu;
+    int count_div;
+
+    while (!scheduled) {
+        max_force_mul = 0;
+        max_force_div = 0;
+        max_force_alu = 0;
+        count_mul = 0;
+        count_alu = 0;
+        count_div = 0;
+        offset = 0;
+        time_to_end = latency - cycle;
+            
+        for (size_t i = 0; i < vertices_.size(); i++) {
+            // Step 1- calculate time frame
+            calcTimeFrame();
+
+            // Step 2- calculate probabilities
+            for (size_t j = time_to_end; j < latency; j++) {
+                if (vertices_[i].time_frame[0] <= i && i <= vertices_[i].time_frame[1]) {
+                    quotient = 1 / vertices_[i].frame_width;
+                    probs[offset + i] = quotient;
+                } else {
+                    probs[offset + i] = 0;
+                }
+
+                sum_probs[j] += probs[offset + i];
+            }
+
+            offset += latency;
+        }
+
+        offset = 0;
+
+        // Step 3- calculate forces
+        // (a) calculate self force
+        for (size_t i = 0; i < vertices_.size(); i++) {
+            for (size_t j = time_to_end; j < latency; j++) {
+                if ((j + 1) > latency) {
+                    vertices_[i].force = sum_probs[j] * (1 - probs[offset + i]);
+                } else {
+                    vertices_[i].force = (sum_probs[j] * (1 - probs[offset + i]) \
+                            + sum_probs[j+1] * (0 - probs[offset + i]));
+                }
+            }
+
+            offset += latency;
+        }
+
+        // (b) calculate total force adding predecessor and successor forces
+        for (size_t i = 0; i < vertices_.size(); i++) {
+            // Sum up successor forces
+            for (multimap<Node*, Edge>::iterator it = edges_.lower_bound(&vertices_[i]), 
+                end = edges_.upper_bound(&vertices_[i]); it != end; ++it) {
+                vertices_[i].force += it->second.vertex->force;
+            }
+
+            // Sum up predessor forces
+            for (multimap<Node*, Edge>::reverse_iterator it = edges_.rbegin(); it != edges_.rend(); ++it) {
+                if (vertices_[i].op == it->second.vertex->op) {
+                    vertices_[i].force += it->second.vertex->force;
+                }
+            }
+        }
+
+        // Step 4- schedule operation with the least force 
+        cycle += 1;
+
+        for (size_t i = 0; i < vertices_.size(); i++) {
+            if (vertices_[i].cycle > 0) {
+                continue;
+            }
+
+            scheduled = false;
+
+            if (vertices_[i].op.find("*") != bad_rc_) {
+                if (max_force_mul < vertices_[i].force) {
+                    max_force_mul = vertices_[i].force;
+                    count_mul = i;
+                }
+            } else if (vertices_[i].op.find("/") != bad_rc_ || vertices_[i].op.find("%") != bad_rc_) {
+                if (max_force_div < vertices_[i].force) {
+                    max_force_div = vertices_[i].force;
+                    count_div = i;
+                }
+            } else {
+                if (max_force_alu < vertices_[i].force) {
+                    max_force_alu = vertices_[i].force;
+                    count_alu = i;
+                }
+            }
+        }
+
+        if (vertices_[count_mul].cycle == 0) {
+            vertices_[count_mul].cycle = cycle;
+        } 
+        
+        if (vertices_[count_div].cycle == 0) {
+            vertices_[count_div].cycle = cycle;
+        } 
+        
+        if (vertices_[count_alu].cycle == 0) {
+            vertices_[count_alu].cycle = cycle;
+        }
+
+        if (time_to_end == 0 && scheduled == false) {
+            for (size_t i = 0; i < vertices_.size(); i++) {
+                if (vertices_[i].cycle > 0) {
+                    continue;
+                } else {
+                    if (vertices_[i].op.find("*") != bad_rc_) {
+                        vertices_[i].cycle = cycle - 2;
+                    } else if (vertices_[i].op.find("/") != bad_rc_ || vertices_[i].op.find("%") != bad_rc_) {
+                        vertices_[i].cycle = cycle - 3;
+                    } else {
+                        vertices_[i].cycle = cycle - 1;
+                    }
+                }
+            }
+            scheduled = true;
+        }
+    }
 }
 
-void HLSEngine::calcSlack() {
+void HLSEngine::calcTimeFrame() {
     for (size_t i = 0; i < vertices_.size(); i++) {
-        vertices_[i].slack = vertices_[i].alap - vertices_[i].asap; 
+        // Calculate time frame
+        vertices_[i].time_frame[0] = vertices_[i].asap;
+        vertices_[i].time_frame[1] = vertices_[i].alap;
+
+        // Calculate frame width
+        vertices_[i].frame_width = vertices_[i].alap - vertices_[i].asap + 1; 
     }
 }
 
@@ -396,8 +529,6 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
         return false;
     }
 
-    calcSlack();
-
     /*for (int i = 0; i < vertices_.size(); i++) {
         cout << vertices_[i].op << endl;
     }
@@ -418,11 +549,6 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
     cout << "ASAP TIMES" << endl;
     for (int i = 0; i < vertices_.size(); i++) {
         cout << vertices_[i].op << " " << vertices_[i].asap << endl;
-    }
-
-    cout << "SLACK TIMES" << endl;
-    for (int i = 0; i < vertices_.size(); i++) {
-        cout << vertices_[i].op << " " << vertices_[i].slack << endl;
     }
 
     cout << "EDGES" << endl;

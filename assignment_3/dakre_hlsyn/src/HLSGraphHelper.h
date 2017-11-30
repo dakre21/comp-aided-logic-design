@@ -13,12 +13,13 @@ using namespace std;
 
 // Define two structs for nodes and edges
 struct Node {
-    int force;
+    float force;
     int cycle;
     int asap;
     int alap;
-    int slack;
+    int frame_width;
     string op;
+    int time_frame [2];
     
     Node(string operation) { 
         op = operation;
@@ -26,7 +27,7 @@ struct Node {
         cycle = 0;
         asap = 0;
         alap = 0;
-        slack = 0;
+        frame_width = 0;
     }
 };
 
