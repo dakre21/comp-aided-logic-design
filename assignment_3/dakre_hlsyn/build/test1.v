@@ -22,20 +22,17 @@ module HLSM (Clk, Rst, Start, Done);
         t2 = t1 + c ;
     end
 
-    always @(posedge Clk, d, t2) begin
-        t3 = t2 + d ;
-    end
-
-    always @(posedge Clk, e, t3) begin
+    always @(posedge Clk, e, t3, f, t4) begin
         t4 = t3 + e ;
-    end
-
-    always @(posedge Clk, f, t4) begin
         t5 = t4 + f ;
     end
 
     always @(posedge Clk, g, t5) begin
         t6 = t5 + g ;
+    end
+
+    always @(posedge Clk, d, t2) begin
+        t3 = t2 + d ;
     end
 
     always @(posedge Clk, h, t6) begin
@@ -54,4 +51,10 @@ module HLSM (Clk, Rst, Start, Done);
         avg = t7div4 >> sa;
     end
 
-    always @(posedge Clk, 
+    always @(posedge Clk,  t) begin
+        Done = 1;
+    end
+
+
+
+endmodule

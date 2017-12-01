@@ -162,14 +162,11 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                             epos = operations_[k].find("=");
                             if (operations_[k].find(operands_[l]) != bad_rc_ && epos < opos) {
                                 operands += operands_[l] + ", ";        
-                                found = true;
                             }
                         }
                     }
                 }
-            }
-
-            if (found) {
+                
                 if (operands.length() > 2) {
                     if (vertices_[j].cycle == 1) {
                         operands.replace(operands.length() - 2, operands.length(), ", Start) begin\n");
@@ -181,7 +178,6 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                 fputs(STATIC_STATE, file_out);
                 fputs(operands.c_str(), file_out);
                 operands = "";
-                found = false;
             }
         }
 
@@ -208,7 +204,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         }
     }
     
-    for (size_t i = 1; i < latency; i++) {
+    /*for (size_t i = 1; i < latency; i++) {
         if (vertices_[i].cycle == i) {
             max_cycle = i;
         }
@@ -229,7 +225,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     fputs(STATIC_DONE, file_out);
     fputs(STATIC_END, file_out);
     fputs("\n\n", file_out);
-    fputs(STATIC_ENDMODULE, file_out);
+    fputs(STATIC_ENDMODULE, file_out);*/
 }
 
 bool HLSEngine::createFDS(int latency) {
