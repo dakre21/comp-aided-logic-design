@@ -66,7 +66,7 @@ private:
     void calcTimeFrame();
 
     // Create FDS schedule
-    void createFDS(int latency);
+    bool createFDS(int latency);
 
     // Create HLSM
     void createHLSM();

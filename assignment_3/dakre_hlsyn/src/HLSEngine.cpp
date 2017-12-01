@@ -2,6 +2,7 @@
 #include "HLSConstants.h"
 #include <ctype.h>
 #include <list>
+#include <ctime>
 
 HLSEngine::HLSEngine() :
 
@@ -23,8 +24,10 @@ void HLSEngine::createHLSM() {
     //TODO Implement
 }
 
-void HLSEngine::createFDS(int latency) {
+bool HLSEngine::createFDS(int latency) {
     bool scheduled = false;
+    bool mul = false;
+    bool div = false;
     int time_to_end = 0;
     int cycle = 0;
     int offset = 0;
@@ -34,21 +37,40 @@ void HLSEngine::createFDS(int latency) {
     float max_force_mul;
     float max_force_div;
     float max_force_alu;
-    int count_mul;
-    int count_alu;
-    int count_div;
+    int pos_mul;
+    int pos_alu;
+    int pos_div;
+    int count_mul = 2;
+    int count_div = 3;
+
+    // Start clock to exit
+    clock_t start_time = clock() / CLOCKS_PER_SEC;
 
     while (!scheduled) {
-        max_force_mul = 0;
-        max_force_div = 0;
-        max_force_alu = 0;
-        count_mul = 0;
-        count_alu = 0;
-        count_div = 0;
+        pos_mul = 0;
+        pos_div = 0;
+        pos_alu = 0;
         offset = 0;
         time_to_end = latency - cycle;
             
         for (size_t i = 0; i < vertices_.size(); i++) {
+            max_force_mul = -1000000;
+            max_force_div = -1000000;
+            max_force_alu = -1000000;    
+
+            if (count_mul <= 0) {
+                count_mul = 2;
+                mul = false;
+            } else if (mul) {
+                count_mul -= 1;
+            }
+
+            if (count_div <= 0) {
+                count_div = 3;
+            } else if (div) {
+                count_div -= 1;
+            }
+            
             // Step 1- calculate time frame
             calcTimeFrame();
 
@@ -102,6 +124,7 @@ void HLSEngine::createFDS(int latency) {
 
         // Step 4- schedule operation with the least force 
         cycle += 1;
+        scheduled = true;
 
         for (size_t i = 0; i < vertices_.size(); i++) {
             if (vertices_[i].cycle > 0) {
@@ -113,50 +136,45 @@ void HLSEngine::createFDS(int latency) {
             if (vertices_[i].op.find("*") != bad_rc_) {
                 if (max_force_mul < vertices_[i].force) {
                     max_force_mul = vertices_[i].force;
-                    count_mul = i;
+                    pos_mul = i;
                 }
             } else if (vertices_[i].op.find("/") != bad_rc_ || vertices_[i].op.find("%") != bad_rc_) {
                 if (max_force_div < vertices_[i].force) {
                     max_force_div = vertices_[i].force;
-                    count_div = i;
+                    pos_div = i;
                 }
             } else {
                 if (max_force_alu < vertices_[i].force) {
                     max_force_alu = vertices_[i].force;
-                    count_alu = i;
+                    pos_alu = i;
                 }
             }
         }
 
-        if (vertices_[count_mul].cycle == 0) {
-            vertices_[count_mul].cycle = cycle;
+        if (vertices_[pos_mul].cycle == 0 && count_mul == 2) {
+            vertices_[pos_mul].cycle = cycle;
+            mul = true;
         } 
         
-        if (vertices_[count_div].cycle == 0) {
-            vertices_[count_div].cycle = cycle;
+        if (vertices_[pos_div].cycle == 0 && count_div == 3) {
+            vertices_[pos_div].cycle = cycle;
+            div = true;
         } 
         
-        if (vertices_[count_alu].cycle == 0) {
-            vertices_[count_alu].cycle = cycle;
+        if (vertices_[pos_alu].cycle == 0) {
+            vertices_[pos_alu].cycle = cycle;
         }
 
         if (time_to_end == 0 && scheduled == false) {
-            for (size_t i = 0; i < vertices_.size(); i++) {
-                if (vertices_[i].cycle > 0) {
-                    continue;
-                } else {
-                    if (vertices_[i].op.find("*") != bad_rc_) {
-                        vertices_[i].cycle = cycle - 2;
-                    } else if (vertices_[i].op.find("/") != bad_rc_ || vertices_[i].op.find("%") != bad_rc_) {
-                        vertices_[i].cycle = cycle - 3;
-                    } else {
-                        vertices_[i].cycle = cycle - 1;
-                    }
-                }
-            }
-            scheduled = true;
+            cycle = 0;
+        }
+
+        if ((start_time + 1) < (clock() / CLOCKS_PER_SEC)) {
+            return false;
         }
     }
+
+    return true;
 }
 
 void HLSEngine::calcTimeFrame() {
@@ -529,6 +547,12 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
         return false;
     }
 
+    if (createFDS(latency) != true) {
+        fprintf(stderr, "Failed to create FDS schedule... issue with given latency "\
+                "being too small based on netlist's total inter-operational total dependencies exceeding latency time\n");
+        return false;
+    }
+
     /*for (int i = 0; i < vertices_.size(); i++) {
         cout << vertices_[i].op << endl;
     }
@@ -549,6 +573,11 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
     cout << "ASAP TIMES" << endl;
     for (int i = 0; i < vertices_.size(); i++) {
         cout << vertices_[i].op << " " << vertices_[i].asap << endl;
+    }
+
+    cout << "Scheduled cycle from FDS" << endl;
+    for (int i = 0; i < vertices_.size(); i++) {
+        cout << vertices_[i].op << " " << vertices_[i].cycle << endl;
     }
 
     cout << "EDGES" << endl;
