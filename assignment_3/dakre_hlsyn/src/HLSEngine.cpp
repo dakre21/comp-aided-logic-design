@@ -20,7 +20,7 @@ HLSEngine::~HLSEngine() {
     // Do nothing
 }
 
-void HLSEngine::createHLSM(FILE* file_out) {
+void HLSEngine::createHLSM(FILE* file_out, int latency) {
     // Part 1 Write initial verilog code
 
     // Write timescale
@@ -146,37 +146,57 @@ void HLSEngine::createHLSM(FILE* file_out) {
     // (b) Create individual states
     string state = string(STATIC_S1);
     string operation = "   "; 
+    string operands = "";
+    bool found = false;
+    int epos = 0;
+    int opos = 0;
 
-    for (size_t i = 0; i < vertices_.size(); i++) {
-        fputs(state.c_str(), file_out);
-        /*if (vertices_[i].cycle == 1) {
-            for (size_t j = 0; j < operations_.size(); j++) {
-                if (operations_[j].find(outputs_[i]) != bad_rc_ && operations_[j].find("Int") == bad_rc_) {
-                    operation += operations_[j];
-                    operations_[j] = "";
-                    break;
+    for (size_t i = 1; i < latency; i++) {
+        for (size_t j = 0; j < vertices_.size(); j++) {
+            if (vertices_[j].cycle == i) {
+                for (size_t k = 0; k < operations_.size(); k++) {
+                    if (operations_[k].find(outputs_[j]) != bad_rc_ && operations_[k].find("Int") == bad_rc_) {
+                        for (size_t l = 0; l < operands_.size(); l++) {
+                            opos = operations_[k].find(operands_[l]);
+                            epos = operations_[k].find("=");
+                            if (operations_[k].find(operands_[l]) != bad_rc_ && epos < opos) {
+                                operands += operands_[l] + ", ";        
+                            }
+                        }
+
+                        if (operands.length() > 2) {
+                            if (vertices_[j].cycle == 1) {
+                                operands.replace(operands.length() - 2, operands.length(), ", Start) begin\n");
+                            } else {
+                                operands.replace(operands.length() - 2, operands.length(), ") begin\n");
+                               
+                            }
+                            
+                            fputs(STATIC_STATE, file_out);
+                            fputs(operands.c_str(), file_out);
+                            operands = "";
+                        }
+                    }
+                }
+                for (size_t k = 0; k < operations_.size(); k++) {
+                    if (operations_[k].find(outputs_[j]) != bad_rc_ && operations_[k].find("Int") == bad_rc_) {
+                        operation += operations_[k];
+                        operations_[k] = "";
+                        operation.replace((operation.length() - 4), operation.length(), ";\n");
+                        fputs(operation.c_str(), file_out);
+                        operation = "   ";
+                        found = true;
+                    }
                 }
             }
-
-            operation.replace((operation.length() - 4), operation.length(), ";\n");
-            fputs(operation.c_str(), file_out);
-        } else {
-            
-        }*/
-
-        for (size_t j = 0; j < operations_.size(); j++) {
-            if (operations_[j].find(outputs_[i]) != bad_rc_ && operations_[j].find("Int") == bad_rc_) {
-                operation += operations_[j];
-                operations_[j] = "";
-                operation.replace((operation.length() - 4), operation.length(), ";\n");
-                fputs(operation.c_str(), file_out);
-                operation = "   ";
-            }
         }
-        
-        fputs(STATIC_END, file_out);
-        fputs("\n", file_out);
-        state = string(STATIC_STATE);
+
+        if (found == true) {
+            fputs(STATIC_END, file_out);
+            fputs("\n", file_out);
+            state = string(STATIC_STATE);
+            found = false;
+        }
     }
 
     for (size_t i = 0; i < vertices_.size(); i++) {
@@ -789,7 +809,7 @@ bool HLSEngine::createVerilogSrc(FILE* file_in, FILE* file_out, string v_file, i
 
     // Parse buffer and create verilog file
     if (parseBufferCreateVerilogSrc(buff, buff_len, file_out, latency) != false) {
-        createHLSM(file_out);
+        createHLSM(file_out, latency);
         free(buff);
         return true;
     } else {
