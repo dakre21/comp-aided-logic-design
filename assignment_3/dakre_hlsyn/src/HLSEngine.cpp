@@ -136,6 +136,56 @@ void HLSEngine::createHLSM(FILE* file_out) {
     fputs("\n\n", file_out);
 
     // Part 3 Create the HLSM States
+    // (a) Create initial wait state
+    fputs(STATIC_WAIT, file_out);
+    fputs(STATIC_WC, file_out);
+    fputs(STATIC_END, file_out);
+
+    fputs("\n", file_out);
+
+    // (b) Create individual states
+    string state = string(STATIC_S1);
+    string operation = "   "; 
+
+    for (size_t i = 0; i < vertices_.size(); i++) {
+        fputs(state.c_str(), file_out);
+        /*if (vertices_[i].cycle == 1) {
+            for (size_t j = 0; j < operations_.size(); j++) {
+                if (operations_[j].find(outputs_[i]) != bad_rc_ && operations_[j].find("Int") == bad_rc_) {
+                    operation += operations_[j];
+                    operations_[j] = "";
+                    break;
+                }
+            }
+
+            operation.replace((operation.length() - 4), operation.length(), ";\n");
+            fputs(operation.c_str(), file_out);
+        } else {
+            
+        }*/
+
+        for (size_t j = 0; j < operations_.size(); j++) {
+            if (operations_[j].find(outputs_[i]) != bad_rc_ && operations_[j].find("Int") == bad_rc_) {
+                operation += operations_[j];
+                operations_[j] = "";
+                operation.replace((operation.length() - 4), operation.length(), ";\n");
+                fputs(operation.c_str(), file_out);
+                operation = "   ";
+            }
+        }
+        
+        fputs(STATIC_END, file_out);
+        fputs("\n", file_out);
+        state = string(STATIC_STATE);
+    }
+
+    for (size_t i = 0; i < vertices_.size(); i++) {
+        
+        for (size_t j = 0; j < vertices_.size(); j++) {
+                
+        }
+
+    }
 }
 
 bool HLSEngine::createFDS(int latency) {
@@ -673,11 +723,11 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
 
     for (int i = 0; i < operands_.size(); i++) {
         cout << operands_[i] << endl;
-    }
+    }*/
 
     for (int i = 0; i < outputs_.size(); i++) {
         cout << outputs_[i] << endl;
-    }*/
+    }
 
     cout << "ALAP TIMES" << endl;
     for (int i = 0; i < vertices_.size(); i++) {
