@@ -17,8 +17,7 @@ module HLSM (Clk, Rst, Start, Done);
     // Do nothing
     end
 
-    always @(posedge Clk, a, b, Start) begin
-    always @(posedge Clk, c, t1, Start) begin
+    always @(posedge Clk, a, b, c, t1, Start) begin
         t1 = a + b;
         t2 = t1 + c ;
     end
@@ -55,3 +54,4 @@ module HLSM (Clk, Rst, Start, Done);
         avg = t7div4 >> sa;
     end
 
+    always @(posedge Clk, 

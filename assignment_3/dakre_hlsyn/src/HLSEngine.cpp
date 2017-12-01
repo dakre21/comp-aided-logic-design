@@ -164,20 +164,25 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                             }
                         }
 
-                        if (operands.length() > 2) {
-                            if (vertices_[j].cycle == 1) {
-                                operands.replace(operands.length() - 2, operands.length(), ", Start) begin\n");
-                            } else {
-                                operands.replace(operands.length() - 2, operands.length(), ") begin\n");
-                               
-                            }
-                            
-                            fputs(STATIC_STATE, file_out);
-                            fputs(operands.c_str(), file_out);
-                            operands = "";
-                        }
+                        
                     }
                 }
+                
+                if (operands.length() > 2) {
+                    if (vertices_[j].cycle == 1) {
+                        operands.replace(operands.length() - 2, operands.length(), ", Start) begin\n");
+                    } else {
+                        operands.replace(operands.length() - 2, operands.length(), ") begin\n");
+                    }
+                }
+                fputs(STATIC_STATE, file_out);
+                fputs(operands.c_str(), file_out);
+                operands = "";
+            }
+        }
+
+        for (size_t j = 0; j < vertices_.size(); j++) {
+            if (vertices_[j].cycle == i) {
                 for (size_t k = 0; k < operations_.size(); k++) {
                     if (operations_[k].find(outputs_[j]) != bad_rc_ && operations_[k].find("Int") == bad_rc_) {
                         operation += operations_[k];
@@ -197,14 +202,6 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
             state = string(STATIC_STATE);
             found = false;
         }
-    }
-
-    for (size_t i = 0; i < vertices_.size(); i++) {
-        
-        for (size_t j = 0; j < vertices_.size(); j++) {
-                
-        }
-
     }
 }
 
