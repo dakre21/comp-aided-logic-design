@@ -47,13 +47,13 @@ bool HLSEngine::createFDS(int latency) {
     clock_t start_time = clock() / CLOCKS_PER_SEC;
 
     while (!scheduled) {
-        pos_mul = 0;
-        pos_div = 0;
-        pos_alu = 0;
-        offset = 0;
-        time_to_end = latency - cycle;
-            
+                    
         for (size_t i = 0; i < vertices_.size(); i++) {
+            pos_mul = 0;
+            pos_div = 0;
+            pos_alu = 0;
+            offset = 0;
+            time_to_end = latency - cycle;
             max_force_mul = -1000000;
             max_force_div = -1000000;
             max_force_alu = -1000000;    
@@ -151,17 +151,17 @@ bool HLSEngine::createFDS(int latency) {
             }
         }
 
-        if (vertices_[pos_mul].cycle == 0 && count_mul == 2) {
+        if (vertices_[pos_mul].cycle == 0 && count_mul == 2 && vertices_[pos_mul].time_frame[0] <= cycle && cycle <= vertices_[pos_mul].time_frame[1]) {
             vertices_[pos_mul].cycle = cycle;
             mul = true;
         } 
         
-        if (vertices_[pos_div].cycle == 0 && count_div == 3) {
+        if (vertices_[pos_div].cycle == 0 && count_div == 3 && vertices_[pos_div].time_frame[0] <= cycle && cycle <= vertices_[pos_div].time_frame[1]) {
             vertices_[pos_div].cycle = cycle;
             div = true;
         } 
         
-        if (vertices_[pos_alu].cycle == 0) {
+        if (vertices_[pos_alu].cycle == 0 && vertices_[pos_alu].time_frame[0] <= cycle && cycle <= vertices_[pos_alu].time_frame[1]) {
             vertices_[pos_alu].cycle = cycle;
         }
 
