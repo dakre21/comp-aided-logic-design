@@ -20,8 +20,122 @@ HLSEngine::~HLSEngine() {
     // Do nothing
 }
 
-void HLSEngine::createHLSM() {
-    //TODO Implement
+void HLSEngine::createHLSM(FILE* file_out) {
+    // Part 1 Write initial verilog code
+
+    // Write timescale
+    fputs(STATIC_TIMING, file_out);
+
+    // Write initial stuff for verilog code
+    fputs(STATIC_COMMENT, file_out);
+
+    // Write module
+    fputs(STATIC_MODULE, file_out);
+
+    // Write static regs & wires
+    fputs(STATIC_REGS, file_out);
+    fputs(STATIC_OUTPUT, file_out);
+    fputs(STATIC_REGS2, file_out);
+
+    // Part 2 Write custom inputs and outputs
+    int pos = 0;
+    for (size_t i = 0; i < operations_.size(); i++) {
+        string sub_str = operations_[i];
+
+        pos = sub_str.find("variable");
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen("variable"), "reg");
+        }
+
+        sub_str.replace((sub_str.length() - 4), sub_str.length(), ";\n");
+
+        pos = sub_str.find(NET_UINT16);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_UINT16), DATAWIDTH_16);
+            fputs(sub_str.c_str(), file_out);
+            continue;
+        }
+
+        pos = sub_str.find(NET_UINT32);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_UINT32), DATAWIDTH_32);
+            fputs(sub_str.c_str(), file_out);
+            continue;
+        }
+
+        pos = sub_str.find(NET_UINT64);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_UINT64), DATAWIDTH_64);
+            fputs(sub_str.c_str(), file_out);
+            continue;
+        }
+
+        pos = sub_str.find(NET_UINT1);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_UINT1), DATAWIDTH_1);
+            fputs(sub_str.c_str(), file_out);
+            continue;
+        }
+
+        pos = sub_str.find(NET_UINT2);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_UINT2), DATAWIDTH_2);
+            fputs(sub_str.c_str(), file_out);
+            continue;
+        }
+
+        pos = sub_str.find(NET_UINT8);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_UINT8), DATAWIDTH_8);
+            fputs(sub_str.c_str(), file_out);
+            continue;
+        }
+
+        pos = sub_str.find(NET_INT16);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_INT16), DATAWIDTH_16);
+            fputs(sub_str.c_str(), file_out);
+            continue;
+        }
+
+        pos = sub_str.find(NET_INT32);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_INT32), DATAWIDTH_32);
+            fputs(sub_str.c_str(), file_out);
+            continue;
+        }
+
+        pos = sub_str.find(NET_INT64);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_INT64), DATAWIDTH_64);
+            fputs(sub_str.c_str(), file_out);
+            continue;
+        }
+        pos = sub_str.find(NET_INT1);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_INT1), DATAWIDTH_1);
+            fputs(sub_str.c_str(), file_out);
+            continue;
+        }
+
+        pos = sub_str.find(NET_INT2);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_INT2), DATAWIDTH_2);
+            fputs(sub_str.c_str(), file_out);
+            continue;
+        }
+
+        pos = sub_str.find(NET_INT8);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_INT8), DATAWIDTH_8);
+            fputs(sub_str.c_str(), file_out);
+            continue;
+        }
+    }
+
+    fputs("\n\n", file_out);
+
+    // Part 3 Create the HLSM States
 }
 
 bool HLSEngine::createFDS(int latency) {
@@ -157,7 +271,7 @@ bool HLSEngine::createFDS(int latency) {
         } 
         
         if (vertices_[pos_div].cycle == 0 && count_div == 3 && vertices_[pos_div].time_frame[0] <= cycle && cycle <= vertices_[pos_div].time_frame[1]) {
-            vertices_[pos_div].cycle = cycle;
+            vertices_[pos_div].cycle = cycle + 1;
             div = true;
         } 
         
@@ -618,32 +732,20 @@ bool HLSEngine::createVerilogSrc(FILE* file_in, FILE* file_out, string v_file, i
     // Read buffer
     fread(buff, buff_len, 1, file_in);
 
-    // Set initial buffer to file with null chars
-    for (int i = 0; i < 255; i++) {
-        fputs(STATIC_NULL, file_out);
-    }
-
-    // Write initial stuff for verilog code
-    fputs(STATIC_COMMENT, file_out);
-
-    // Write static regs & wires
-    fputs(STATIC_REGS, file_out);
-    fputs(STATIC_WIRES, file_out);
-
-    // Write starting clock info
-    fputs(STATIC_ALWAYS, file_out);
-    fputs(STATIC_CLK_START, file_out);
-
     if (strlen(buff) != buff_len) {
         fprintf(stderr, "Failed to read all of the bytes in the file\n");
         return false;
     }
 
     // Parse buffer and create verilog file
-    rc &= parseBufferCreateVerilogSrc(buff, buff_len, file_out, latency);
-    free(buff);
-
-    return true;
+    if (parseBufferCreateVerilogSrc(buff, buff_len, file_out, latency) != false) {
+        createHLSM(file_out);
+        free(buff);
+        return true;
+    } else {
+        free(buff);
+        return false;
+    }
 }
 
 

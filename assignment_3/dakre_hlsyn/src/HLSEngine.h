@@ -69,7 +69,7 @@ private:
     bool createFDS(int latency);
 
     // Create HLSM
-    void createHLSM();
+    void createHLSM(FILE* file_out);
 
     // Add edge helper
     void addEdge(size_t i, size_t k);

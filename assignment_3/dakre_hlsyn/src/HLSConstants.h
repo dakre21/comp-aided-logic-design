@@ -47,14 +47,15 @@ const char* GTZ             = "GTZ_";
 const char* LTZ             = "LTZ_";
 
 const char* STATIC_NULL      = " ";
-const char* STATIC_COMMENT   = "\n    // HLS has generated this HDL code with the dpgen executable\n    // Author: David Akre\n\n";
-const char* STATIC_REGS      = "    reg Clk, Rst;\n";
-const char* STATIC_WIRES     = "    wire LTZ_, GTZ_, EQZ_;\n";
-const char* STATIC_ALWAYS    = "    always\n";
-const char* STATIC_CLK_START = "        #(10) Clk <= ~Clk;\n\n";
+const char* STATIC_COMMENT   = "// HLS has generated this HDL code with the dpgen executable\n// Author: David Akre\n\n";
+const char* STATIC_MODULE    = "module HLSM (Clk, Rst, Start, Done);\n";
+const char* STATIC_REGS      = "    reg Clk, Rst, Start;\n";
+const char* STATIC_OUTPUT    = "    output reg Done;\n";
+const char* STATIC_REGS2     = "    reg LTZ_, GTZ_, EQZ_;\n\n";
+//const char* STATIC_ALWAYS    = "    always\n";
+//const char* STATIC_CLK_START = "        #(10) Clk <= ~Clk;\n\n";
 const char* STATIC_ENDMODULE = "\nendmodule\n";
-const char* STATIC_MODULE    = "module ";
-const char* STATIC_TIMING    = "`timescale 1ns / 1ns\n\n\n";
+const char* STATIC_TIMING    = "`timescale 1ns / 1ns\n\n";
 
 // Resource latencies
 const unsigned int MUL_LATENCY     = 2;
