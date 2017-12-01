@@ -19,11 +19,11 @@ const char* NET_REGW     = "wire";
 
 // Datawidth constants
 const char* DATAWIDTH_1       = "";
-const char* DATAWIDTH_2       = "[1:0]";
-const char* DATAWIDTH_8       = "[7:0]";
-const char* DATAWIDTH_16      = "[15:0]";
-const char* DATAWIDTH_32      = "[31:0]";
-const char* DATAWIDTH_64      = "[63:0]";
+const char* DATAWIDTH_2       = "reg [1:0]";
+const char* DATAWIDTH_8       = "reg [7:0]";
+const char* DATAWIDTH_16      = "reg [15:0]";
+const char* DATAWIDTH_32      = "reg [31:0]";
+const char* DATAWIDTH_64      = "reg [63:0]";
 const char* DATAWIDTH_1_STR   = "1";
 const char* DATAWIDTH_2_STR   = "2";
 const char* DATAWIDTH_8_STR   = "8";
@@ -47,13 +47,13 @@ const char* GTZ             = "GTZ_";
 const char* LTZ             = "LTZ_";
 
 const char* STATIC_NULL      = " ";
-const char* STATIC_COMMENT   = "// HLS has generated this HDL code with the dpgen executable\n// Author: David Akre\n\n";
+const char* STATIC_COMMENT   = "// HLS has generated this HDL code with the hlsyn executable\n// Author: David Akre\n\n";
+const char* STATIC_STARTC    = "    // Initial Wait State S0 of the HLSM\n"; 
+const char* STATIC_CODEC     = "    // C to HLSM states below based on FDS scheduling\n";
+const char* STATIC_DONEC     = "    // Final State to conclude the HLSM by setting Done to logic level high (i.e. 1)\n";
+const char* STATIC_INPUTS    = "    input Clk, Rst, Start;\n";
+const char* STATIC_OUTPUTS   = "    output reg Done;\n";
 const char* STATIC_MODULE    = "module HLSM (Clk, Rst, Start, Done);\n";
-const char* STATIC_REGS      = "    reg Clk, Rst, Start;\n";
-const char* STATIC_OUTPUT    = "    output reg Done;\n";
-const char* STATIC_REGS2     = "    reg LTZ_, GTZ_, EQZ_;\n\n";
-//const char* STATIC_ALWAYS    = "    always\n";
-//const char* STATIC_CLK_START = "        #(10) Clk <= ~Clk;\n\n";
 const char* STATIC_ENDMODULE = "endmodule\n";
 const char* STATIC_TIMING    = "`timescale 1ns / 1ns\n\n";
 const char* STATIC_WAIT      = "    always @(posedge Clk, ~Start) begin\n";

@@ -32,10 +32,9 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     // Write module
     fputs(STATIC_MODULE, file_out);
 
-    // Write static regs & wires
-    fputs(STATIC_REGS, file_out);
-    fputs(STATIC_OUTPUT, file_out);
-    fputs(STATIC_REGS2, file_out);
+    // Write inputs and outputs
+    fputs(STATIC_INPUTS, file_out);
+    fputs(STATIC_OUTPUTS, file_out);
 
     // Part 2 Write custom inputs and outputs
     int pos = 0;
@@ -44,7 +43,17 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
 
         pos = sub_str.find("variable");
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen("variable"), "reg");
+            sub_str.replace(pos, strlen("variable"), "");
+        }
+
+        pos = sub_str.find("input");
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen("input"), "");
+        }
+
+        pos = sub_str.find("output");
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen("output"), "");
         }
 
         sub_str.replace((sub_str.length() - 4), sub_str.length(), ";\n");
@@ -137,6 +146,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
 
     // Part 3 Create the HLSM States
     // (a) Create initial wait state
+    fputs(STATIC_STARTC, file_out);
     fputs(STATIC_WAIT, file_out);
     fputs(STATIC_WC, file_out);
     fputs(STATIC_END, file_out);
@@ -151,6 +161,8 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     int epos = 0;
     int opos = 0;
     int max_cycle = 0;
+
+    fputs(STATIC_CODEC, file_out);
 
     for (size_t i = 1; i < latency; i++) {
         for (size_t j = 0; j < vertices_.size(); j++) {
@@ -224,6 +236,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         operands.replace(operands.length() - 2, operands.length(), ") begin\n");
     }
 
+    fputs(STATIC_DONEC, file_out);
     fputs(STATIC_STATE, file_out);
     fputs(operands.c_str(), file_out);
     fputs(STATIC_DONE, file_out);
