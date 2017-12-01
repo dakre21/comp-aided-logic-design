@@ -208,15 +208,15 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         }
     }
     
-    for (size_t i = 1; i < latency; i++) {
-        if (vertices_[i].cycle == i) {
-            max_cycle = i;
+    for (size_t i = 0; i < vertices_.size(); i++) {
+        if (max_cycle < vertices_[i].cycle) {
+            max_cycle = vertices_[i].cycle;
         }
     }
 
     for (size_t i = 0; i < vertices_.size(); i++) {
         if (vertices_[i].cycle == max_cycle) {
-            operands += outputs_[i];
+            operands += outputs_[i] + ", ";
         }
     }
 

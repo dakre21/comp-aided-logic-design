@@ -54,7 +54,7 @@ const char* STATIC_OUTPUT    = "    output reg Done;\n";
 const char* STATIC_REGS2     = "    reg LTZ_, GTZ_, EQZ_;\n\n";
 //const char* STATIC_ALWAYS    = "    always\n";
 //const char* STATIC_CLK_START = "        #(10) Clk <= ~Clk;\n\n";
-const char* STATIC_ENDMODULE = "\nendmodule\n";
+const char* STATIC_ENDMODULE = "endmodule\n";
 const char* STATIC_TIMING    = "`timescale 1ns / 1ns\n\n";
 const char* STATIC_WAIT      = "    always @(posedge Clk, ~Start) begin\n";
 const char* STATIC_S1        = "    always @(posedge Clk, Start) begin\n";
