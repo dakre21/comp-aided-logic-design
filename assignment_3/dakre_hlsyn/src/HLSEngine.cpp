@@ -31,6 +31,117 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
 
     // Write module
     fputs(STATIC_MODULE, file_out);
+    int pos = 0;
+    string sub_str = "";
+    string final_str = "";
+    for (size_t i = 0; i < operations_.size(); i++) {
+        sub_str = operations_[i];
+
+        pos = sub_str.find("variable");
+        if (pos != bad_rc_) {
+            continue;
+        }
+
+        pos = sub_str.find("input");
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen("input"), "");
+            sub_str.replace((sub_str.length() - 4), sub_str.length(), ", ");
+            sub_str.replace(0, 4, "");
+        }
+
+        pos = sub_str.find("output");
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen("output"), "");
+            sub_str.replace((sub_str.length() - 4), sub_str.length(), ", ");
+            sub_str.replace(0, 4, "");
+        }
+
+        pos = sub_str.find(NET_UINT16);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_UINT16), "");
+            final_str += sub_str;
+            continue;
+        }
+
+        pos = sub_str.find(NET_UINT32);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_UINT32), "");
+            final_str += sub_str;
+            continue;
+        }
+
+        pos = sub_str.find(NET_UINT64);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_UINT64), "");
+            final_str += sub_str;
+            continue;
+        }
+
+        pos = sub_str.find(NET_UINT1);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_UINT1), "");
+            final_str += sub_str;
+            continue;
+        }
+
+        pos = sub_str.find(NET_UINT2);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_UINT2), "");
+            final_str += sub_str;
+            continue;
+        }
+
+        pos = sub_str.find(NET_UINT8);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_UINT8), "");
+            final_str += sub_str;
+            continue;
+        }
+
+        pos = sub_str.find(NET_INT16);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_INT16), "");
+            final_str += sub_str;
+            continue;
+        }
+
+        pos = sub_str.find(NET_INT32);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_INT32), "");
+            final_str += sub_str;
+            continue;
+        }
+
+        pos = sub_str.find(NET_INT64);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_INT64), "");
+            final_str += sub_str;
+            continue;
+        }
+        pos = sub_str.find(NET_INT1);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_INT1), "");
+            final_str += sub_str;
+            continue;
+        }
+
+        pos = sub_str.find(NET_INT2);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_INT2), "");
+            final_str += sub_str;
+            continue;
+        }
+
+        pos = sub_str.find(NET_INT8);
+        if (pos != bad_rc_) {
+            sub_str.replace(pos, strlen(NET_INT8), "");
+            final_str += sub_str;
+            continue;
+        }
+    }
+
+    final_str.replace((final_str.length() - 2), final_str.length(), ");\n");
+    fputs(final_str.c_str(), file_out);
 
     // Write inputs and outputs
     fputs(STATIC_INPUTS, file_out);
@@ -38,106 +149,150 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     fputs("    reg done, clk_en;\n", file_out);
 
     // Part 2 Write custom inputs and outputs
-    int pos = 0;
+    pos = 0;
+    bool ofound = false;
     for (size_t i = 0; i < operations_.size(); i++) {
-        string sub_str = operations_[i];
+        sub_str = operations_[i];
 
         pos = sub_str.find("variable");
         if (pos != bad_rc_) {
             sub_str.replace(pos, strlen("variable"), "");
         }
 
-        pos = sub_str.find("input");
-        if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen("input"), "");
-        }
-
         pos = sub_str.find("output");
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen("output"), "");
+            ofound = true; 
         }
 
         sub_str.replace((sub_str.length() - 4), sub_str.length(), ";\n");
 
         pos = sub_str.find(NET_UINT16);
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen(NET_UINT16), DATAWIDTH_16);
+            if (ofound) {
+                sub_str.replace(pos, strlen(NET_UINT16), ODATAWIDTH_16);
+            } else {
+                sub_str.replace(pos, strlen(NET_UINT16), DATAWIDTH_16);
+            }
             fputs(sub_str.c_str(), file_out);
             continue;
         }
 
         pos = sub_str.find(NET_UINT32);
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen(NET_UINT32), DATAWIDTH_32);
+            if (ofound) {
+                sub_str.replace(pos, strlen(NET_UINT32), ODATAWIDTH_32);
+            } else {
+                sub_str.replace(pos, strlen(NET_UINT32), DATAWIDTH_32);
+            }
             fputs(sub_str.c_str(), file_out);
             continue;
         }
 
         pos = sub_str.find(NET_UINT64);
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen(NET_UINT64), DATAWIDTH_64);
+            if (ofound) {
+                sub_str.replace(pos, strlen(NET_UINT64), ODATAWIDTH_64);
+            } else {
+                sub_str.replace(pos, strlen(NET_UINT64), DATAWIDTH_64);
+            }
             fputs(sub_str.c_str(), file_out);
             continue;
         }
 
         pos = sub_str.find(NET_UINT1);
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen(NET_UINT1), DATAWIDTH_1);
+            if (ofound) {
+                sub_str.replace(pos, strlen(NET_UINT1), ODATAWIDTH_1);
+            } else {
+                sub_str.replace(pos, strlen(NET_UINT1), DATAWIDTH_1);
+            }
             fputs(sub_str.c_str(), file_out);
             continue;
         }
 
         pos = sub_str.find(NET_UINT2);
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen(NET_UINT2), DATAWIDTH_2);
+            if (ofound) {
+                sub_str.replace(pos, strlen(NET_UINT1), ODATAWIDTH_2);
+            } else {
+                sub_str.replace(pos, strlen(NET_UINT2), DATAWIDTH_2);
+            }
             fputs(sub_str.c_str(), file_out);
             continue;
         }
 
         pos = sub_str.find(NET_UINT8);
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen(NET_UINT8), DATAWIDTH_8);
+            if (ofound) {
+                sub_str.replace(pos, strlen(NET_UINT8), ODATAWIDTH_8);
+            } else {
+                sub_str.replace(pos, strlen(NET_UINT8), DATAWIDTH_8);
+            }
             fputs(sub_str.c_str(), file_out);
             continue;
         }
 
         pos = sub_str.find(NET_INT16);
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen(NET_INT16), DATAWIDTH_16);
+            if (ofound) {
+                sub_str.replace(pos, strlen(NET_INT16), ODATAWIDTH_16);
+            } else {
+                sub_str.replace(pos, strlen(NET_INT16), DATAWIDTH_16);
+            }
             fputs(sub_str.c_str(), file_out);
             continue;
         }
 
         pos = sub_str.find(NET_INT32);
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen(NET_INT32), DATAWIDTH_32);
+            if (ofound) {
+                sub_str.replace(pos, strlen(NET_INT32), ODATAWIDTH_32);
+            } else {
+                sub_str.replace(pos, strlen(NET_INT32), DATAWIDTH_32);
+            }
             fputs(sub_str.c_str(), file_out);
             continue;
         }
 
         pos = sub_str.find(NET_INT64);
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen(NET_INT64), DATAWIDTH_64);
+            if (ofound) {
+                sub_str.replace(pos, strlen(NET_INT64), ODATAWIDTH_64);
+            } else {
+                sub_str.replace(pos, strlen(NET_INT64), DATAWIDTH_64);
+            }
             fputs(sub_str.c_str(), file_out);
             continue;
         }
         pos = sub_str.find(NET_INT1);
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen(NET_INT1), DATAWIDTH_1);
+            if (ofound) {
+                sub_str.replace(pos, strlen(NET_INT1), ODATAWIDTH_1);
+            } else {
+                sub_str.replace(pos, strlen(NET_INT1), DATAWIDTH_1);
+            }
             fputs(sub_str.c_str(), file_out);
             continue;
         }
 
         pos = sub_str.find(NET_INT2);
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen(NET_INT2), DATAWIDTH_2);
+            if (ofound) {
+                sub_str.replace(pos, strlen(NET_INT2), ODATAWIDTH_2);
+            } else {
+                sub_str.replace(pos, strlen(NET_INT2), DATAWIDTH_2);
+            }
             fputs(sub_str.c_str(), file_out);
             continue;
         }
 
         pos = sub_str.find(NET_INT8);
         if (pos != bad_rc_) {
-            sub_str.replace(pos, strlen(NET_INT8), DATAWIDTH_8);
+            if (ofound) {
+                sub_str.replace(pos, strlen(NET_INT8), ODATAWIDTH_8);
+            } else {
+                sub_str.replace(pos, strlen(NET_INT8), DATAWIDTH_8);
+            }
             fputs(sub_str.c_str(), file_out);
             continue;
         }
@@ -225,7 +380,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         } else if (op.find("+") != bad_rc_ || op.find("-") != bad_rc_ || op.find("<") != bad_rc_ || op.find(">") != bad_rc_) {
             dp_op = "alu" + op.substr(1, op.length());
         } else {
-            dp_op = "alu" + op.substr(op.length() - 2, op.length());
+            dp_op = "alu" + op.substr(op.length() - 1, op.length());
         }
 
         dp_decls += dp_op + ", ";
@@ -335,7 +490,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                             } else if (op.find("+") != bad_rc_ || op.find("-") != bad_rc_ || op.find("<") != bad_rc_ || op.find(">") != bad_rc_) {
                                 dp_op = "alu" + op.substr(1, op.length());
                             } else {
-                                dp_op = "alu" + op.substr(op.length() - 2, op.length());
+                                dp_op = "alu" + op.substr(op.length() - 1, op.length());
                             }
 
                             operation = "                " + dp_op + " <= 1;\n";
@@ -350,7 +505,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                             } else if (op.find("+") != bad_rc_ || op.find("-") != bad_rc_ || op.find("<") != bad_rc_ || op.find(">") != bad_rc_) {
                                 dp_op = "alu" + op.substr(1, op.length());
                             } else {
-                                dp_op = "alu" + op.substr(op.length() - 2, op.length());
+                                dp_op = "alu" + op.substr(op.length() - 1, op.length());
                             }
 
                             operation = "                " + dp_op + " <= 0;\n";

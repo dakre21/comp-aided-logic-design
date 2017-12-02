@@ -18,12 +18,19 @@ const char* NET_OUTPUT   = "output";
 const char* NET_REGW     = "wire";
 
 // Datawidth constants
-const char* DATAWIDTH_1       = "reg";
-const char* DATAWIDTH_2       = "reg [1:0]";
-const char* DATAWIDTH_8       = "reg [7:0]";
-const char* DATAWIDTH_16      = "reg [15:0]";
-const char* DATAWIDTH_32      = "reg [31:0]";
-const char* DATAWIDTH_64      = "reg [63:0]";
+const char* ODATAWIDTH_1        = "reg";
+const char* ODATAWIDTH_2        = "reg [1:0]";
+const char* ODATAWIDTH_8        = "reg [7:0]";
+const char* ODATAWIDTH_16       = "reg [15:0]";
+const char* ODATAWIDTH_32       = "reg [31:0]";
+const char* ODATAWIDTH_64       = "reg [63:0]";
+const char* DATAWIDTH_1       = "";
+const char* DATAWIDTH_2       = "[1:0]";
+const char* DATAWIDTH_8       = "[7:0]";
+const char* DATAWIDTH_16      = "[15:0]";
+const char* DATAWIDTH_32      = "[31:0]";
+const char* DATAWIDTH_64      = "[63:0]";
+
 const char* DATAWIDTH_1_STR   = "1";
 const char* DATAWIDTH_2_STR   = "2";
 const char* DATAWIDTH_8_STR   = "8";
@@ -55,7 +62,7 @@ const char* STATIC_CODEC     = "    // C to HLSM states below based on FDS sched
 const char* STATIC_DONEC     = "    // Final State to conclude the HLSM by setting Done to logic level high (i.e. 1)\n";
 const char* STATIC_INPUTS    = "    input Clk, Rst, Start;\n";
 const char* STATIC_OUTPUTS   = "    output reg Done;\n";
-const char* STATIC_MODULE    = "module HLSM (Clk, Rst, Start, Done);\n";
+const char* STATIC_MODULE    = "module HLSM (Clk, Rst, Start, Done, ";
 const char* STATIC_ENDMODULE = "endmodule\n";
 const char* STATIC_TIMING    = "`timescale 1ns / 1ns\n\n";
 const char* STATIC_ALWAYS      = "    always @(posedge Clk) begin\n";
