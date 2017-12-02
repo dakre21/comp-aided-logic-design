@@ -146,7 +146,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     // Write inputs and outputs
     fputs(STATIC_INPUTS, file_out);
     fputs(STATIC_OUTPUTS, file_out);
-    fputs("    reg done, clk_en;\n", file_out);
+    fputs("    reg clk_en;\n", file_out);
 
     // Part 2 Write custom inputs and outputs
     pos = 0;
@@ -306,10 +306,12 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     string st = "";
     string state_decls = "    localparam WAIT = 0, FINAL = 9999, ";
     string dp_decls = "    reg ";
-    string dp_logic = "        if (done) begin\n            next_state <= FINAL;\n        end\n";
+    string dp_logic = "";
     string dp_op = "";
     string operation = "";
     int state_count = 0;
+    int next_cycle = 0;
+    bool done = false;
     for (size_t i = 0; i < vertices_.size(); i++) {
         st = "STATE" + to_string(vertices_[i].cycle);
         if (state_decls.find(st) == bad_rc_) {
@@ -320,6 +322,20 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
 
     for (size_t i = 0; i < vertices_.size(); i++) {
         string op = vertices_[i].op;
+        done = false;
+
+        next_cycle = 1000000;
+        for (size_t k = 0; k < vertices_.size(); k++) {
+            if (vertices_[i].cycle < vertices_[k].cycle && vertices_[k].cycle < next_cycle) {
+                next_cycle = vertices_[k].cycle;
+            }
+        }
+
+        if (next_cycle == 1000000) {
+            next_cycle = vertices_[i].cycle;
+            done = true;
+        }
+
         pos = op.find("*");
         if (pos != bad_rc_) {
             dp_op = "mul" + op.substr(pos + 1, op.length());
@@ -335,7 +351,12 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                     break;
                 }
             }
-            dp_logic += "            next_state <= STATE" + to_string(vertices_[i].cycle) + ";\n";
+
+            if (done) {
+                dp_logic += "            next_state <= FINAL;\n";
+            } else {
+                dp_logic += "            next_state <= STATE" + to_string(next_cycle) + ";\n";
+            }
             dp_logic += "        end\n";
             continue;
         }
@@ -355,8 +376,13 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                     break;
                 }
             }
-            dp_logic += "            next_state <= STATE" + to_string(vertices_[i].cycle) + ";\n";
-            dp_logic += "        end\n";
+
+            if (done) {
+                dp_logic += "            next_state <= FINAL;\n";
+            } else {
+                dp_logic += "            next_state <= STATE" + to_string(next_cycle) + ";\n";
+            }
+
             continue;
         }
 
@@ -374,8 +400,13 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                     break;
                 }
             }
-            dp_logic += "            next_state <= STATE" + to_string(vertices_[i].cycle) + ";\n";
-            dp_logic += "        end\n";
+
+            if (done) {
+                dp_logic += "            next_state <= FINAL;\n";
+            } else {
+                dp_logic += "            next_state <= STATE" + to_string(next_cycle) + ";\n";
+            }
+
             continue;
         }
 
@@ -398,7 +429,12 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                 break;
             }
         }
-        dp_logic += "            next_state <= STATE" + to_string(vertices_[i].cycle) + ";\n";
+
+        if (done) {
+            dp_logic += "            next_state <= FINAL;\n";
+        } else {
+            dp_logic += "            next_state <= STATE" + to_string(next_cycle) + ";\n";
+        }
         dp_logic += "        end\n";
     }
 
@@ -422,7 +458,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         tmp_dp_decls.replace(pos, pos, "");
     }
 
-    string always_dp = "    always @(clk_en, done, " + tmp_dp_decls + ") begin\n";
+    string always_dp = "    always @(clk_en, " + tmp_dp_decls + ") begin\n";
     fputs(STATIC_DP, file_out);
     fputs(always_dp.c_str(), file_out);
     fputs(dp_logic.c_str(), file_out);
@@ -458,12 +494,20 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
 
     rst_str += "<= 0;\n";
 
-    cout << rst_str << endl;
     fputs(rst_str.c_str(), file_out);
-    fputs("            done <= 0;\n", file_out);
     fputs("            Done <= 0;\n", file_out);
     fputs("            clk_en <= 0;\n", file_out);
     fputs("        end else begin\n", file_out);
+
+    int min_cycle = 1;
+    for (size_t i = 0; i < vertices_.size(); i++) {
+        if (vertices_[i].cycle <=  min_cycle) {
+            min_cycle = vertices_[i].cycle;
+        }
+    }
+
+    string nstate = "            next_state <= STATE" + to_string(min_cycle) + ";\n";
+    fputs(nstate.c_str(), file_out);
     fputs("            state <= next_state;\n", file_out);
     fputs("        end\n", file_out);
     fputs("    end\n", file_out);
@@ -476,14 +520,6 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     bool found = false;
     int epos = 0;
     int opos = 0;
-    int max_cycle = 0;
-    int next_cycle = 0;
-
-    for (size_t i = 0; i < vertices_.size(); i++) {
-        if (max_cycle < vertices_[i].cycle) {
-            max_cycle = vertices_[i].cycle;
-        }
-    }
 
     fputs(STATIC_CODEC, file_out);
     fputs("    always @(state) begin\n", file_out);
@@ -500,18 +536,15 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         for (size_t j = 1; j < latency; j++) {
             found = false;
             if (vertices_[i].cycle == j) {
-                next_cycle = vertices_[i].cycle;
+                
+
                 if (found != true) {
                     state = "            STATE" + to_string(vertices_[i].cycle) + ": begin\n";
                     fputs(state.c_str(), file_out);
 
-                    if (max_cycle == next_cycle) {
-                        fputs("                done <= 1;\n", file_out);
-                    }
-                    
                     for (size_t k = 0; k < vertices_.size(); k++) {
                         op = vertices_[k].op;
-                        if (vertices_[k].cycle == next_cycle) {
+                        if (vertices_[k].cycle == vertices_[i].cycle) {
                             if (op.find("*") != bad_rc_) {
                                 dp_op = "mul" + op.substr(1, op.length());
                             } else if (op.find("/") != bad_rc_ || op.find("%") != bad_rc_) {
@@ -1101,7 +1134,7 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
 
     for (int i = 0; i < operands_.size(); i++) {
         cout << operands_[i] << endl;
-    }*/
+    }
 
     for (int i = 0; i < outputs_.size(); i++) {
         cout << outputs_[i] << endl;
@@ -1128,7 +1161,7 @@ bool HLSEngine::parseBufferCreateVerilogSrc(char* buff, size_t buff_len, FILE* f
                 end = edges_.upper_bound(&vertices_[i]); it != end; ++it) {
                 cout << it->first->op << " " << it->second.vertex->op << endl;
         }
-    }
+    }*/
 
     return true;
 }
