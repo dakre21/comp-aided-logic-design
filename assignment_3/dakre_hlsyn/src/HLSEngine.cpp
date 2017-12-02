@@ -151,12 +151,16 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     // Part 2 Write custom inputs and outputs
     pos = 0;
     bool ofound = false;
+    string var_str = "";
+    string tmp_str = "";
     for (size_t i = 0; i < operations_.size(); i++) {
         sub_str = operations_[i];
 
         pos = sub_str.find("variable");
         if (pos != bad_rc_) {
+            tmp_str = sub_str;
             sub_str.replace(pos, strlen("variable"), "");
+            var_str = tmp_str.replace(pos, strlen("variable UInt"), "");
         }
 
         pos = sub_str.find("output");
@@ -439,6 +443,22 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         rst_str += "            " + outputs_[i] + " <= 0;\n";
     }
 
+    rst_str += "        ";
+    for (size_t i = 0; i < var_str.length(); i++) {
+        if (var_str[i] == ',') {
+            rst_str += "<= 0;\n            ";
+        } else if (var_str[i] == '0' || var_str[i] == '1' || var_str[i] == '2' || var_str[i] == '3' ||
+                var_str[i] == '4' || var_str[i] == '5' || var_str[i] == '6' || var_str[i] == '7' ||
+                var_str[i] == '8' || var_str[i] == '9') {
+            // Do nothing
+        } else {
+            rst_str.push_back(var_str[i]);
+        }
+    }
+
+    rst_str += "<= 0;\n";
+
+    cout << rst_str << endl;
     fputs(rst_str.c_str(), file_out);
     fputs("            done <= 0;\n", file_out);
     fputs("            Done <= 0;\n", file_out);
