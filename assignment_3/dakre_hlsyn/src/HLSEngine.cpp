@@ -161,6 +161,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
             tmp_str = sub_str;
             sub_str.replace(pos, strlen("variable"), "");
             var_str = tmp_str.replace(pos, strlen("variable UInt"), "");
+            ofound = true;
         }
 
         pos = sub_str.find("output");
@@ -539,11 +540,13 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
 
     rst_str += "        ";
     for (size_t i = 0; i < var_str.length(); i++) {
-        if (i < 6) {
+        if (i < 5) {
             continue;
         }
 
-        if (i == 6 && var_str[i] == '2') {
+        if ((i == 5 || i == 6) && (var_str[i] == '1' || var_str[i] == '2' || var_str[i] == '3' ||
+                    var_str[i] == '4' || var_str[i] == '5' || var_str[i] == '6' ||
+                    var_str[i] == '7' || var_str[i] == '8' || var_str[i] == '9')) {
             continue;
         }
 
@@ -554,7 +557,9 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         }
     }
 
-    rst_str += "<= 0;\n";
+    if (var_str.length() > 0) {
+        rst_str += "<= 0;\n";
+    }
 
     fputs(rst_str.c_str(), file_out);
     fputs("            Done <= 0;\n", file_out);
