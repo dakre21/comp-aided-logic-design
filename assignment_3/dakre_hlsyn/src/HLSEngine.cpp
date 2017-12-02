@@ -433,6 +433,16 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     fputs("    always @(posedge Start) begin\n", file_out);
     fputs("        if (Rst) begin\n", file_out);
     fputs("            state <= WAIT;\n", file_out);
+
+    string rst_str = "";
+    for (size_t i = 0; i < outputs_.size(); i++) {
+        rst_str += "            " + outputs_[i] + " <= 0;\n";
+    }
+
+    fputs(rst_str.c_str(), file_out);
+    fputs("            done <= 0;\n", file_out);
+    fputs("            Done <= 0;\n", file_out);
+    fputs("            clk_en <= 0;\n", file_out);
     fputs("        end else begin\n", file_out);
     fputs("            state <= next_state;\n", file_out);
     fputs("        end\n", file_out);
