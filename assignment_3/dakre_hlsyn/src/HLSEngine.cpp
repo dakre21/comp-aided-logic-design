@@ -144,7 +144,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
 
     // Part 2.1 Define local states for controller
     string st = "";
-    string state_decls = "    localparam ";
+    string state_decls = "    localparam WAIT = 0,";
     string dp_decls = "    reg ";
     string dp_logic = "";
     string dp_op = "";
@@ -164,7 +164,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         if (pos != bad_rc_) {
             dp_op = "mul" + op.substr(pos + 1, op.length());
             dp_decls += dp_op + ", ";
-            dp_logic += "        if (" + dp_op + ")\n";
+            dp_logic += "        if (" + dp_op + ") begin\n";
            
             for (size_t j = 0; j < operations_.size(); j++) {
                 if (operations_[j].find(outputs_[i]) != bad_rc_ && operations_[j].find("Int") == bad_rc_) {
@@ -184,7 +184,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         if (pos != bad_rc_) {
             dp_op = "div" + op.substr(pos + 1, op.length());
             dp_decls += dp_op + ", ";
-            dp_logic += "        if (" + dp_op + ")\n";
+            dp_logic += "        if (" + dp_op + ") begin\n";
 
             for (size_t j = 0; j < operations_.size(); j++) {
                 if (operations_[j].find(outputs_[i]) != bad_rc_ && operations_[j].find("Int") == bad_rc_) {
@@ -204,7 +204,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         if (pos != bad_rc_) {
             dp_op = "div" + op.substr(pos + 1, op.length());
             dp_decls += dp_op + ", ";
-            dp_logic += "        if (" + dp_op + ")\n";
+            dp_logic += "        if (" + dp_op + ") begin\n";
             for (size_t j = 0; j < operations_.size(); j++) {
                 if (operations_[j].find(outputs_[i]) != bad_rc_ && operations_[j].find("Int") == bad_rc_) {
                     operation = operations_[j];
@@ -226,7 +226,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         }
 
         dp_decls += dp_op + ", ";
-        dp_logic += "        if (" + dp_op + ")\n";
+        dp_logic += "        if (" + dp_op + ") begin\n";
         for (size_t j = 0; j < operations_.size(); j++) {
             if (operations_[j].find(outputs_[i]) != bad_rc_ && operations_[j].find("Int") == bad_rc_) {
                 operation = operations_[j];
@@ -268,23 +268,22 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
 
     // 3.2 Create HLSM Controller
     fputs(STATIC_CTRL, file_out);
-    fputs("    always @(posedge Clk, posedge Start) begin\n", file_out);
+    fputs("    always @(posedge Start) begin\n", file_out);
     fputs("        if (Rst) begin\n", file_out);
     fputs("            state <= WAIT;\n", file_out);
     fputs("        end else begin\n", file_out);
-    fputs("            state <= next_state\n", file_out);
+    fputs("            state <= next_state;\n", file_out);
     fputs("        end\n", file_out);
     fputs("    end\n", file_out);
 
-    fputs("\n", file_out);
+    /*fputs("\n", file_out);
     fputs("    always @(posedge Clk, negedge Start) begin\n", file_out);
     fputs("        next_state => WAIT;\n", file_out);
-    fputs("    end\n", file_out);
+    fputs("    end\n", file_out);*/
 
     fputs("\n", file_out);
 
     string state = "";
-    operation = "   "; 
     string operands = "";
     bool found = false;
     int epos = 0;
@@ -292,14 +291,30 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     int max_cycle = 0;
 
     fputs(STATIC_CODEC, file_out);
-    fputs("\n", file_out);
     fputs("    always @(state) begin\n", file_out);
     fputs("        case (state)\n", file_out);
     fputs("            WAIT: begin\n", file_out);
     fputs("                // Do nothing\n", file_out);
     fputs("            end\n", file_out);
 
-    
+    for (size_t i = 0; i < latency; i++) {
+        found = false;
+        for (size_t j = 0; j < vertices_.size(); j++) {
+            if (vertices_[j].cycle == i) {
+                if (found != true) {
+                    state = "            STATE" + to_string(vertices_[j].cycle) + ": begin\n";
+                    fputs(state.c_str(), file_out);
+                    
+                    // Need to set next state vars here
+                    fputs("            end\n", file_out);
+                    found = true;
+                }
+            }
+        }
+    }
+
+   
+    fputs("        endcase\n", file_out);
     fputs(STATIC_END, file_out);
     fputs("\n\n", file_out);
     fputs(STATIC_ENDMODULE, file_out);
