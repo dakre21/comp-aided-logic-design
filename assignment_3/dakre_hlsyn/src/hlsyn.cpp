@@ -30,7 +30,7 @@ void app_exit(int rc) {
 // Verify dpgen inputs helper function
 bool verify_hlsyn_inputs(int argc, char* argv[]) {
     // Begin verification steps
-    if (argv[1] == NULL && argv[2] == NULL && argv[3] == NULL) {
+    if (argv[1] == NULL || argv[2] == NULL || argv[3] == NULL) {
         fprintf(stderr, "Invalid number of inputs\n");
         return false;
     }
