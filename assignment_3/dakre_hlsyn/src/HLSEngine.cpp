@@ -525,7 +525,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     fputs("    always @(state) begin\n", file_out);
     fputs("        case (state)\n", file_out);
     fputs("            WAIT: begin\n", file_out);
-    fputs("                // Do nothing\n", file_out);
+    fputs("                Done <= 0;\n", file_out);
     fputs("            end\n", file_out);
     fputs("            FINAL: begin\n", file_out);
     fputs("                Done <= 1;\n", file_out);
