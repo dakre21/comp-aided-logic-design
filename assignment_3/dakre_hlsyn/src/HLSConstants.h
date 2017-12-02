@@ -18,7 +18,7 @@ const char* NET_OUTPUT   = "output";
 const char* NET_REGW     = "wire";
 
 // Datawidth constants
-const char* DATAWIDTH_1       = "";
+const char* DATAWIDTH_1       = "reg";
 const char* DATAWIDTH_2       = "reg [1:0]";
 const char* DATAWIDTH_8       = "reg [7:0]";
 const char* DATAWIDTH_16      = "reg [15:0]";
