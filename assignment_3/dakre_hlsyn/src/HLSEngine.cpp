@@ -311,10 +311,12 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     string operation = "";
     string tmp_op = "";
     string tmp_op2 = "";
+    string ifop = "";
     int state_count = 0;
     int next_cycle = 0;
     bool done = false;
     int pose = 0;
+    int posi = 0;
     for (size_t i = 0; i < vertices_.size(); i++) {
         st = "STATE" + to_string(vertices_[i].cycle);
         if (state_decls.find(st) == bad_rc_) {
@@ -406,6 +408,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                 dp_logic += "            next_state <= STATE" + to_string(next_cycle) + ";\n";
             }
 
+            dp_logic += "        end\n";
             continue;
         }
 
@@ -441,6 +444,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                 dp_logic += "            next_state <= STATE" + to_string(next_cycle) + ";\n";
             }
 
+            dp_logic += "        end\n";
             continue;
         }
 
@@ -468,6 +472,12 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                     tmp_op.replace(pose, tmp_op.length(), "<=");
                     tmp_op2.replace(0, pose + 1, "");
                     operation = tmp_op + tmp_op2;
+                }
+
+                posi = tmp_op.find("if");
+                if (posi != bad_rc_) {
+                    operation = "";
+                    ifop = outputs_[i];
                 }
 
                 dp_logic += "            " + operation;
@@ -521,17 +531,19 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
 
     string rst_str = "";
     for (size_t i = 0; i < outputs_.size(); i++) {
+        if (outputs_[i] == ifop) {
+            continue;
+        }
         rst_str += "            " + outputs_[i] + " <= 0;\n";
     }
 
     rst_str += "        ";
     for (size_t i = 0; i < var_str.length(); i++) {
+        if (i < 6) {
+            continue;
+        }
         if (var_str[i] == ',') {
             rst_str += "<= 0;\n            ";
-        } else if (var_str[i] == '0' || var_str[i] == '1' || var_str[i] == '2' || var_str[i] == '3' ||
-                var_str[i] == '4' || var_str[i] == '5' || var_str[i] == '6' || var_str[i] == '7' ||
-                var_str[i] == '8' || var_str[i] == '9') {
-            // Do nothing
         } else {
             rst_str.push_back(var_str[i]);
         }
