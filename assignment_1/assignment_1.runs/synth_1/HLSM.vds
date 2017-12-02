@@ -1,0 +1,32 @@
+#-----------------------------------------------------------
+# Vivado v2017.2 (64-bit)
+# SW Build 1909853 on Thu Jun 15 18:39:10 MDT 2017
+# IP Build 1909766 on Thu Jun 15 19:58:00 MDT 2017
+# Start of session at: Fri Dec  1 14:20:59 2017
+# Process ID: 30081
+# Current directory: /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.runs/synth_1
+# Command line: vivado -log HLSM.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source HLSM.tcl
+# Log file: /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.runs/synth_1/HLSM.vds
+# Journal file: /home/dakre/comp-aided-logic-design/assignment_1/assignment_1.runs/synth_1/vivado.jou
+#-----------------------------------------------------------
+source HLSM.tcl -notrace
+Command: synth_design -top HLSM -part xc7a100tfgg484-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a100t-fgg484'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a100t-fgg484'
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 30427 
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:03 ; elapsed = 00:00:07 . Memory (MB): peak = 1143.641 ; gain = 45.996 ; free physical = 3860 ; free virtual = 13831
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'HLSM' [/home/dakre/comp-aided-logic-design/assignment_3/dakre_hlsyn/build/test1.v:6]
+ERROR: [Synth 8-434] mixed level sensitive and edge triggered event controls are not supported for synthesis [/home/dakre/comp-aided-logic-design/assignment_3/dakre_hlsyn/build/test1.v:15]
+ERROR: [Synth 8-285] failed synthesizing module 'HLSM' [/home/dakre/comp-aided-logic-design/assignment_3/dakre_hlsyn/build/test1.v:6]
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:00:04 ; elapsed = 00:00:08 . Memory (MB): peak = 1184.141 ; gain = 86.496 ; free physical = 3868 ; free virtual = 13840
+---------------------------------------------------------------------------------
+synthesize failed
+2 Infos, 0 Warnings, 0 Critical Warnings and 3 Errors encountered.
+synth_design failed
+ERROR: [Common 17-69] Command failed: Vivado Synthesis failed
+INFO: [Common 17-206] Exiting Vivado at Fri Dec  1 14:21:33 2017...

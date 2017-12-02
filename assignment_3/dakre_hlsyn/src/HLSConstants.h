@@ -48,6 +48,8 @@ const char* LTZ             = "LTZ_";
 
 const char* STATIC_NULL      = " ";
 const char* STATIC_COMMENT   = "// HLS has generated this HDL code with the hlsyn executable\n// Author: David Akre\n\n";
+const char* STATIC_DP        = "    // Creating HLSM datapath\n";
+const char* STATIC_CTRL      = "    // Creating HLSM controller logic\n";
 const char* STATIC_STARTC    = "    // Initial Wait State S0 of the HLSM\n"; 
 const char* STATIC_CODEC     = "    // C to HLSM states below based on FDS scheduling\n";
 const char* STATIC_DONEC     = "    // Final State to conclude the HLSM by setting Done to logic level high (i.e. 1)\n";
@@ -56,11 +58,8 @@ const char* STATIC_OUTPUTS   = "    output reg Done;\n";
 const char* STATIC_MODULE    = "module HLSM (Clk, Rst, Start, Done);\n";
 const char* STATIC_ENDMODULE = "endmodule\n";
 const char* STATIC_TIMING    = "`timescale 1ns / 1ns\n\n";
-const char* STATIC_WAIT      = "    always @(posedge Clk, ~Start) begin\n";
-const char* STATIC_S1        = "    always @(posedge Clk, Start) begin\n";
-const char* STATIC_STATE     = "    always @(posedge Clk, ";
+const char* STATIC_ALWAYS      = "    always @(posedge Clk) begin\n";
 const char* STATIC_END       = "    end\n";
-const char* STATIC_WC        = "    // Do nothing\n";
 const char* STATIC_DONE      = "        Done = 1;\n";
 
 // Resource latencies

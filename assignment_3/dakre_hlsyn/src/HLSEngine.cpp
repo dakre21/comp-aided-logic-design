@@ -142,20 +142,149 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         }
     }
 
+    // Part 2.1 Define local states for controller
+    string st = "";
+    string state_decls = "    localparam ";
+    string dp_decls = "    reg ";
+    string dp_logic = "";
+    string dp_op = "";
+    string operation = "";
+    int state_count = 0;
+    for (size_t i = 0; i < vertices_.size(); i++) {
+        st = "STATE" + to_string(vertices_[i].cycle);
+        if (state_decls.find(st) == bad_rc_) {
+            state_decls += st + " = " + to_string(vertices_[i].cycle) + ", "; 
+            state_count += 1;
+        }
+    }
+
+    for (size_t i = 0; i < vertices_.size(); i++) {
+        string op = vertices_[i].op;
+        pos = op.find("*");
+        if (pos != bad_rc_) {
+            dp_op = "mul" + op.substr(pos + 1, op.length());
+            dp_decls += dp_op + ", ";
+            dp_logic += "        if (" + dp_op + ")\n";
+           
+            for (size_t j = 0; j < operations_.size(); j++) {
+                if (operations_[j].find(outputs_[i]) != bad_rc_ && operations_[j].find("Int") == bad_rc_) {
+                    operation = operations_[j];
+                    operation.replace(0, 4, "");
+                    operation.replace(operation.length() - 4, operation.length(), ";\n");
+                    dp_logic += "            " + operation;
+                    break;
+                }
+            }
+            dp_logic += "            next_state <= STATE" + to_string(vertices_[i].cycle) + ";\n";
+            dp_logic += "        end\n";
+            continue;
+        }
+
+        pos = op.find("/");
+        if (pos != bad_rc_) {
+            dp_op = "div" + op.substr(pos + 1, op.length());
+            dp_decls += dp_op + ", ";
+            dp_logic += "        if (" + dp_op + ")\n";
+
+            for (size_t j = 0; j < operations_.size(); j++) {
+                if (operations_[j].find(outputs_[i]) != bad_rc_ && operations_[j].find("Int") == bad_rc_) {
+                    operation = operations_[j];
+                    operation.replace(0, 4, "");
+                    operation.replace(operation.length() - 4, operation.length(), ";\n");
+                    dp_logic += "            " + operation;
+                    break;
+                }
+            }
+            dp_logic += "            next_state <= STATE" + to_string(vertices_[i].cycle) + ";\n";
+            dp_logic += "        end\n";
+            continue;
+        }
+
+        pos = op.find("%");
+        if (pos != bad_rc_) {
+            dp_op = "div" + op.substr(pos + 1, op.length());
+            dp_decls += dp_op + ", ";
+            dp_logic += "        if (" + dp_op + ")\n";
+            for (size_t j = 0; j < operations_.size(); j++) {
+                if (operations_[j].find(outputs_[i]) != bad_rc_ && operations_[j].find("Int") == bad_rc_) {
+                    operation = operations_[j];
+                    operation.replace(0, 4, "");
+                    operation.replace(operation.length() - 4, operation.length(), ";\n");
+                    dp_logic += "            " + operation;
+                    break;
+                }
+            }
+            dp_logic += "            next_state <= STATE" + to_string(vertices_[i].cycle) + ";\n";
+            dp_logic += "        end\n";
+            continue;
+        }
+
+        if (op.find("<<") != bad_rc_ || op.find(">>") != bad_rc_ || op.find("==") != bad_rc_) {
+            dp_op = "alu" + op.substr(2, op.length());
+        } else {
+            dp_op = "alu" + op.substr(1, op.length());
+        }
+
+        dp_decls += dp_op + ", ";
+        dp_logic += "        if (" + dp_op + ")\n";
+        for (size_t j = 0; j < operations_.size(); j++) {
+            if (operations_[j].find(outputs_[i]) != bad_rc_ && operations_[j].find("Int") == bad_rc_) {
+                operation = operations_[j];
+                operation.replace(0, 4, "");
+                operation.replace(operation.length() - 4, operation.length(), ";\n");
+                dp_logic += "            " + operation;
+                break;
+            }
+        }
+        dp_logic += "            next_state <= STATE" + to_string(vertices_[i].cycle) + ";\n";
+        dp_logic += "        end\n";
+    }
+
+    state_decls.replace(state_decls.length() - 2, state_decls.length(), ";\n");
+    dp_decls.replace(dp_decls.length() - 2, dp_decls.length(), ";\n");
+
+    fputs(state_decls.c_str(), file_out);
+    fputs(dp_decls.c_str(), file_out);
+
+    // Part 2.2 Define reg to hold states and next state
+    string state_regs = "    reg[" + to_string(state_count) + ":0] state, next_state;\n";
+    fputs(state_regs.c_str(), file_out);
+
     fputs("\n\n", file_out);
 
-    // Part 3 Create the HLSM States
-    // (a) Create initial wait state
-    fputs(STATIC_STARTC, file_out);
-    fputs(STATIC_WAIT, file_out);
-    fputs(STATIC_WC, file_out);
-    fputs(STATIC_END, file_out);
+    // Part 3 Create the HLSM 
+    // 3.1 Create HLSM datapath
+    string tmp_dp_decls = dp_decls.replace(0, 8, "");
+    pos = tmp_dp_decls.find(";");
+    if (pos != bad_rc_) {
+        tmp_dp_decls.replace(pos, pos, "");
+    }
+
+    string always_dp = "    always @(" + tmp_dp_decls + ") begin\n";
+    fputs(STATIC_DP, file_out);
+    fputs(always_dp.c_str(), file_out);
+    fputs(dp_logic.c_str(), file_out);
+    fputs("\n    end\n\n", file_out);
+
+    // 3.2 Create HLSM Controller
+    fputs(STATIC_CTRL, file_out);
+    fputs("    always @(posedge Clk, posedge Start) begin\n", file_out);
+    fputs("        if (Rst) begin\n", file_out);
+    fputs("            state <= WAIT;\n", file_out);
+    fputs("        end else begin\n", file_out);
+    fputs("            state <= next_state\n", file_out);
+    fputs("        end\n", file_out);
+    fputs("    end\n", file_out);
+
+    fputs("\n", file_out);
+    fputs("    always @(posedge Clk, negedge Start) begin\n", file_out);
+    fputs("        next_state => WAIT;\n", file_out);
+    fputs("    end\n", file_out);
 
     fputs("\n", file_out);
 
-    // (b) Create individual states
-    string state = string(STATIC_S1);
-    string operation = "   "; 
+    string state = "";
+    operation = "   "; 
     string operands = "";
     bool found = false;
     int epos = 0;
@@ -163,83 +292,14 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     int max_cycle = 0;
 
     fputs(STATIC_CODEC, file_out);
+    fputs("\n", file_out);
+    fputs("    always @(state) begin\n", file_out);
+    fputs("        case (state)\n", file_out);
+    fputs("            WAIT: begin\n", file_out);
+    fputs("                // Do nothing\n", file_out);
+    fputs("            end\n", file_out);
 
-    for (size_t i = 1; i < latency; i++) {
-        for (size_t j = 0; j < vertices_.size(); j++) {
-            if (vertices_[j].cycle == i) {
-                for (size_t k = 0; k < operations_.size(); k++) {
-                    if (operations_[k].find(outputs_[j]) != bad_rc_ && operations_[k].find("Int") == bad_rc_) {
-                        for (size_t l = 0; l < operands_.size(); l++) {
-                            opos = operations_[k].find(operands_[l]);
-                            epos = operations_[k].find("=");
-                            if (operations_[k].find(operands_[l]) != bad_rc_ && epos < opos) {
-                                operands += operands_[l] + ", ";        
-                                found = true;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (found) {
-                if (operands.length() > 2) {
-                    if (vertices_[j].cycle == 1) {
-                        operands.replace(operands.length() - 2, operands.length(), ", Start) begin\n");
-                    } else {
-                        operands.replace(operands.length() - 2, operands.length(), ") begin\n");
-                    }
-                }
-
-                fputs(STATIC_STATE, file_out);
-                fputs(operands.c_str(), file_out);
-                operands = "";
-                found = false;
-            }
-        }
-
-        for (size_t j = 0; j < vertices_.size(); j++) {
-            if (vertices_[j].cycle == i) {
-                for (size_t k = 0; k < operations_.size(); k++) {
-                    if (operations_[k].find(outputs_[j]) != bad_rc_ && operations_[k].find("Int") == bad_rc_) {
-                        operation += operations_[k];
-                        operations_[k] = "";
-                        operation.replace((operation.length() - 4), operation.length(), ";\n");
-                        fputs(operation.c_str(), file_out);
-                        operation = "   ";
-                        found = true;
-                    }
-                }
-            }
-        }
-
-        if (found == true) {
-            fputs(STATIC_END, file_out);
-            fputs("\n", file_out);
-            state = string(STATIC_STATE);
-            found = false;
-        }
-    }
     
-    for (size_t i = 0; i < vertices_.size(); i++) {
-        if (max_cycle < vertices_[i].cycle) {
-            max_cycle = vertices_[i].cycle;
-        }
-    }
-
-    for (size_t i = 0; i < vertices_.size(); i++) {
-        if (vertices_[i].cycle == max_cycle) {
-            operands += outputs_[i] + ", ";
-        }
-    }
-
-    if (operands.length() > 2) {
-        operands.replace(operands.length() - 2, operands.length(), ") begin\n");
-    }
-
-    fputs(STATIC_DONEC, file_out);
-    fputs(STATIC_STATE, file_out);
-    fputs(operands.c_str(), file_out);
-    fputs(STATIC_DONE, file_out);
     fputs(STATIC_END, file_out);
     fputs("\n\n", file_out);
     fputs(STATIC_ENDMODULE, file_out);
