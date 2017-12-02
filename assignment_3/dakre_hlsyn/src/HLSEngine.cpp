@@ -285,10 +285,12 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
 
     string state = "";
     string operands = "";
+    string op = "";
     bool found = false;
     int epos = 0;
     int opos = 0;
     int max_cycle = 0;
+    int next_cycle = 0;
 
     fputs(STATIC_CODEC, file_out);
     fputs("    always @(state) begin\n", file_out);
@@ -297,15 +299,56 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     fputs("                // Do nothing\n", file_out);
     fputs("            end\n", file_out);
 
-    for (size_t i = 0; i < latency; i++) {
-        found = false;
-        for (size_t j = 0; j < vertices_.size(); j++) {
-            if (vertices_[j].cycle == i) {
+    for (size_t i = 0; i < vertices_.size(); i++) {
+        for (size_t j = 1; j < latency; j++) {
+            found = false;
+            if (vertices_[i].cycle == j) {
+                next_cycle = vertices_[i].cycle;
                 if (found != true) {
                     state = "            STATE" + to_string(vertices_[j].cycle) + ": begin\n";
                     fputs(state.c_str(), file_out);
                     
                     // Need to set next state vars here
+                    /*for (size_t k = 0; k < vertices_.size(); k++) {
+                        if (vertices_[i].cycle < vertices_[k].cycle) {
+                            if (vertices_[k].cycle < next_cycle) {
+                                next_cycle = vertices_[k].cycle;
+                                cout << next_cycle << endl;
+                            }
+                        }
+                    }*/
+
+                    for (size_t k = 0; k < vertices_.size(); k++) {
+                        op = vertices_[k].op;
+                        if (vertices_[k].cycle == next_cycle) {
+                            if (op.find("*") != bad_rc_) {
+                                dp_op = "mul" + op.substr(1, op.length());
+                            } else if (op.find("/") != bad_rc_ || op.find("%") != bad_rc_) {
+                                dp_op = "div" + op.substr(1, op.length());
+                            } else if (op.find("<<") != bad_rc_ || op.find(">>") != bad_rc_ || op.find("==") != bad_rc_) {
+                                dp_op = "alu" + op.substr(2, op.length());
+                            } else {
+                                dp_op = "alu" + op.substr(1, op.length());
+                            }
+
+                            operation = "            " + dp_op + " <= 1;\n";
+                            fputs(operation.c_str(), file_out);
+                        } else {
+                            if (op.find("*") != bad_rc_) {
+                                dp_op = "mul" + op.substr(1, op.length());
+                            } else if (op.find("/") != bad_rc_ || op.find("%") != bad_rc_) {
+                                dp_op = "div" + op.substr(1, op.length());
+                            } else if (op.find("<<") != bad_rc_ || op.find(">>") != bad_rc_ || op.find("==") != bad_rc_) {
+                                dp_op = "alu" + op.substr(2, op.length());
+                            } else {
+                                dp_op = "alu" + op.substr(1, op.length());
+                            }
+
+                            operation = "            " + dp_op + " <= 0;\n";
+                            fputs(operation.c_str(), file_out);
+                        }
+                    }
+
                     fputs("            end\n", file_out);
                     found = true;
                 }
