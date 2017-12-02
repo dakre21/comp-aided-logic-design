@@ -542,6 +542,11 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         if (i < 6) {
             continue;
         }
+
+        if (i == 6 && var_str[i] == '2') {
+            continue;
+        }
+
         if (var_str[i] == ',') {
             rst_str += "<= 0;\n            ";
         } else {
