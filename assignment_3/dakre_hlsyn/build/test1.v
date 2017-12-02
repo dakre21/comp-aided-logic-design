@@ -7,58 +7,43 @@ module HLSM (Clk, Rst, Start, Done);
     input Clk, Rst, Start;
     output reg Done;
     reg done, clk_en;
-     reg [31:0] a, b, c, d, e, f, g, h, sa;
-      reg [31:0] avg;
-      reg [31:0] t1, t2, t3, t4, t5, t6, t7, t7div2, t7div4;
-    localparam WAIT = 0, FINAL = 9999, STATE1 = 1, STATE5 = 5, STATE6 = 6, STATE3 = 3, STATE4 = 4, STATE7 = 7, STATE8 = 8, STATE9 = 9, STATE10 = 10, STATE11 = 11;
-    reg alu1, alu2, alu3, alu4, alu5, alu6, alu7, alu8, alu9, alu10;
-    reg[10:0] state, next_state;
+     reg [15:0] a, b, c;
+      reg [7:0] z;
+      reg [15:0] x;
+      reg [7:0] d, e, f, g;
+    localparam WAIT = 0, FINAL = 9999, STATE2 = 2, STATE3 = 3, STATE4 = 4, STATE1 = 1, STATE5 = 5;
+    reg alu1, alu2, alu3, alu, mul5, alu6;
+    reg[5:0] state, next_state;
 
 
     // Creating HLSM datapath
-    always @(clk_en, done, alu1, alu2, alu3, alu4, alu5, alu6, alu7, alu8, alu9, alu10) begin
+    always @(clk_en, done, alu1, alu2, alu3, alu, mul5, alu6) begin
         if (done) begin
             next_state <= FINAL;
         end
         if (alu1) begin
-             t1 = a + b;
-            next_state <= STATE1;
+             d = a + b;
+            next_state <= STATE2;
         end
         if (alu2) begin
-             t2 = t1 + c ;
-            next_state <= STATE5;
+             e = a + c;
+            next_state <= STATE2;
         end
         if (alu3) begin
-             t3 = t2 + d ;
-            next_state <= STATE6;
-        end
-        if (alu4) begin
-             t4 = t3 + e ;
+             g = d > e;
             next_state <= STATE3;
         end
-        if (alu5) begin
-             t5 = t4 + f ;
+        if (alu) begin
+             z = g ? d : e;
             next_state <= STATE4;
         end
+        if (mul5) begin
+             f = a * c;
+            next_state <= STATE1;
+        end
         if (alu6) begin
-             t6 = t5 + g ;
-            next_state <= STATE7;
-        end
-        if (alu7) begin
-             t7 = t6 + h ;
-            next_state <= STATE8;
-        end
-        if (alu8) begin
-             t7div2 = t7 >> sa;
-            next_state <= STATE9;
-        end
-        if (alu9) begin
-             t7div4 = t7div2 >> sa ;
-            next_state <= STATE10;
-        end
-        if (alu10) begin
-             avg = t7div4 >> sa;
-            next_state <= STATE11;
+             x = f - d  ;
+            next_state <= STATE5;
         end
 
     end
@@ -85,126 +70,54 @@ module HLSM (Clk, Rst, Start, Done);
             FINAL: begin
                 Done <= 1;
             end
-            STATE1: begin
+            STATE2: begin
                 alu1 <= 1;
-                alu2 <= 0;
-                alu3 <= 0;
-                alu4 <= 0;
-                alu5 <= 0;
-                alu6 <= 0;
-                alu7 <= 0;
-                alu8 <= 0;
-                alu9 <= 0;
-                alu10 <= 0;
-            end
-            STATE5: begin
-                alu1 <= 0;
                 alu2 <= 1;
                 alu3 <= 0;
-                alu4 <= 0;
-                alu5 <= 0;
+                alu <= 0;
+                mul5 <= 0;
                 alu6 <= 0;
-                alu7 <= 0;
-                alu8 <= 0;
-                alu9 <= 0;
-                alu10 <= 0;
             end
-            STATE6: begin
-                alu1 <= 0;
-                alu2 <= 0;
-                alu3 <= 1;
-                alu4 <= 0;
-                alu5 <= 0;
+            STATE2: begin
+                alu1 <= 1;
+                alu2 <= 1;
+                alu3 <= 0;
+                alu <= 0;
+                mul5 <= 0;
                 alu6 <= 0;
-                alu7 <= 0;
-                alu8 <= 0;
-                alu9 <= 0;
-                alu10 <= 0;
             end
             STATE3: begin
                 alu1 <= 0;
                 alu2 <= 0;
-                alu3 <= 0;
-                alu4 <= 1;
-                alu5 <= 0;
+                alu3 <= 1;
+                alu <= 0;
+                mul5 <= 0;
                 alu6 <= 0;
-                alu7 <= 0;
-                alu8 <= 0;
-                alu9 <= 0;
-                alu10 <= 0;
             end
             STATE4: begin
                 alu1 <= 0;
                 alu2 <= 0;
                 alu3 <= 0;
-                alu4 <= 0;
-                alu5 <= 1;
+                alu <= 1;
+                mul5 <= 0;
                 alu6 <= 0;
-                alu7 <= 0;
-                alu8 <= 0;
-                alu9 <= 0;
-                alu10 <= 0;
             end
-            STATE7: begin
+            STATE1: begin
                 alu1 <= 0;
                 alu2 <= 0;
                 alu3 <= 0;
-                alu4 <= 0;
-                alu5 <= 0;
-                alu6 <= 1;
-                alu7 <= 0;
-                alu8 <= 0;
-                alu9 <= 0;
-                alu10 <= 0;
-            end
-            STATE8: begin
-                alu1 <= 0;
-                alu2 <= 0;
-                alu3 <= 0;
-                alu4 <= 0;
-                alu5 <= 0;
+                alu <= 0;
+                mul5 <= 1;
                 alu6 <= 0;
-                alu7 <= 1;
-                alu8 <= 0;
-                alu9 <= 0;
-                alu10 <= 0;
             end
-            STATE9: begin
-                alu1 <= 0;
-                alu2 <= 0;
-                alu3 <= 0;
-                alu4 <= 0;
-                alu5 <= 0;
-                alu6 <= 0;
-                alu7 <= 0;
-                alu8 <= 1;
-                alu9 <= 0;
-                alu10 <= 0;
-            end
-            STATE10: begin
-                alu1 <= 0;
-                alu2 <= 0;
-                alu3 <= 0;
-                alu4 <= 0;
-                alu5 <= 0;
-                alu6 <= 0;
-                alu7 <= 0;
-                alu8 <= 0;
-                alu9 <= 1;
-                alu10 <= 0;
-            end
-            STATE11: begin
+            STATE5: begin
                 done <= 1;
                 alu1 <= 0;
                 alu2 <= 0;
                 alu3 <= 0;
-                alu4 <= 0;
-                alu5 <= 0;
-                alu6 <= 0;
-                alu7 <= 0;
-                alu8 <= 0;
-                alu9 <= 0;
-                alu10 <= 1;
+                alu <= 0;
+                mul5 <= 0;
+                alu6 <= 1;
             end
         endcase
     end

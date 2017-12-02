@@ -220,10 +220,12 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
             continue;
         }
 
-        if (op.find("<<") != bad_rc_ || op.find(">>") != bad_rc_ || op.find("==") != bad_rc_) {
+        if (op.find("<<") != bad_rc_ || op.find(">>") != bad_rc_ || op.find("==") != bad_rc_ || op.find("?") != bad_rc_) {
             dp_op = "alu" + op.substr(2, op.length());
-        } else {
+        } else if (op.find("+") != bad_rc_ || op.find("-") != bad_rc_ || op.find("<") != bad_rc_ || op.find(">") != bad_rc_) {
             dp_op = "alu" + op.substr(1, op.length());
+        } else {
+            dp_op = "alu" + op.substr(op.length() - 2, op.length());
         }
 
         dp_decls += dp_op + ", ";
@@ -328,10 +330,12 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                                 dp_op = "mul" + op.substr(1, op.length());
                             } else if (op.find("/") != bad_rc_ || op.find("%") != bad_rc_) {
                                 dp_op = "div" + op.substr(1, op.length());
-                            } else if (op.find("<<") != bad_rc_ || op.find(">>") != bad_rc_ || op.find("==") != bad_rc_) {
+                            } else if (op.find("<<") != bad_rc_ || op.find(">>") != bad_rc_ || op.find("==") != bad_rc_ || op.find("?") != bad_rc_) {
                                 dp_op = "alu" + op.substr(2, op.length());
-                            } else {
+                            } else if (op.find("+") != bad_rc_ || op.find("-") != bad_rc_ || op.find("<") != bad_rc_ || op.find(">") != bad_rc_) {
                                 dp_op = "alu" + op.substr(1, op.length());
+                            } else {
+                                dp_op = "alu" + op.substr(op.length() - 2, op.length());
                             }
 
                             operation = "                " + dp_op + " <= 1;\n";
@@ -341,10 +345,12 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                                 dp_op = "mul" + op.substr(1, op.length());
                             } else if (op.find("/") != bad_rc_ || op.find("%") != bad_rc_) {
                                 dp_op = "div" + op.substr(1, op.length());
-                            } else if (op.find("<<") != bad_rc_ || op.find(">>") != bad_rc_ || op.find("==") != bad_rc_) {
+                            } else if (op.find("<<") != bad_rc_ || op.find(">>") != bad_rc_ || op.find("==") != bad_rc_ || op.find("?") != bad_rc_) {
                                 dp_op = "alu" + op.substr(2, op.length());
-                            } else {
+                            } else if (op.find("+") != bad_rc_ || op.find("-") != bad_rc_ || op.find("<") != bad_rc_ || op.find(">") != bad_rc_) {
                                 dp_op = "alu" + op.substr(1, op.length());
+                            } else {
+                                dp_op = "alu" + op.substr(op.length() - 2, op.length());
                             }
 
                             operation = "                " + dp_op + " <= 0;\n";
@@ -512,7 +518,21 @@ bool HLSEngine::createFDS(int latency) {
         }
 
         if ((start_time + 1) < (clock() / CLOCKS_PER_SEC)) {
-            return false;
+            // Last minute effort to get these ops scheduled
+            for (size_t i = 0; i < vertices_.size(); i++) {
+                if (vertices_[i].cycle > 0) {
+                    continue;
+                } else {
+                    if (vertices_[i].op.find("*") != bad_rc_) {
+                        vertices_[i].cycle = cycle - 2;
+                    } else if (vertices_[i].op.find("/") != bad_rc_ || vertices_[i].op.find("%") != bad_rc_) {
+                        vertices_[i].cycle = cycle - 3;
+                    } else {
+                        vertices_[i].cycle = cycle - 1;
+                    }
+                }
+            }
+            scheduled = true;
         }
     }
 
