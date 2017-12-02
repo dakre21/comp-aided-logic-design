@@ -35,6 +35,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     // Write inputs and outputs
     fputs(STATIC_INPUTS, file_out);
     fputs(STATIC_OUTPUTS, file_out);
+    fputs("    reg done, clk_en;\n", file_out);
 
     // Part 2 Write custom inputs and outputs
     int pos = 0;
@@ -144,9 +145,9 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
 
     // Part 2.1 Define local states for controller
     string st = "";
-    string state_decls = "    localparam WAIT = 0,";
+    string state_decls = "    localparam WAIT = 0, FINAL = 9999, ";
     string dp_decls = "    reg ";
-    string dp_logic = "";
+    string dp_logic = "        if (done) begin\n            next_state <= FINAL;\n        end\n";
     string dp_op = "";
     string operation = "";
     int state_count = 0;
@@ -260,11 +261,15 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
         tmp_dp_decls.replace(pos, pos, "");
     }
 
-    string always_dp = "    always @(" + tmp_dp_decls + ") begin\n";
+    string always_dp = "    always @(clk_en, done, " + tmp_dp_decls + ") begin\n";
     fputs(STATIC_DP, file_out);
     fputs(always_dp.c_str(), file_out);
     fputs(dp_logic.c_str(), file_out);
     fputs("\n    end\n\n", file_out);
+
+    fputs("    always @(posedge Clk) begin\n", file_out);
+    fputs("        clk_en <= 1;\n", file_out);
+    fputs("    end\n\n", file_out);
 
     // 3.2 Create HLSM Controller
     fputs(STATIC_CTRL, file_out);
@@ -275,11 +280,6 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     fputs("            state <= next_state;\n", file_out);
     fputs("        end\n", file_out);
     fputs("    end\n", file_out);
-
-    /*fputs("\n", file_out);
-    fputs("    always @(posedge Clk, negedge Start) begin\n", file_out);
-    fputs("        next_state => WAIT;\n", file_out);
-    fputs("    end\n", file_out);*/
 
     fputs("\n", file_out);
 
@@ -292,11 +292,20 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     int max_cycle = 0;
     int next_cycle = 0;
 
+    for (size_t i = 0; i < vertices_.size(); i++) {
+        if (max_cycle < vertices_[i].cycle) {
+            max_cycle = vertices_[i].cycle;
+        }
+    }
+
     fputs(STATIC_CODEC, file_out);
     fputs("    always @(state) begin\n", file_out);
     fputs("        case (state)\n", file_out);
     fputs("            WAIT: begin\n", file_out);
     fputs("                // Do nothing\n", file_out);
+    fputs("            end\n", file_out);
+    fputs("            FINAL: begin\n", file_out);
+    fputs("                Done <= 1;\n", file_out);
     fputs("            end\n", file_out);
 
     for (size_t i = 0; i < vertices_.size(); i++) {
@@ -305,19 +314,13 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
             if (vertices_[i].cycle == j) {
                 next_cycle = vertices_[i].cycle;
                 if (found != true) {
-                    state = "            STATE" + to_string(vertices_[j].cycle) + ": begin\n";
+                    state = "            STATE" + to_string(vertices_[i].cycle) + ": begin\n";
                     fputs(state.c_str(), file_out);
-                    
-                    // Need to set next state vars here
-                    /*for (size_t k = 0; k < vertices_.size(); k++) {
-                        if (vertices_[i].cycle < vertices_[k].cycle) {
-                            if (vertices_[k].cycle < next_cycle) {
-                                next_cycle = vertices_[k].cycle;
-                                cout << next_cycle << endl;
-                            }
-                        }
-                    }*/
 
+                    if (max_cycle == next_cycle) {
+                        fputs("                done <= 1;\n", file_out);
+                    }
+                    
                     for (size_t k = 0; k < vertices_.size(); k++) {
                         op = vertices_[k].op;
                         if (vertices_[k].cycle == next_cycle) {
@@ -331,7 +334,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                                 dp_op = "alu" + op.substr(1, op.length());
                             }
 
-                            operation = "            " + dp_op + " <= 1;\n";
+                            operation = "                " + dp_op + " <= 1;\n";
                             fputs(operation.c_str(), file_out);
                         } else {
                             if (op.find("*") != bad_rc_) {
@@ -344,7 +347,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                                 dp_op = "alu" + op.substr(1, op.length());
                             }
 
-                            operation = "            " + dp_op + " <= 0;\n";
+                            operation = "                " + dp_op + " <= 0;\n";
                             fputs(operation.c_str(), file_out);
                         }
                     }
