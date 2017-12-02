@@ -463,6 +463,7 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     fputs("            end\n", file_out);
     fputs("            FINAL: begin\n", file_out);
     fputs("                Done <= 1;\n", file_out);
+    fputs("                next_state <= WAIT;\n", file_out);
     fputs("            end\n", file_out);
 
     for (size_t i = 0; i < vertices_.size(); i++) {
@@ -678,13 +679,7 @@ bool HLSEngine::createFDS(int latency) {
                 if (vertices_[i].cycle > 0) {
                     continue;
                 } else {
-                    if (vertices_[i].op.find("*") != bad_rc_) {
-                        vertices_[i].cycle = cycle - 2;
-                    } else if (vertices_[i].op.find("/") != bad_rc_ || vertices_[i].op.find("%") != bad_rc_) {
-                        vertices_[i].cycle = cycle - 3;
-                    } else {
-                        vertices_[i].cycle = cycle - 1;
-                    }
+                    vertices_[i].cycle = vertices_[i].asap;
                 }
             }
             scheduled = true;
