@@ -309,9 +309,12 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
     string dp_logic = "";
     string dp_op = "";
     string operation = "";
+    string tmp_op = "";
+    string tmp_op2 = "";
     int state_count = 0;
     int next_cycle = 0;
     bool done = false;
+    int pose = 0;
     for (size_t i = 0; i < vertices_.size(); i++) {
         st = "STATE" + to_string(vertices_[i].cycle);
         if (state_decls.find(st) == bad_rc_) {
@@ -347,6 +350,16 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                     operation = operations_[j];
                     operation.replace(0, 4, "");
                     operation.replace(operation.length() - 4, operation.length(), ";\n");
+                    tmp_op = operation;
+                    tmp_op2 = operation;
+
+                    pose = tmp_op.find("=");
+                    if (pose != bad_rc_) {
+                        tmp_op.replace(pose, tmp_op.length(), "<=");
+                        tmp_op2.replace(0, pose + 1, "");
+                        operation = tmp_op + tmp_op2;
+                    }
+
                     dp_logic += "            " + operation;
                     break;
                 }
@@ -372,6 +385,16 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                     operation = operations_[j];
                     operation.replace(0, 4, "");
                     operation.replace(operation.length() - 4, operation.length(), ";\n");
+                    tmp_op = operation;
+                    tmp_op2 = operation;
+
+                    pose = tmp_op.find("=");
+                    if (pose != bad_rc_) {
+                        tmp_op.replace(pose, tmp_op.length(), "<=");
+                        tmp_op2.replace(0, pose + 1, "");
+                        operation = tmp_op + tmp_op2;
+                    }
+
                     dp_logic += "            " + operation;
                     break;
                 }
@@ -396,6 +419,17 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                     operation = operations_[j];
                     operation.replace(0, 4, "");
                     operation.replace(operation.length() - 4, operation.length(), ";\n");
+
+                    tmp_op = operation;
+                    tmp_op2 = operation;
+
+                    pose = tmp_op.find("=");
+                    if (pose != bad_rc_) {
+                        tmp_op.replace(pose, tmp_op.length(), "<=");
+                        tmp_op2.replace(0, pose + 1, "");
+                        operation = tmp_op + tmp_op2;
+                    }
+
                     dp_logic += "            " + operation;
                     break;
                 }
@@ -425,6 +459,17 @@ void HLSEngine::createHLSM(FILE* file_out, int latency) {
                 operation = operations_[j];
                 operation.replace(0, 4, "");
                 operation.replace(operation.length() - 4, operation.length(), ";\n");
+
+                tmp_op = operation;
+                tmp_op2 = operation;
+
+                pose = tmp_op.find("=");
+                if (pose != bad_rc_) {
+                    tmp_op.replace(pose, tmp_op.length(), "<=");
+                    tmp_op2.replace(0, pose + 1, "");
+                    operation = tmp_op + tmp_op2;
+                }
+
                 dp_logic += "            " + operation;
                 break;
             }
